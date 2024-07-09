@@ -10,7 +10,7 @@ export default function KanbasNavigation() {
         <li><a id="wd-calendar-link" href="#/Kanbas/Calendar">Calendar</a></li>
         <li><a id="wd-inbox-link" href="#/Kanbas/Inbox">Inbox</a></li>
         <li><a id="wd-labs-link" href="#/Labs">Labs</a></li>
-        <li><a id="wd-landingPage-link" href="https://668c50c838a66800087c3157--glistening-fox-cc1c23.netlify.app/">Landing Page</a></li>
+        <li><a id="wd-landingPage-link" href="/">Landing Page</a></li>
       </ul>
   );}
   

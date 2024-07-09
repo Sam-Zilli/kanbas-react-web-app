@@ -1,0 +1,13 @@
+.button-container {
+    display: grid;
+    grid-auto-flow: row; 
+  }
+
+.button-list {
+    list-style-type: none;
+    padding: 0; 
+  }
+  
+  .button-list li {
+    margin-bottom: 10px;
+    }

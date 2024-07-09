@@ -1,10 +1,18 @@
+import "./status.css";
+
 export default function CourseStatus() {
     return (
       <div id="wd-course-status">
         <h2>Course Status</h2>
-        <button>Unpublish</button> <button>Publish</button>
-        {/* Complete on your own */}
+        <div className="button-container">
+        <button>Unpublish</button> <button>Publish</button> 
+        <button> Import Existing content</button>
+        <button> Choose Home Page</button>
+        <button> View Course Stream</button>
+        <button> New Announcement</button>
+        <button> New analytics</button>
         <button>View Course Notifications</button>
+        </div>
       </div>
   );}
   

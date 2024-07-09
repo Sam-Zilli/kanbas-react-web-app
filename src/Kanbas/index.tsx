@@ -2,7 +2,6 @@ import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate } from "react-router";
 import Courses from "./Courses";
-import { AssertionError } from "assert";
 import AssignmentEditor from "./Courses/Assignments/Editor";
 
 

@@ -5,7 +5,7 @@ export default function Dashboard() {
     return (
     <div className="wd-dashboard">
         <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
+        <h2 id="wd-dashboard-published">Published Courses ({courseList.length})</h2> <hr />
 
         <div className="wd-dashboard-courses">
         {courseList.map((course, index) => (

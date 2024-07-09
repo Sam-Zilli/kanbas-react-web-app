@@ -1,4 +1,3 @@
-/* dashboard.css */
 .wd-dashboard-courses {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

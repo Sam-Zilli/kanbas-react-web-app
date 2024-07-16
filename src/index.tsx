@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+// A2 3.1.1 Installing Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';

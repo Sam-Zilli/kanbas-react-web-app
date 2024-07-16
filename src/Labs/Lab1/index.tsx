@@ -175,7 +175,7 @@ export default function Lab1() {
         <br />
         Loading a local image:
         <br />
-        <img id="wd-teslabot" alt="image of scary robot thing" src="images/teslabot.jpg" height="200px" />
+        <img id="wd-teslabot" src="images/teslabot.jpg" height="200px" alt="TeslaBot robot standing in a lab setting" />
       </div>
       {/*  A1 2.11 Form Tags */}
       <div id="wd-forms">

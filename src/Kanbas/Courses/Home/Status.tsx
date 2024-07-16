@@ -6,6 +6,8 @@ export default function CourseStatus() {
         <h2>Course Status</h2>
         <div className="button-container">
         <button>Unpublish</button> <button>Publish</button> 
+        </div>
+        <div className="button-container-2">
         <button> Import Existing content</button>
         <button> Choose Home Page</button>
         <button> View Course Stream</button>

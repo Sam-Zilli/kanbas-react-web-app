@@ -1,6 +1,6 @@
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route} from "react-router";
 import Courses from "./Courses";
 // import AssignmentEditor from "./Courses/Assignments/Editor";
 
@@ -14,7 +14,7 @@ export default function Kanbas() {
           </td>
           <td valign="top">
             <Routes>
-              <Route path="/" element={<Navigate to="Dashboard" />} />
+              {/* <Route path="/" element={<Navigate to="Dashboard" />} /> */}
               <Route path="Account" element={<h1>Account</h1>} />
               <Route path="Dashboard" element={<Dashboard />} />
               <Route path="Courses/:id/*" element={<Courses />} />

@@ -2,6 +2,7 @@ import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate} from "react-router";
 import Courses from "./Courses";
+import "./styles.css"
 // import AssignmentEditor from "./Courses/Assignments/Editor";
 
 export default function Kanbas() {
@@ -12,7 +13,12 @@ export default function Kanbas() {
     <tr>
       <td valign="top">
       <KanbasNavigation />
-      </td><td valign="top">
+      </td>
+      
+
+      {/* A2 4.1 Page 27 */}
+      <div className="wd-main-content-offset p-3">
+      <td valign="top">
     <div>
       <Routes>
         <Route path="/" element={<Navigate to="Dashboard" />} />
@@ -20,7 +26,9 @@ export default function Kanbas() {
         <Route path="Courses/:cid/*" element={<Courses />} />
       </Routes>
     </div>
-      </td></tr>
+      </td>
+      </div>
+    </tr>
   </table>
 </div>
 

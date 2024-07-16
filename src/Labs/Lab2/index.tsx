@@ -5,6 +5,7 @@ import ReactIcons from "./ReactIcons";
 import ScreenSizeLabel from "./ScreenSizeLabel";
 
 export default function Lab2() {
+  /* eslint-disable */
   return (
     // 3.3 Styling Webpages with Bootstrap CSS Library
     <div className="container">
@@ -887,6 +888,7 @@ export default function Lab2() {
           <h2>Tabs</h2>
           <ul className="nav nav-tabs">
             <li className="nav-item">
+
               <a className="nav-link active" href="#">
                 Active
               </a>
@@ -928,4 +930,4 @@ export default function Lab2() {
       </div>
     </div>
   );
-}
+}/* eslint-enable */

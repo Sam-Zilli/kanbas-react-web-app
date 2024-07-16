@@ -1,10 +1,10 @@
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import { BsGripVertical } from 'react-icons/bs';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
-import assignmentList from './assignmentList.js';
+import { BsGripVertical } from "react-icons/bs";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import assignmentList from "./assignmentList.js";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 import { LuNewspaper } from "react-icons/lu";
-import './index.css';
+import "./index.css";
 
 export default function Assignments() {
   return (
@@ -29,7 +29,7 @@ export default function Assignments() {
         </div>
       </div>
 
-      {/* Card Header with Oval-shaped Pill */}
+      {/* Card Header with Oval-shaped Pill thing */}
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
           <h3 id="wd-assignments-title" className="mb-0">
@@ -50,7 +50,6 @@ export default function Assignments() {
             className="wd-assignment-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white assignment-card"
           >
             <div className="d-flex align-items-center">
-
               <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
               <LuNewspaper className="me-3 fs-4 text-success" />
               <div className="d-flex flex-grow-1 align-items-center me-3">
@@ -63,10 +62,12 @@ export default function Assignments() {
                     {assignment.name}
                   </a>
                   <div className="text-muted">
-                    <span className="text-danger">Multiple Modules</span> |{' '}
-                    <strong>Not available until</strong> {assignment.availableOn} at {assignment.timeDue} |
+                    <span className="text-danger">Multiple Modules</span> |{" "}
+                    <strong>Not available until</strong>{" "}
+                    {assignment.availableOn} at {assignment.timeDue} |
                     <br />
-                    <strong>Due</strong> {assignment.dueDate} at {assignment.timeDue} | {assignment.points} pts
+                    <strong>Due</strong> {assignment.dueDate} at{" "}
+                    {assignment.timeDue} | {assignment.points} pts
                   </div>
                 </div>
               </div>

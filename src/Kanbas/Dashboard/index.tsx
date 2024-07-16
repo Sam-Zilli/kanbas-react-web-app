@@ -1,4 +1,3 @@
-import React from 'react';
 import courseList from '../Courses/courseList';
 import './dashboard.css';
 

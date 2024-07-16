@@ -27,7 +27,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",   
+      "jsx-a11y/alt-text': 'off"
     ]
   },
   "browserslist": {

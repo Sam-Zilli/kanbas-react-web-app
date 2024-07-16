@@ -17,7 +17,7 @@ export default function KanbasNavigation() {
       <a id="wd-neu-link" rel="noreferrer" target="_blank" 
         href="https://www.northeastern.edu/"
         className="list-group-item">
-        <img src="/images/NEU.png" width="75px" /> </a>
+        <img src="/images/NEU.png" alt="N in the Northeastern logo format" width="75px" /> </a>
 
       <a id="wd-account-link" href="#/Kanbas/Account"
                 className="list-group-item nav-link">

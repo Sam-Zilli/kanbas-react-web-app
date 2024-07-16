@@ -1,83 +1,81 @@
+import GreenCheckmark from "../Modules/GreenCheckmark";
+import { BsGripVertical } from 'react-icons/bs';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
+import assignmentList from './assignmentList.js';
+import { PiDotsSixVerticalFill } from "react-icons/pi";
+import { LuNewspaper } from "react-icons/lu";
+import './index.css';
+
 export default function Assignments() {
   return (
-    <div id="wd-assignments">
-      <input id="wd-search-assignment" placeholder="Search for Assignments" />
-      <button id="wd-add-assignment-group">+ Group</button>
-      <button id="wd-add-assignment">+ Assignment</button>
-      <h3 id="wd-assignments-title">
-        ASSIGNMENTS 40% of Total <button>+</button>
-      </h3>
-      <ul id="wd-assignment-list">
-        <li className="wd-assignment-list-item">
-          <a
-            className="wd-assignment-link"
-            href="#/Kanbas/Courses/1234/Assignments/123"
+    <div id="wd-assignments" className="container mt-4">
+      {/* Search and Buttons */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="position-relative w-50">
+          <input
+            id="wd-search-assignment"
+            className="form-control ps-5"
+            placeholder="Search for Assignments"
+          />
+          <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
+        </div>
+        <div>
+          <button id="wd-add-assignment-group" className="btn btn-success me-2">
+            + Group
+          </button>
+          <button id="wd-add-assignment" className="btn btn-primary">
+            + Assignment
+          </button>
+        </div>
+      </div>
+
+      {/* Card Header with Oval-shaped Pill */}
+      <div className="card mb-4">
+        <div className="card-body d-flex justify-content-between align-items-center">
+          <h3 id="wd-assignments-title" className="mb-0">
+            ASSIGNMENTS
+          </h3>
+          <div className="pill bg-secondary text-white px-3 py-1 rounded-pill">
+            40% of Total
+          </div>
+          <button className="btn btn-outline-secondary">+</button>
+        </div>
+      </div>
+
+      {/* Assignment List */}
+      <ul id="wd-assignment-list" className="list-group">
+        {assignmentList.map((assignment) => (
+          <li
+            key={assignment.id}
+            className="wd-assignment-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white assignment-card"
           >
-            A1 - ENV + HTML
-          </a>
-          <br />
-          Multiple Modules | <strong>Not available until</strong> May 6 at
-          12:00am |
-          <br />
-          <strong>Due</strong> May 13 at 11:59pm | 100 pts
-        </li>
-        <li className="wd-assignment-list-item">
-          <a
-            className="wd-assignment-link"
-            href="#/Kanbas/Courses/1234/Assignments/123"
-          >
-            A2 - CSS + BOOTSTRAP
-          </a>
-          <br />
-          Multiple Modules | <strong>Not available until</strong> May 13 at
-          12:00am |
-          <br />
-          <strong>Due</strong> May 20 at 11:59pm | 100 pts
-        </li>
-        <li className="wd-assignment-list-item">
-          <a
-            className="wd-assignment-link"
-            href="#/Kanbas/Courses/1234/Assignments/123"
-          >
-            A3 - JAVASCRIPT + REACT
-          </a>
-          <br />
-          Multiple Modules | <strong>Not available until</strong> May 20 at
-          12:00am |
-          <br />
-          <strong>Due</strong> May 27 at 11:59pm | 100 pts
-        </li>
+            <div className="d-flex align-items-center">
+
+              <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
+              <LuNewspaper className="me-3 fs-4 text-success" />
+              <div className="d-flex flex-grow-1 align-items-center me-3">
+                <BsGripVertical className="me-3 fs-4" />
+                <div className="flex-grow-1">
+                  <a
+                    className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
+                    href={`#/Kanbas/Courses/1234/Assignments/${assignment.id}`}
+                  >
+                    {assignment.name}
+                  </a>
+                  <div className="text-muted">
+                    <span className="text-danger">Multiple Modules</span> |{' '}
+                    <strong>Not available until</strong> {assignment.availableOn} at {assignment.timeDue} |
+                    <br />
+                    <strong>Due</strong> {assignment.dueDate} at {assignment.timeDue} | {assignment.points} pts
+                  </div>
+                </div>
+              </div>
+              {/* Adding margin to the GreenCheckmark */}
+              <GreenCheckmark className="ms-3" />
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
-
-// import assignmentList from "./assignmentList";
-// export default function Assignments() {
-//     return (
-//       <div id="wd-assignments">
-//         <input id="wd-search-assignment"
-//                placeholder="Search for Assignments" />
-//         <button id="wd-add-assignment-group">+ Group</button>
-//         <button id="wd-add-assignment">+ Assignment</button>
-//         <h3 id="wd-assignments-title">
-//           ASSIGNMENTS 40% of Total <button>+</button>
-//         </h3>
-//         <ul id="wd-assignment-list">
-//           {assignmentList.map((assignment, index) => (
-//             <li className="wd-assignment-list-item">
-//               <div key={index} className="wd-assignment">
-//                 <div>
-//                 <a className="wd-assignment-link" href={`#/Kanbas/Courses/1234/Assignments/Editor/${assignment.id}`}>
-//                   {assignment.name}
-//                 </a>
-//                 <p className="wd-assignment-title">{assignment.description}</p>
-//                 </div>
-//                 <p className="wd-assignment-due-date">Due Date: {assignment.dueDate}</p>
-//                 <p className="wd-assignment-points">Points: {assignment.points}</p>
-//               </div>
-//             </li>
-//         ))}
-//         </ul>
-//       </div>
-// );}

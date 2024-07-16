@@ -1,6 +1,6 @@
 import { FaPlus } from "react-icons/fa6";
-import { FaCircle } from "react-icons/fa";
-import GreenCheckmark from "./GreenCheckmark";
+// import { FaCircle } from "react-icons/fa";
+// import GreenCheckmark from "./GreenCheckmark";
 import PublishDropdown from "./PublishDropdown";
 import ViewProgressButton from "./ViewProgressButton";
 import CollapseAllButton from "./CollapseAllButton";

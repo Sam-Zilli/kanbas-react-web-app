@@ -22,8 +22,20 @@ import House from "./House";
 import TodoItem from "./todos/TodoItem";
 import TodoList from "./todos/ToDoList";
 import Spreading from "./Spreading";
+import Destructing from "./Destructing";
+import FunctionDestructing from "./FunctionDestructing";
+import DestructingImports from "./DestructingImports";
+import Classes from "./Classes";
+import Styles from "./Styles";
+import Add from "./Add";
+import Square from "./Square";
+import Highlight from "./Highlight";
+import AddPathParameters from "./AddPathParameters";
+import PathParameters from "./PathParameters";
+
 
 export default function Lab3() {
+  console.log("Hello World!");
   return(
     <div id="wd-lab3" className="container-fluid">
       <h3>Lab 3</h3>
@@ -73,18 +85,33 @@ export default function Lab3() {
       <TodoList />
       {/* A3 2.4.11 The Spread Operator */}
       <Spreading />
-      {/* A3 2.4.12 Destructing*/}
+      {/* A3 2.4.12 Destructing */}
+      <Destructing />
       {/* A3 2.4.13 Destructing Function Parameters */}
+      <FunctionDestructing />
       {/* A3 2.4.14 Destructing Imports */}
-      {/* A3 2.5 Dynamic Styling */}
+      <DestructingImports />
       {/* A3 2.5.1 Working with HTML classes */}
+      <Classes />
       {/* A3 2.5.2 Working with the HTML Style attribute */}
+      <Styles />
       {/* A3 2.6 Parameterizing Components */}
+      <Add a={3} b={4} />
       {/* A3 2.6.1 Child Components */}
-      {/* A3 2.6.2 Working with Location */}
+      <h4>Square of 4</h4>
+      <Square>4</Square>
+      <hr />
+      <Highlight>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
+        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
+      </Highlight>
+
       {/* A3 2.6.3 Encoding Path Parameters */}
+      <PathParameters />
       {/* A3 2.7.1 Writing to the Console from JavaScript */}
+
       {/* A3 2.7.2 Breakpoints */}
+
     </div>
   );
 }

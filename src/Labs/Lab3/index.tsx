@@ -35,6 +35,7 @@ import PathParameters from "./PathParameters";
 
 
 export default function Lab3() {
+  {/* A3 2.7.1 Writing to the Console from JavaScript */}
   console.log("Hello World!");
   return(
     <div id="wd-lab3" className="container-fluid">
@@ -108,9 +109,6 @@ export default function Lab3() {
 
       {/* A3 2.6.3 Encoding Path Parameters */}
       <PathParameters />
-      {/* A3 2.7.1 Writing to the Console from JavaScript */}
-
-      {/* A3 2.7.2 Breakpoints */}
 
     </div>
   );

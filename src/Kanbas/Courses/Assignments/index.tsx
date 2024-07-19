@@ -1,12 +1,19 @@
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsGripVertical } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import assignmentList from "./assignmentList.js";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 import { LuNewspaper } from "react-icons/lu";
 import "./index.css";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
+
+  const chosenAssignments = assignments.filter(assignment => assignment.course === cid);
+
+
   return (
     <div id="wd-assignments" className="container mt-4">
       {/* Search and Buttons */}
@@ -44,9 +51,9 @@ export default function Assignments() {
 
       {/* Assignment List */}
       <ul id="wd-assignment-list" className="list-group">
-        {assignmentList.map((assignment) => (
+        {chosenAssignments.map((assignment) => (
           <li
-            key={assignment.id}
+            key={assignment._id}
             className="wd-assignment-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white assignment-card"
           >
             <div className="d-flex align-items-center">
@@ -57,17 +64,19 @@ export default function Assignments() {
                 <div className="flex-grow-1">
                   <a
                     className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
-                    href={`#/Kanbas/Courses/1234/Assignments/${assignment.id}`}
+                    href={`#/Kanbas/Courses/1234/Assignments/${assignment._id}`}
                   >
-                    {assignment.name}
+                    {assignment.title}
                   </a>
                   <div className="text-muted">
                     <span className="text-danger">Multiple Modules</span> |{" "}
-                    <strong>Not available until</strong>{" "}
-                    {assignment.availableOn} at {assignment.timeDue} |
+                    {/* <strong>Not available until</strong>{" "}
+                    {assignment.availableOn} at {assignment.timeDue} | */}
+                    <strong>Not available until</strong>{" "} 12/1/2024 at 00:00AM |
                     <br />
-                    <strong>Due</strong> {assignment.dueDate} at{" "}
-                    {assignment.timeDue} | {assignment.points} pts
+                    {/* <strong>Due</strong> {assignment.dueDate} at{" "}
+                    {assignment.timeDue} | {assignment.points} pts */}
+                    <strong>Due</strong> 12/2/2024 at 00:00AM
                   </div>
                 </div>
               </div>

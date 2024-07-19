@@ -1,10 +1,9 @@
 // src/Kanbas/index.tsx
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
-import { Routes, Route, Navigate} from "react-router";
-import Grades from "./Courses/Grades/Grades";
+import { Routes, Route, Navigate } from "react-router";
 import Courses from "./Courses";
-import "./styles.css"
+import "./styles.css";
 // import AssignmentEditor from "./Courses/Assignments/Editor";
 
 export default function Kanbas() {
@@ -26,6 +25,5 @@ export default function Kanbas() {
         </div>
       </div>
     </div>
-);}
-
-
+  );
+}

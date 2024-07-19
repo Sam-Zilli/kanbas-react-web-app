@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, Link } from "react-router-dom";
 import * as db from "../../Database";
 
 interface Assignment {
-  id: string;
-  name: string;
+  _id: string;
+  title: string;
   description: string;
   points: number;
   group: string;
@@ -14,37 +14,39 @@ interface Assignment {
   dueDate: string;
   availableFrom: string;
   availableUntil: string;
+  course: string;
 }
-
 
 export default function AssignmentEditor() {
   const { aid } = useParams<{ aid: string }>();
 
-
   const [assignment, setAssignment] = useState<Assignment>({
-    id: '',
-    name: '',
-    description: '',
+    _id: "",
+    title: "",
+    description: "",
     points: 0,
-    group: 'ASSIGNMENTS',
-    displayGradeAs: 'PERCENTAGE',
+    group: "ASSIGNMENTS",
+    displayGradeAs: "PERCENTAGE",
     submissionTypes: [],
-    assignTo: 'Everyone',
-    dueDate: '',
-    availableFrom: '',
-    availableUntil: ''
+    assignTo: "Everyone",
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    course: "",
   });
 
   useEffect(() => {
     const fetchAssignmentDetails = async () => {
       try {
         if (!aid) return;
-  
-        const foundAssignment = db.assignments.find((assignment) => assignment._id === aid);
+
+        const foundAssignment = db.assignments.find(
+          (assignment) => assignment._id === aid
+        );
         if (foundAssignment) {
           setAssignment({
-            id: foundAssignment._id, 
-            name: foundAssignment.title,
+            _id: foundAssignment._id,
+            title: foundAssignment.title,
             description: foundAssignment.description,
             points: foundAssignment.points,
             group: foundAssignment.group,
@@ -53,23 +55,17 @@ export default function AssignmentEditor() {
             assignTo: foundAssignment.assignTo,
             dueDate: foundAssignment.dueDate,
             availableFrom: foundAssignment.availableFrom,
-            availableUntil: foundAssignment.availableUntil
+            availableUntil: foundAssignment.availableUntil,
+            course: foundAssignment.course,
           });
         }
       } catch (error) {
-        console.error('Error fetching assignment details:', error);
+        console.error("Error fetching assignment details:", error);
       }
     };
-  
+
     fetchAssignmentDetails();
   }, [aid]);
-  
-  
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setAssignment({ ...assignment, [name]: value });
-  };
 
   return (
     <div id="wd-assignments-editor" className="container mt-4">
@@ -79,8 +75,10 @@ export default function AssignmentEditor() {
       <input
         id="wd-name"
         className="form-control mb-3"
-        value={assignment.name}
-        onChange={(e) => setAssignment({ ...assignment, name: e.target.value })}
+        value={assignment.title}
+        onChange={(e) =>
+          setAssignment({ ...assignment, title: e.target.value })
+        }
       />
       <br />
       <br />
@@ -90,7 +88,9 @@ export default function AssignmentEditor() {
         rows={10}
         cols={50}
         value={assignment.description}
-        onChange={(e) => setAssignment({ ...assignment, description: e.target.value })}
+        onChange={(e) =>
+          setAssignment({ ...assignment, description: e.target.value })
+        }
       >
         {assignment.description}
       </textarea>
@@ -108,7 +108,12 @@ export default function AssignmentEditor() {
                 id="wd-points"
                 className="form-control"
                 value={assignment.points}
-                onChange={(e) => setAssignment({ ...assignment, points: parseInt(e.target.value) || 0 })}
+                onChange={(e) =>
+                  setAssignment({
+                    ...assignment,
+                    points: parseInt(e.target.value) || 0,
+                  })
+                }
               />
             </td>
           </tr>
@@ -121,7 +126,9 @@ export default function AssignmentEditor() {
                 id="wd-group"
                 className="form-select"
                 value={assignment.group}
-                onChange={(e) => setAssignment({ ...assignment, group: e.target.value })}
+                onChange={(e) =>
+                  setAssignment({ ...assignment, group: e.target.value })
+                }
               >
                 <option value="ASSIGNMENTS">ASSIGNMENTS</option>
                 <option value="QUIZZES">Quizzes</option>
@@ -139,7 +146,12 @@ export default function AssignmentEditor() {
                 id="wd-display-grade-as"
                 className="form-select"
                 value={assignment.displayGradeAs}
-                onChange={(e) => setAssignment({ ...assignment, displayGradeAs: e.target.value })}
+                onChange={(e) =>
+                  setAssignment({
+                    ...assignment,
+                    displayGradeAs: e.target.value,
+                  })
+                }
               >
                 <option value="PERCENTAGE">Percentage</option>
               </select>
@@ -159,19 +171,39 @@ export default function AssignmentEditor() {
               <option value="ONLINE">Online</option>
             </select>
             <div className="checkbox-group mb-3">
-              <input type="checkbox" name="check-entry-type" id="wd-text-entry" />
+              <input
+                type="checkbox"
+                name="check-entry-type"
+                id="wd-text-entry"
+              />
               <label htmlFor="wd-text-entry"> Text Entry</label>
               <br />
-              <input type="checkbox" name="check-entry-type" id="wd-website-url" />
+              <input
+                type="checkbox"
+                name="check-entry-type"
+                id="wd-website-url"
+              />
               <label htmlFor="wd-website-url"> Website URL</label>
               <br />
-              <input type="checkbox" name="check-entry-type" id="wd-media-recordings" />
+              <input
+                type="checkbox"
+                name="check-entry-type"
+                id="wd-media-recordings"
+              />
               <label htmlFor="wd-media-recordings"> Media Recordings</label>
               <br />
-              <input type="checkbox" name="check-entry-type" id="wd-student-annotation" />
+              <input
+                type="checkbox"
+                name="check-entry-type"
+                id="wd-student-annotation"
+              />
               <label htmlFor="wd-student-annotation"> Student Annotation</label>
               <br />
-              <input type="checkbox" name="check-entry-type" id="wd-file-upload" />
+              <input
+                type="checkbox"
+                name="check-entry-type"
+                id="wd-file-upload"
+              />
               <label htmlFor="wd-file-upload"> File Uploads</label>
             </div>
           </div>
@@ -190,7 +222,9 @@ export default function AssignmentEditor() {
               id="wd-assign-to"
               className="form-control mb-3"
               value={assignment.assignTo}
-              onChange={(e) => setAssignment({ ...assignment, assignTo: e.target.value })}
+              onChange={(e) =>
+                setAssignment({ ...assignment, assignTo: e.target.value })
+              }
             />
             <label htmlFor="wd-due-date">Due</label>
             <input
@@ -198,7 +232,9 @@ export default function AssignmentEditor() {
               id="wd-due-date"
               className="form-control mb-3"
               value={assignment.dueDate}
-              onChange={(e) => setAssignment({ ...assignment, dueDate: e.target.value })}
+              onChange={(e) =>
+                setAssignment({ ...assignment, dueDate: e.target.value })
+              }
             />
             <div className="row mb-3">
               <div className="col-md-6">
@@ -208,7 +244,12 @@ export default function AssignmentEditor() {
                   id="wd-available-from"
                   className="form-control"
                   value={assignment.availableFrom}
-                  onChange={(e) => setAssignment({ ...assignment, availableFrom: e.target.value })}
+                  onChange={(e) =>
+                    setAssignment({
+                      ...assignment,
+                      availableFrom: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="col-md-6">
@@ -218,7 +259,12 @@ export default function AssignmentEditor() {
                   id="wd-available-until"
                   className="form-control"
                   value={assignment.availableUntil}
-                  onChange={(e) => setAssignment({ ...assignment, availableUntil: e.target.value })}
+                  onChange={(e) =>
+                    setAssignment({
+                      ...assignment,
+                      availableUntil: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -227,8 +273,18 @@ export default function AssignmentEditor() {
       </div>
 
       <hr />
-      <button className="btn btn-secondary me-2">Cancel</button>
-      <button className="btn btn-primary">Save</button>
+      <Link
+        to={`/Kanbas/Courses/${assignment.course}/Assignments`}
+        className="btn btn-secondary me-2"
+      >
+        Cancel
+      </Link>
+      <Link
+        to={`/Kanbas/Courses/${assignment.course}/Assignments`}
+        className="btn btn-primary"
+      >
+        Save
+      </Link>
     </div>
   );
 }

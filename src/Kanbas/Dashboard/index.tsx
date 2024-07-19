@@ -20,7 +20,7 @@ export default function Dashboard() {
                       {course.name}
                     </span>
                     <p className="wd-dashboard-course-title card-text" style={{ maxHeight: 53, overflow: "hidden" }}>
-                      {course.description}
+                      {course.description}  
                     </p>
                     <Link to={`/Kanbas/Courses/${course._id}/Home`} className="btn btn-primary">Go</Link>
                   </div>

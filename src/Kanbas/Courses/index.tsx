@@ -5,17 +5,20 @@ import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import {Route, Routes, Navigate, useParams } from "react-router";
+// TDL: A3 3.5ish is using Navigate but I'm not?
+import {Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from 'react-icons/fa';
 
 export default function Courses() {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
+  const { pathname } = useLocation();
+
   return (
 <div id="wd-courses">
   <h2 className="text-danger">
       <FaAlignJustify className="me-4 fs-4 mb-1" />
-      {course && course.name}
+        {course && course.name} &gt; {pathname.split("/")[4]}
   </h2>
   <hr />
   <CoursesNavigation />

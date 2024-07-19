@@ -1,7 +1,7 @@
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsGripVertical } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import * as db from "../../Database";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 import { LuNewspaper } from "react-icons/lu";
@@ -62,12 +62,12 @@ export default function Assignments() {
               <div className="d-flex flex-grow-1 align-items-center me-3">
                 <BsGripVertical className="me-3 fs-4" />
                 <div className="flex-grow-1">
-                  <a
+                <Link
+                    to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                     className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
-                    href={`#/Kanbas/Courses/1234/Assignments/${assignment._id}`}
                   >
                     {assignment.title}
-                  </a>
+                  </Link>
                   <div className="text-muted">
                     <span className="text-danger">Multiple Modules</span> |{" "}
                     {/* <strong>Not available until</strong>{" "}

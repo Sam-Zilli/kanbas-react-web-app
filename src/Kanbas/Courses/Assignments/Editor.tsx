@@ -1,4 +1,11 @@
+import { useParams, useLocation } from 'react-router-dom'
+import { courses } from "../../Database";
+
 export default function AssignmentEditor() {
+  const { cid } = useParams();
+  const course = courses.find((course) => course._id === cid);
+  const { pathname } = useLocation();
+
   return (
     <div id="wd-assignments-editor" className="container mt-4">
       {/* Assignment Name and Description */}

@@ -1,3 +1,4 @@
+// src/Kanbas/index.tsx
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate} from "react-router";
@@ -8,31 +9,23 @@ import "./styles.css"
 
 export default function Kanbas() {
   return (
-    // A2 Part 4: Styling Kanbas with CSS and Bootstrap
-<div id="wd-kanbas">
-  <table width="100%">
-    <tr>
-      <td valign="top">
-      <KanbasNavigation />
-      </td>
-      
-
-      {/* A2 4.1 Page 27 */}
-      <div className="wd-main-content-offset p-3">
-      <td valign="top">
-    <div>
-      <Routes>
-        <Route path="/" element={<Navigate to="Dashboard" />} />
-        <Route path="Dashboard" element={<Dashboard />} />
-        <Route path="Courses/:cid/*" element={<Courses />} />
-        <Route path="Courses/:cid/Grades" element={<Grades />} />
-      </Routes>
-    </div>
-      </td>
+    <div id="wd-kanbas" className="h-100">
+      <div className="d-flex h-100">
+        <div className="d-none d-md-block bg-black">
+          <KanbasNavigation />
+        </div>
+        <div className="flex-fill p-4">
+          <Routes>
+            <Route path="/" element={<Navigate to="Dashboard" />} />
+            <Route path="Account" element={<h1>Account</h1>} />
+            <Route path="Dashboard" element={<Dashboard />} />
+            <Route path="Courses/:cid/*" element={<Courses />} />
+            <Route path="Calendar" element={<h1>Calendar</h1>} />
+            <Route path="Inbox" element={<h1>Inbox</h1>} />
+          </Routes>
+        </div>
       </div>
-    </tr>
-  </table>
-</div>
-
+    </div>
 );}
+
 

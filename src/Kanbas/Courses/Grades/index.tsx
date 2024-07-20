@@ -9,7 +9,7 @@ export default function Grades() {
   
   const { cid } = useParams();
   // const chosenEnrollments = enrollments.filter(enrollment => enrollment.course === cid);
-  // const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
+  const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
   // Function to get full name from users database
   
   const getFullName = (userId: string) => {

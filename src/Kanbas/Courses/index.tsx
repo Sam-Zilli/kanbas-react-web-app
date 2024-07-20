@@ -5,6 +5,7 @@ import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
+import Grades from "./Grades";
 // TDL: A3 3.5ish is using Navigate but I'm not?
 import {Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from 'react-icons/fa';
@@ -28,6 +29,7 @@ export default function Courses() {
       <Route path="Modules" element={<Modules />} />
       <Route path="Assignments" element={<Assignments />} />
       <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+      <Route path="Grades" element={<Grades />} />
     </Routes>
   </div>
 </div>

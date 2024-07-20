@@ -2,9 +2,30 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
 import { FaFileImport, FaFileExport } from 'react-icons/fa';
 import { BsGear } from 'react-icons/bs';
-import fakeGradesData, { Student } from './fakeGradesData';
+import { useParams } from "react-router";
+import { enrollments, users, assignments, grades } from "../../Database";
 
 export default function Grades() {
+  
+  const { cid } = useParams();
+  // const chosenEnrollments = enrollments.filter(enrollment => enrollment.course === cid);
+  // const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
+  // Function to get full name from users database
+  
+  const getFullName = (userId: string) => {
+    const user = users.find(user => user._id === userId);
+    if (user) {
+      return `${user.firstName} ${user.lastName}`;
+    }
+    return "Unknown User";
+  };
+
+  // Function to get grade for a specific user and assignment
+    const getGrade = (userId:string, assignmentId:string) => {
+      const grade = grades.find(g => g.student === userId && g.assignment === assignmentId);
+      return grade ? grade.grade : ''; 
+    };
+
   return (
     <div className="container mt-4">
       {/* Top Buttons */}
@@ -65,22 +86,28 @@ export default function Grades() {
           <thead>
             <tr>
               <th>Student Name</th>
-              <th>A1</th>
-              <th>A2</th>
-              <th>A3</th>
-              <th>A4</th>
+              {filteredAssignments.map((assignment) => (
+                <th key={assignment._id}>{assignment.title}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {fakeGradesData.map((student: Student) => (
-              <tr key={student.id}>
-                <td>{student.studentName}</td>
-                <td><input type="number" className="form-control" defaultValue={student.A1} /></td>
-                <td><input type="number" className="form-control" defaultValue={student.A2} /></td>
-                <td><input type="number" className="form-control" defaultValue={student.A3} /></td>
-                <td><input type="number" className="form-control" defaultValue={student.A4} /></td>
-              </tr>
-            ))}
+            {enrollments
+              .filter(enrollment => enrollment.course === cid)
+              .map((enrollment) => (
+                <tr key={enrollment._id}>
+                  <td>{getFullName(enrollment.user)}</td>
+                  {filteredAssignments.map((assignment) => (
+                    <td key={assignment._id}>
+                      <input
+                        type="number"
+                        className="form-control"
+                        defaultValue={getGrade(enrollment.user, assignment._id)}
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

@@ -1,3 +1,6 @@
+
+
+
 .list-group-item {
     background-color: black; /* Default background color */
     color: white; /* Default text color */
@@ -28,4 +31,8 @@
   .list-group-item .fs-1 {
     color: inherit; /* Ensure icon color matches link text color */
   }
-  
+
+
+  #wd-kanbas-navigation {
+    height: 100vh; /* Full viewport height */
+  }

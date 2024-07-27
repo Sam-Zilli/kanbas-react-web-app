@@ -6,8 +6,7 @@ export default function Dashboard() {
   const [courses, setCourses] = useState(db.courses);
   const defaultImage = "/images/default.jpg";
 
-
-  const course: any = {
+  const [course, setCourse] = useState<any>({
     _id: "0",
     name: "New Course",
     number: "New Number",
@@ -15,7 +14,8 @@ export default function Dashboard() {
     endDate: "2023-12-15",
     image: "/images/default.jpg",
     description: "New Description",
-  };
+  });
+
   const addNewCourse = () => {
     const newCourse = {
       ...course,
@@ -23,6 +23,10 @@ export default function Dashboard() {
       _id: new Date().getTime().toString(),
     };
     setCourses([...courses, { ...course, ...newCourse }]);
+  };
+
+  const deleteCourse = (courseId: string) => {
+    setCourses(courses.filter((course) => course._id !== courseId));
   };
 
   return (
@@ -39,6 +43,17 @@ export default function Dashboard() {
           Add{" "}
         </button>
       </h5>
+      <br />
+      <input
+        value={course.name}
+        className="form-control mb-2"
+        onChange={(e) => setCourse({ ...course, name: e.target.value })}
+      />
+      <textarea
+        value={course.description}
+        className="form-control"
+        onChange={(e) => setCourse({ ...course, description: e.target.value })}
+      />
       <hr />
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})
@@ -52,11 +67,12 @@ export default function Dashboard() {
                 to={`/Kanbas/Courses/${course._id}/Home`}
                 className="text-decoration-none"
               >
-
                 <div className="card rounded-3 overflow-hidden">
-                <img
+                  <img
                     src={`/images/${course.name}.jpg`}
-                    onError={(e) => { e.currentTarget.src = defaultImage; }}
+                    onError={(e) => {
+                      e.currentTarget.src = defaultImage;
+                    }}
                     height={160}
                     alt={course.name}
                   />
@@ -83,6 +99,16 @@ export default function Dashboard() {
                     >
                       Go
                     </Link>
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        deleteCourse(course._id);
+                      }}
+                      className="btn btn-danger float-end"
+                      id="wd-delete-course-click"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </Link>

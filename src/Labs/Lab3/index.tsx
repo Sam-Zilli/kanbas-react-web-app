@@ -32,17 +32,28 @@ import Square from "./Square";
 import Highlight from "./Highlight";
 import AddPathParameters from "./AddPathParameters";
 import PathParameters from "./PathParameters";
-
-
+import { useSelector } from "react-redux";
 
 export default function Lab3() {
-  {/* A3 2.7.1 Writing to the Console from JavaScript */}
+  const { todos } = useSelector((state: any) => state.todosReducer);
+  {
+    /* A3 2.7.1 Writing to the Console from JavaScript */
+  }
   console.log("Hello World!");
-  return(
+  return (
     <div id="wd-lab3" className="container-fluid">
       <h3>Lab 3</h3>
+      <ul className="list-group">
+        {todos.map((todo: any) => (
+          <li className="list-group-item" key={todo.id}>
+            {todo.title}
+          </li>
+        ))}
+      </ul>
+      <hr />
+
       {/* A3 2.2.1 */}
-      <VariablesAndConstants/>
+      <VariablesAndConstants />
       {/* A3 2.2.2 */}
       <VariableTypes />
       {/* A3 2.2.3 */}
@@ -104,8 +115,10 @@ export default function Lab3() {
       <Square>4</Square>
       <hr />
       <Highlight>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
-        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione
+        eaque illo minus cum, saepe totam vel nihil repellat nemo explicabo
+        excepturi consectetur. Modi omnis minus sequi maiores, provident
+        voluptates.
       </Highlight>
 
       {/* A3 2.6.3 Encoding Path Parameters */}

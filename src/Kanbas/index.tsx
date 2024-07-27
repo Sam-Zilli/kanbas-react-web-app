@@ -3,7 +3,8 @@ import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate } from "react-router";
 import Courses from "./Courses";
-
+import store from "./store";
+import { Provider } from "react-redux";
 import * as db from "./Database";
 import { useState } from "react";
 
@@ -39,6 +40,7 @@ export default function Kanbas() {
   };
 
   return (
+    <Provider store={store}>
     <div id="wd-kanbas" className="h-100">
       <div className="d-flex h-100">
         <div className="d-none d-md-block bg-black">
@@ -69,5 +71,6 @@ export default function Kanbas() {
         </div>
       </div>
     </div>
+    </Provider>
   );
 }

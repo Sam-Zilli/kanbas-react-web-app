@@ -16,6 +16,18 @@ export default function Dashboard() {
     description: "New Description",
   });
 
+  const updateCourse = () => {
+    setCourses(
+    courses.map((c) => {
+    if (c._id === course._id) {
+    return course;
+    } else {
+    return c;
+    }
+    })
+    );
+    };
+
   const addNewCourse = () => {
     const newCourse = {
       ...course,
@@ -42,6 +54,11 @@ export default function Dashboard() {
           {" "}
           Add{" "}
         </button>
+        <button className="btn btn-warning float-end me-2"
+onClick={updateCourse} id="wd-update-course-click">
+Update
+</button>
+
       </h5>
       <br />
       <input
@@ -109,6 +126,16 @@ export default function Dashboard() {
                     >
                       Delete
                     </button>
+                    <button
+          id="wd-edit-course-click"
+          onClick={(event) => {
+            event.preventDefault();
+            setCourse(course);
+          }}
+          className="btn btn-warning me-2 float-end"
+        >
+          Edit
+        </button>
                   </div>
                 </div>
               </Link>

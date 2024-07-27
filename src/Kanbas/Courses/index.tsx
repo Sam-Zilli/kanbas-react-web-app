@@ -1,5 +1,4 @@
 // src/Kanbas/Courses/index.tsx
-import { courses } from "../Database";
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
@@ -10,9 +9,9 @@ import Grades from "./Grades";
 import {Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from 'react-icons/fa';
 
-export default function Courses() {
-  const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
+  export default function Courses({ courses }: { courses: any[]; }) {
+    const { cid } = useParams();
+    const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
 
   return (

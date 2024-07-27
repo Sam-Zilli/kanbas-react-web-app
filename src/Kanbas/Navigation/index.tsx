@@ -19,15 +19,19 @@ export default function KanbasNavigation() {
   return (
     <div id="wd-kanbas-navigation" className="list-group bg-black rounded-0">
       
-      <a id="wd-account-link" target="_blank" href="https://www.northeastern.edu/"
-        className="list-group-itemborder-0">
+      <a id="wd-neu-link" target="_blank" href="https://www.northeastern.edu/"
+        className="list-group-item bg-black text-center border-0">
         <img src="/images/NEU.png" width="75px" /></a>
+
+
       <Link key="/Kanbas/Account" to="/Kanbas/Account" className={`list-group-item text-center border-0 bg-black
             ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
         <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
         <br />
         Account
       </Link>
+
+
       {links.map((link) => (
         <Link key={link.path} to={link.path} className={`list-group-item bg-black text-center border-0
               ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
@@ -36,5 +40,7 @@ export default function KanbasNavigation() {
           {link.label}
         </Link>
       ))}
+
+
     </div>
 );}

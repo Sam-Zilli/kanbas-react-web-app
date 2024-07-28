@@ -116,14 +116,14 @@ export default function Assignments() {
                     )}
                   </div>
 
-                  {/* Assignment Details */}
-                  <div id="assignment-details" className="text-muted mb-2">
-                    <span className="text-danger">Multiple Modules</span> |{" "}
-                    <strong>Not available until</strong> 12/1/2024 at 00:00AM |
-                    <br />
-                    <strong>Due</strong> 12/2/2024 at 00:00AM
-                  </div>
+                {/* Assignment Details */}
+                <div id="assignment-details" className="text-muted mb-2">
+                  <span className="text-danger">{assignment.modules || 'Multiple Modules'}</span> |{" "}
+                  <strong>Not available until</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'} |
+                  <br />
+                  <strong>Due</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'}
                 </div>
+              </div>
 
                 {/* Each assignment's control buttons */}
                 <div className="ms-3 d-flex align-items-start">

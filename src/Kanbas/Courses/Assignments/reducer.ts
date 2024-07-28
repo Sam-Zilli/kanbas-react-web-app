@@ -12,10 +12,10 @@ const assignmentsSlice = createSlice({
     addAssignment: (state, { payload: assignment }) => {
       console.log("In reducer, add Assignment: ", assignment.name)
       console.log(assignment.course)
-      // console.log("In reducer, add Assignment: ", assignment.description)
-      // console.log("In reducer, add Assignment: ", assignment.points)
+      console.log("In reducer, add Assignment: ", assignment.description)
+      console.log("In reducer, add Assignment: ", assignment.points)
       // console.log("In reducer, add Assignment: ", assignment.group)
-      // console.log("In reducer, add Assignment: ", assignment.dueDate)
+      console.log("In reducer, add Assignment: ", assignment.dueDate)
       const newAssignment: any = {
         _id: new Date().getTime().toString(),
         name: assignment.name,

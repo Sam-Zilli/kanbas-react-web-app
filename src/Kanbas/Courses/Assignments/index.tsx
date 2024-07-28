@@ -8,7 +8,7 @@ import {
   updateAssignment,
   deleteAssignment,
 } from "./reducer";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; // Import Link
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 
 import "./index.css";
@@ -47,7 +47,6 @@ export default function Assignments() {
 
   return (
     <div id="wd-assignments" className="container mt-4">
-        {/* Add margin around AssignmentsControls */}
         <div className="me-4">
           <AssignmentsControls
             assignmentName={assignmentName}
@@ -90,30 +89,35 @@ export default function Assignments() {
                 <div className="d-flex flex-column flex-grow-1">
                   <div className="d-flex align-items-center mb-2">
                     <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
-                    {!assignment.editing && (
-                      <span>{assignment.name}</span>
-                    )}
-                    {assignment.editing && (
-                      <input
-                        className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
-                        onChange={(e) =>
-                          dispatch(
-                            updateAssignment({
-                              ...assignment,
-                              name: e.target.value,
-                            })
-                          )
-                        }
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+
+                    <Link
+                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                      className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
+                    >
+                      {!assignment.editing ? (
+                        <span>{assignment.name}</span>
+                      ) : (
+                        <input
+                          className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
+                          onChange={(e) =>
                             dispatch(
-                              updateAssignment({ ...assignment, editing: false })
-                            );
+                              updateAssignment({
+                                ...assignment,
+                                name: e.target.value,
+                              })
+                            )
                           }
-                        }}
-                        value={assignment.name}
-                      />
-                    )}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              dispatch(
+                                updateAssignment({ ...assignment, editing: false })
+                              );
+                            }
+                          }}
+                          value={assignment.name}
+                        />
+                      )}
+                    </Link>
                   </div>
 
                 {/* Assignment Details */}

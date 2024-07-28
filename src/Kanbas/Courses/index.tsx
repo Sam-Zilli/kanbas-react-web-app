@@ -3,7 +3,7 @@ import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import AssignmentEditor from "./Assignments/AssignmentEditor";
 import Grades from "./Grades";
 // TDL: A3 3.5ish is using Navigate but I'm not?
 import {Route, Routes, useLocation, useParams } from "react-router";

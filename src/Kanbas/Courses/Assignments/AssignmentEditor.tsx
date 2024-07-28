@@ -30,7 +30,11 @@ export default function AssignmentsEditor() {
   }, [aid, assignments, navigate, cid]);
 
   const handleUpdate = () => {
+  
     if (assignment) {
+      // console.log('Due Date:', assignment.dueDate);
+      // console.log('Available From:', assignment.availableFrom);
+      // console.log('Available Until:', assignment.availableUntil);
       dispatch(
         updateAssignment({
           ...assignment,

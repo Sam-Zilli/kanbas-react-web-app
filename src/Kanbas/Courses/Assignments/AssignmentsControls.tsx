@@ -25,10 +25,11 @@ export default function AssignmentsControls({
   addAssignment,
 }: AssignmentsControlsProps) {
   return (
-    <div id="wd-assignments-controls" className="text-nowrap">
-
-      {/* Search */}
-      <div className="position-relative w-50">
+    <div id="wd-assignments-controls" className="d-flex justify-content-between align-items-center mb-4">
+      
+      {/* Search Bar */}
+      <div className="d-flex align-items-center w-50">
+        <div className="position-relative w-100">
           <input
             id="wd-search-assignment"
             className="form-control ps-5"
@@ -36,36 +37,39 @@ export default function AssignmentsControls({
           />
           <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
         </div>
+      </div>
 
+      {/* Controls on the right side */}
+      <div className="d-flex align-items-center">
+        {/* Add Assignment Button */}
+        <button
+          className="btn btn-lg btn-danger me-2"
+          data-bs-toggle="modal"
+          data-bs-target="#wd-add-assignment-dialog"
+        >
+          <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+          Assignment
+        </button>
 
-
-      {/* ADD ASSIGNMENT BUTTON */}
-      <button
-        className="btn btn-lg btn-danger me-1 float-end"
-        data-bs-toggle="modal"
-        data-bs-target="#wd-add-assignment-dialog"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Assignment
-      </button>
-
-      {/* Group Button */}
-      <button id="wd-add-assignment-group" className="btn btn-lg btn-success me-1 float-end">
-        + Group
-      </button>
-
-      <AssignmentAdder
-        dialogTitle="Add Assignment"
-        assignmentName={assignmentName}
-        setAssignmentName={setAssignmentName}
-        description={description}
-        setDescription={setDescription}
-        points={points}
-        setPoints={setPoints}
-        dueDate={dueDate}
-        setDueDate={setDueDate}
-        addAssignment={addAssignment}
-      />
+        {/* Group Button */}
+        <button id="wd-add-assignment-group" className="btn btn-lg btn-success me-2">
+          + Group
+        </button>
+        
+        {/* Assignment Adder Component */}
+        <AssignmentAdder
+          dialogTitle="Add Assignment"
+          assignmentName={assignmentName}
+          setAssignmentName={setAssignmentName}
+          description={description}
+          setDescription={setDescription}
+          points={points}
+          setPoints={setPoints}
+          dueDate={dueDate}
+          setDueDate={setDueDate}
+          addAssignment={addAssignment}
+        />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,66 @@
+/* Modules List Styling */
+#wd-modules {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.wd-modules-list-item {
+  background-color: #fff;
+  border: 2px solid #0f78e1;
+  border-radius: 5px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.modules-card {
+  border-left: 8px solid green;
+}
+
+.wd-modules-list-item .form-control {
+  border: 1px solid #0c5bab;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.wd-modules-list-item input {
+  border: 1px solid #409c39;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.wd-modules-list-item .text-dark {
+  color: #000c18;
+}
+
+.wd-modules-list-item .text-muted {
+  color: #01070d;
+}
+
+.wd-modules-list-item .text-danger {
+  color: #dc3545;
+}
+
+.wd-modules-list-item .btn {
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.wd-modules-list-item .btn-success {
+  background-color: #000501;
+  color: #fff;
+}
+
+.wd-modules-list-item .btn-primary {
+  background-color: #007bff;
+  color: #b60d0d;
+}
+
+
+.modules-name-text {
+  color: #c70909;
+}

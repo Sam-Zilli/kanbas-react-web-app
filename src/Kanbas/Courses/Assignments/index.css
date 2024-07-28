@@ -1,3 +1,15 @@
+#wd-assignments {
+  background-color: #fff; 
+  padding: 20px;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
 /* HEADER */
 #wd-assignments-title {
     font-size: 1.5rem;
@@ -13,13 +25,7 @@
     color: #6c757d; 
   }
 
-/* EACH ASSIGNMNET CARD */
 
-#wd-assignments {
-    background-color: #fff; 
-    padding: 20px;
-    border-radius: 5px;
-  }
   .wd-assignment-list-item {
     background-color: #fff; 
     border: 2px solid #dee2e6;

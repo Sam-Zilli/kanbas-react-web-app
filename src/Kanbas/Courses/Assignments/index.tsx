@@ -16,8 +16,12 @@ export default function Assignments() {
 
   return (
     <div id="wd-assignments" className="container mt-4">
-      {/* Search and Buttons */}
+
+      {/* Making all the buttons be in one row */}
       <div className="d-flex justify-content-between align-items-center mb-4">
+
+
+      {/* Search */}
         <div className="position-relative w-50">
           <input
             id="wd-search-assignment"
@@ -26,28 +30,41 @@ export default function Assignments() {
           />
           <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
         </div>
+
+
+      {/* Group */}
         <div>
           <button id="wd-add-assignment-group" className="btn btn-success me-2">
             + Group
           </button>
+
+
+
+        {/* Assignment */}
           <button id="wd-add-assignment" className="btn btn-primary">
             + Assignment
           </button>
         </div>
       </div>
 
-      {/* Card Header with Oval-shaped Pill thing */}
+
+
+
+      {/* Assignmnets Header with Oval-shaped Pill thing */}
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
           <h3 id="wd-assignments-title" className="mb-0">
             ASSIGNMENTS
           </h3>
+
+          {/* Pill Thing */}
           <div className="pill bg-secondary text-white px-3 py-1 rounded-pill">
             40% of Total
           </div>
           <button className="btn btn-outline-secondary">+</button>
         </div>
       </div>
+
 
       {/* Assignment List */}
       <ul id="wd-assignment-list" className="list-group">
@@ -86,6 +103,7 @@ export default function Assignments() {
           </li>
         ))}
       </ul>
+
     </div>
   );
 }

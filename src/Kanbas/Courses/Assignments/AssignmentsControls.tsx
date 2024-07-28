@@ -1,4 +1,4 @@
-import { FaPlus } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
 import AssignmentAdder from "./AssignmentAdder";
 
 type AssignmentsControlsProps = {
@@ -26,6 +26,19 @@ export default function AssignmentsControls({
 }: AssignmentsControlsProps) {
   return (
     <div id="wd-assignments-controls" className="text-nowrap">
+
+      {/* Search */}
+      <div className="position-relative w-50">
+          <input
+            id="wd-search-assignment"
+            className="form-control ps-5"
+            placeholder="Search for Assignments"
+          />
+          <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
+        </div>
+
+
+
       {/* ADD ASSIGNMENT BUTTON */}
       <button
         className="btn btn-lg btn-danger me-1 float-end"

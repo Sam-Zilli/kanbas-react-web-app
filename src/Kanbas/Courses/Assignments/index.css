@@ -1,55 +1,50 @@
+/* Entire assignments element (incldues header, search bar, etc.) */
 #wd-assignments {
-  background-color: #fff; 
+  background-color: #454242; 
   padding: 20px;
   border-radius: 5px;
+}
+
+.wd-assignment-list-item {
+  background-color: #fff; 
+  border: 2px solid #dee2e6;
+  border-radius: 5px;
+  text-align: left; 
 }
 
 
 
 
-
-
-
-/* HEADER */
+/* ------ HEADER START -----*/
 #wd-assignments-title {
     font-size: 1.5rem;
     font-weight: bold;
   }
   
   .card-body {
-    background-color: #f8f9fa; 
+    background-color: #c4c7ca; 
   }
   
+/* ------ PLUS BUTTON -----*/
   .btn-outline-secondary {
-    border-color: #6c757d; 
     color: #6c757d; 
   }
 
 
-  .wd-assignment-list-item {
-    background-color: #fff; 
-    border: 2px solid #dee2e6;
-    border-radius: 5px;
-    text-align: left; 
-  }
-
+/* ------ SEARCH BAR -----*/
 #wd-search-assignment {
     width: 300px; 
+    margin-right: auto;
   }
   
-  #wd-assignments-title button {
-    font-size: 1.25rem; 
-  }
-  
+
+
+
+
   .wd-assignment-link {
     display: block; 
   }
 
   .text-red {
     color: red;
-  }
-
-
-  .assignment-card {
-    border-left: 8px solid green; 
   }

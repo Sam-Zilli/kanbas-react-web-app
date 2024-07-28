@@ -46,19 +46,21 @@ export default function Assignments() {
   };
 
   return (
-    <div id="wd-assignments" className="container mt-4 ">
-        <AssignmentsControls
-          assignmentName={assignmentName}
-          setAssignmentName={setAssignmentName}
-          description={description}
-          setDescription={setDescription}
-          points={points}
-          setPoints={setPoints}
-          dueDate={dueDate}
-          setDueDate={setDueDate}
-          addAssignment={handleAddAssignment}
-        />
-
+    <div id="wd-assignments" className="container mt-4">
+        {/* Add margin around AssignmentsControls */}
+        <div className="me-4">
+          <AssignmentsControls
+            assignmentName={assignmentName}
+            setAssignmentName={setAssignmentName}
+            description={description}
+            setDescription={setDescription}
+            points={points}
+            setPoints={setPoints}
+            dueDate={dueDate}
+            setDueDate={setDueDate}
+            addAssignment={handleAddAssignment}
+          />
+      </div>
 
       {/* The Header thing that says Assignments */}
       <div className="card mb-4">
@@ -82,35 +84,49 @@ export default function Assignments() {
           .map((assignment: any) => (
             <li
               key={assignment._id}
-              className="wd-assignments-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white d-flex justify-content-between align-items-center"
+              className="wd-assignments-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white d-flex flex-column"
             >
-              <div className="d-flex align-items-center flex-grow-1 text-black">
-                <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
-                {!assignment.editing && assignment.name}
-                {assignment.editing && (
-                  <input
-                    className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
-                    onChange={(e) =>
-                      dispatch(
-                        updateAssignment({
-                          ...assignment,
-                          name: e.target.value,
-                        })
-                      )
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        dispatch(
-                          updateAssignment({ ...assignment, editing: false })
-                        );
-                      }
-                    }}
-                    value={assignment.name}
-                  />
-                )}
+              <div className="d-flex align-items-start text-black">
+                <div className="d-flex flex-column flex-grow-1">
+                  <div className="d-flex align-items-center mb-2">
+                    <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
+                    {!assignment.editing && (
+                      <span>{assignment.name}</span>
+                    )}
+                    {assignment.editing && (
+                      <input
+                        className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
+                        onChange={(e) =>
+                          dispatch(
+                            updateAssignment({
+                              ...assignment,
+                              name: e.target.value,
+                            })
+                          )
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            dispatch(
+                              updateAssignment({ ...assignment, editing: false })
+                            );
+                          }
+                        }}
+                        value={assignment.name}
+                      />
+                    )}
+                  </div>
+
+                  {/* Assignment Details */}
+                  <div id="assignment-details" className="text-muted mb-2">
+                    <span className="text-danger">Multiple Modules</span> |{" "}
+                    <strong>Not available until</strong> 12/1/2024 at 00:00AM |
+                    <br />
+                    <strong>Due</strong> 12/2/2024 at 00:00AM
+                  </div>
+                </div>
 
                 {/* Each assignment's control buttons */}
-                <div className="ms-auto">
+                <div className="ms-3 d-flex align-items-start">
                   <AssignmentControlButtons
                     assignmentId={assignment._id}
                     deleteAssignment={() =>

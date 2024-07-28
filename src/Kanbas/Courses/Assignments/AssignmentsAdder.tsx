@@ -1,17 +1,17 @@
-export default function AssignmentsEditor({
+export default function AssignmentsAdder({
   dialogTitle,
-  moduleName,
-  setModuleName,
-  addModule,
+  assignmentName,
+  setAssignmentName,
+  addAssignment,
 }: {
   dialogTitle: string;
-  moduleName: string;
-  setModuleName: (name: string) => void;
-  addModule: () => void;
+  assignmentName: string;
+  setAssignmentName: (name: string) => void;
+  addAssignment: () => void;
 }) {
   return (
     <div
-      id="wd-add-module-dialog"
+      id="wd-add-assignment-dialog"
       className="modal fade"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
@@ -32,9 +32,9 @@ export default function AssignmentsEditor({
           <div className="modal-body">
             <input
               className="form-control"
-              value={moduleName}
-              placeholder="Module Name"
-              onChange={(e) => setModuleName(e.target.value)}
+              value={assignmentName}
+              placeholder="Assignment Name TEST TEST TEST"
+              onChange={(e) => setAssignmentName(e.target.value)}
             />
           </div>
           <div className="modal-footer">
@@ -46,13 +46,13 @@ export default function AssignmentsEditor({
               Cancel{" "}
             </button>
             <button
-              onClick={addModule}
+              onClick={addAssignment}
               type="button"
               data-bs-dismiss="modal"
               className="btn btn-danger"
             >
               {" "}
-              Add Module{" "}
+              Add Assignment{" "}
             </button>
           </div>
         </div>

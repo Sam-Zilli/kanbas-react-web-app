@@ -14,7 +14,8 @@ export default function Modules() {
 
   return (
     <div id="wd-modules" className="container mt-4">
-      {/* The buttons (View Progress, Publish, etc.) */}
+
+      {/* The buttons (Collapse All, View Progress, Publish, +Module ) */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <ModulesControls
           moduleName={moduleName}
@@ -26,6 +27,8 @@ export default function Modules() {
         />
       </div>
 
+
+        {/* The Header thing that says Modules */}
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
           <h3 id="wd-modules-title" className="mb-0">
@@ -34,6 +37,9 @@ export default function Modules() {
         </div>
       </div>
 
+
+
+        {/* List of modules / for each module... */}
       <ul id="wd-modules-list" className="list-group">
         {modules
           .filter((module: any) => module.course === cid)
@@ -61,6 +67,9 @@ export default function Modules() {
                     value={module.name}
                   />
                 )}
+
+
+                {/* Each modules controls (pencil, trash, checkmark, +, .... */}
                 <div className="ms-auto">
                 <ModuleControlButtons
                   moduleId={module._id}

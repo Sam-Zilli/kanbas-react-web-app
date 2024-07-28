@@ -1,3 +1,5 @@
+// The buttons (Collapse All, View Progress, Publish, + Module etc.)
+
 import ModuleEditor from "./ModuleEditor";
 import { FaPlus } from "react-icons/fa6";
 import PublishDropdown from "./PublishDropdown";
@@ -25,9 +27,6 @@ export default function ModulesControls({
       </button>
 
       <PublishDropdown />
-
-      {/* Implement the View Progress and Collapse All buttons
-          with IDs wd-view-progress and wd-collapse-all */}
       <ViewProgressButton />
       <CollapseAllButton />
 

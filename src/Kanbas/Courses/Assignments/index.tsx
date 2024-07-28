@@ -1,41 +1,47 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, Link } from "react-router-dom";
+import { PiDotsSixVerticalFill } from "react-icons/pi";
+
 import AssignmentsControls from "./AssignmentsControls";
 import AssignmentControlButtons from "./AssignmentControlButtons";
-import { useSelector, useDispatch } from "react-redux";
 import {
   addAssignment,
   editAssignment,
   updateAssignment,
   deleteAssignment,
 } from "./reducer";
-import { useParams, Link } from "react-router-dom"; // Import Link
-import { PiDotsSixVerticalFill } from "react-icons/pi";
 
 import "./index.css";
 
 export default function Assignments() {
-  const { cid } = useParams();
+  const { cid } = useParams<{ cid?: string }>(); 
+  const courseId = cid || ""; 
 
   // State variables for assignment details
-  const [assignmentName, setAssignmentName] = useState("");
-  const [description, setDescription] = useState("");
-  const [points, setPoints] = useState(0);
-  const [dueDate, setDueDate] = useState("");
+  const [assignmentName, setAssignmentName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [points, setPoints] = useState<number>(0);
+  const [dueDate, setDueDate] = useState<string>("");
 
-  const assignments = useSelector(
-    (state: any) => state.assignmentsReducer.assignments
-  );
+  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
   const dispatch = useDispatch();
 
-  // Handler for adding an assignment
   const handleAddAssignment = () => {
     dispatch(
       addAssignment({
+        _id: "",
         name: assignmentName,
         description,
         points,
         dueDate,
-        course: cid,
+        course: courseId, 
+        group: "", 
+        displayGradeAs: "", 
+        submissionTypes: [], 
+        assignTo: "", 
+        availableFrom: "", 
+        availableUntil: "", 
       })
     );
     // Reset fields
@@ -47,18 +53,18 @@ export default function Assignments() {
 
   return (
     <div id="wd-assignments" className="container mt-4">
-        <div className="me-4">
-          <AssignmentsControls
-            assignmentName={assignmentName}
-            setAssignmentName={setAssignmentName}
-            description={description}
-            setDescription={setDescription}
-            points={points}
-            setPoints={setPoints}
-            dueDate={dueDate}
-            setDueDate={setDueDate}
-            addAssignment={handleAddAssignment}
-          />
+      <div className="me-4">
+        <AssignmentsControls
+          assignmentName={assignmentName}
+          setAssignmentName={setAssignmentName}
+          description={description}
+          setDescription={setDescription}
+          points={points}
+          setPoints={setPoints}
+          dueDate={dueDate}
+          setDueDate={setDueDate}
+          addAssignment={handleAddAssignment}
+        />
       </div>
 
       {/* The Header thing that says Assignments */}
@@ -79,7 +85,7 @@ export default function Assignments() {
       {/* List of assignments */}
       <ul id="wd-assignments-list" className="list-group">
         {assignments
-          .filter((assignment: any) => assignment.course === cid)
+          .filter((assignment: any) => assignment.course === courseId)
           .map((assignment: any) => (
             <li
               key={assignment._id}
@@ -89,45 +95,23 @@ export default function Assignments() {
                 <div className="d-flex flex-column flex-grow-1">
                   <div className="d-flex align-items-center mb-2">
                     <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
-
                     <Link
-                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                      to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}
                       className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
                     >
-                      {!assignment.editing ? (
-                        <span>{assignment.name}</span>
-                      ) : (
-                        <input
-                          className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
-                          onChange={(e) =>
-                            dispatch(
-                              updateAssignment({
-                                ...assignment,
-                                name: e.target.value,
-                              })
-                            )
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              dispatch(
-                                updateAssignment({ ...assignment, editing: false })
-                              );
-                            }
-                          }}
-                          value={assignment.name}
-                        />
-                      )}
+                      {assignment.name}
                     </Link>
                   </div>
 
-                {/* Assignment Details */}
-                <div id="assignment-details" className="text-muted mb-2">
-                  <span className="text-danger">{assignment.modules || 'Multiple Modules'}</span> |{" "}
-                  <strong>Not available until</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'} |
-                  <br />
-                  <strong>Due</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'}
+                  {/* Assignment Details */}
+                  <div id="assignment-details" className="text-muted mb-2">
+                    <span className="text-danger">{assignment.group || 'Multiple Modules'}</span> |{" "}
+                    <strong>Points:</strong> {assignment.points || 'N/A'} |{" "}
+                    <strong>Not available until</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'} |
+                    <br />
+                    <strong>Due</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'}
+                  </div>
                 </div>
-              </div>
 
                 {/* Each assignment's control buttons */}
                 <div className="ms-3 d-flex align-items-start">

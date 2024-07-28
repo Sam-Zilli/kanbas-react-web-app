@@ -7,7 +7,7 @@ import { FaPencil } from "react-icons/fa6";
 export default function AssignmentControlButtons({
   assignmentId,
   deleteAssignment,
-  editAssignment,
+  // editAssignment,
 }: {
   assignmentId: string;
   deleteAssignment: (assignmentId: string) => void;
@@ -15,17 +15,17 @@ export default function AssignmentControlButtons({
 }) {
   return (
     <div className="d-flex align-items-center">
-      <FaPencil
+      {/* <FaPencil
         onClick={() => editAssignment(assignmentId)}
         className="text-primary me-2 fs-5 cursor-pointer"
-      />
+      /> */}
       <FaTrash
         className="text-danger me-2 fs-5 cursor-pointer"
         onClick={() => deleteAssignment(assignmentId)}
       />
-      <GreenCheckmark className="me-2" />
+      {/* <GreenCheckmark className="me-2" />
       <BsPlus className="fs-1 me-2" />
-      <IoEllipsisVertical className="fs-4" />
+      <IoEllipsisVertical className="fs-4" /> */}
     </div>
   );
 }

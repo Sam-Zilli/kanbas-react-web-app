@@ -1,106 +1,70 @@
-import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import * as db from "../../Database";
+// src/Courses/Assignments/AssignmentsEditor.tsx
 
-interface Assignment {
-  _id: string;
-  name: string;
-  description: string;
-  points: number;
-  group: string;
-  displayGradeAs: string;
-  submissionTypes: string[];
-  assignTo: string;
-  dueDate: string;
-  availableFrom: string;
-  availableUntil: string;
-  course: string;
-}
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../store";
+import { updateAssignment, deleteAssignment } from "./reducer";
+import { Assignment } from "../../types";
 
-export default function AssignmentEditor() {
-  const { aid } = useParams<{ aid: string }>();
+export default function AssignmentsEditor() {
+  const { cid, aid } = useParams<{ cid: string; aid: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
+  const [assignment, setAssignment] = useState<Assignment | null>(null);
 
-  const [assignment, setAssignment] = useState<Assignment>({
-    _id: "",
-    name: "",
-    description: "",
-    points: 0,
-    group: "ASSIGNMENTS",
-    displayGradeAs: "PERCENTAGE",
-    submissionTypes: [],
-    assignTo: "Everyone",
-    dueDate: "",
-    availableFrom: "",
-    availableUntil: "",
-    course: "",
-  });
+  const assignments = useSelector((state: RootState) => state.assignmentsReducer?.assignments || []);
 
   useEffect(() => {
-    const fetchAssignmentDetails = async () => {
-      try {
-        if (!aid) return;
-
-        const foundAssignment = db.assignments.find(
-          (assignment) => assignment._id === aid
-        );
-        if (foundAssignment) {
-          setAssignment({
-            _id: foundAssignment._id,
-            name: foundAssignment.name,
-            description: foundAssignment.description,
-            points: foundAssignment.points,
-            group: foundAssignment.group,
-            displayGradeAs: foundAssignment.displayGradeAs,
-            submissionTypes: foundAssignment.submissionTypes,
-            assignTo: foundAssignment.assignTo,
-            dueDate: foundAssignment.dueDate,
-            availableFrom: foundAssignment.availableFrom,
-            availableUntil: foundAssignment.availableUntil,
-            course: foundAssignment.course,
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching assignment details:", error);
-      }
-    };
-
-    fetchAssignmentDetails();
-  }, [aid]);
-
-
-
-
-
-  const handleSave = async () => {
-    try {
-    
-      if (!assignment._id) {
-
-        const newAssignment = { ...assignment, _id: Date.now().toString() }; 
-        db.assignments.push(newAssignment); 
+    if (aid) {
+      const fetchedAssignment = assignments.find(
+        (assignment) => assignment._id === aid
+      );
+      if (fetchedAssignment) {
+        setAssignment(fetchedAssignment);
       } else {
-     
-        const index = db.assignments.findIndex((a) => a._id === assignment._id);
-        if (index !== -1) {
-          db.assignments[index] = assignment; 
-        }
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
       }
-      
-      // Navigate to the Assignments page
-      navigate(`/Kanbas/Courses/${assignment.course}/Assignments`);
-    } catch (error) {
-      console.error("Error saving assignment:", error);
+    }
+  }, [aid, assignments, navigate, cid]);
+
+  const handleUpdate = () => {
+    if (assignment) {
+      dispatch(
+        updateAssignment({
+          ...assignment,
+          name: assignment.name,
+          description: assignment.description,
+          points: assignment.points,
+          group: assignment.group,
+          displayGradeAs: assignment.displayGradeAs || '',
+          submissionTypes: assignment.submissionTypes || [],
+          assignTo: assignment.assignTo || '',
+          dueDate: assignment.dueDate,
+          availableFrom: assignment.availableFrom || '',
+          availableUntil: assignment.availableUntil || ''
+        })
+      );
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
     }
   };
 
+  const handleDelete = () => {
+    if (assignment) {
+      dispatch(deleteAssignment(assignment._id));
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    }
+  };
 
+  if (!assignment) return <div>Loading...</div>;
 
-
+  const submissionTypes = assignment.submissionTypes || [];
 
   return (
     <div id="wd-assignments-editor" className="container mt-4">
+      <h3>Edit Assignment</h3>
+      
       {/* Assignment Name and Description */}
       <label htmlFor="wd-name">Assignment Name</label>
       <br />
@@ -123,9 +87,7 @@ export default function AssignmentEditor() {
         onChange={(e) =>
           setAssignment({ ...assignment, description: e.target.value })
         }
-      >
-        {assignment.description}
-      </textarea>
+      />
       <br />
 
       {/* Table for Points, Group, Display Grade As */}
@@ -139,6 +101,7 @@ export default function AssignmentEditor() {
               <input
                 id="wd-points"
                 className="form-control"
+                type="number"
                 value={assignment.points}
                 onChange={(e) =>
                   setAssignment({
@@ -199,44 +162,40 @@ export default function AssignmentEditor() {
         </div>
         <div className="col-md-8">
           <div className="border border-success rounded p-3 mb-4">
-            <select id="wd-submission-type" className="form-select mb-3">
+            <select
+              id="wd-submission-type"
+              className="form-select mb-3"
+              value={submissionTypes.join(', ')}
+              onChange={(e) =>
+                setAssignment({
+                  ...assignment,
+                  submissionTypes: e.target.value.split(', ').filter(type => type.trim() !== ''),
+                })
+              }
+            >
               <option value="ONLINE">Online</option>
             </select>
             <div className="checkbox-group mb-3">
-              <input
-                type="checkbox"
-                name="check-entry-type"
-                id="wd-text-entry"
-              />
-              <label htmlFor="wd-text-entry"> Text Entry</label>
-              <br />
-              <input
-                type="checkbox"
-                name="check-entry-type"
-                id="wd-website-url"
-              />
-              <label htmlFor="wd-website-url"> Website URL</label>
-              <br />
-              <input
-                type="checkbox"
-                name="check-entry-type"
-                id="wd-media-recordings"
-              />
-              <label htmlFor="wd-media-recordings"> Media Recordings</label>
-              <br />
-              <input
-                type="checkbox"
-                name="check-entry-type"
-                id="wd-student-annotation"
-              />
-              <label htmlFor="wd-student-annotation"> Student Annotation</label>
-              <br />
-              <input
-                type="checkbox"
-                name="check-entry-type"
-                id="wd-file-upload"
-              />
-              <label htmlFor="wd-file-upload"> File Uploads</label>
+              {["Text Entry", "Website URL", "Media Recordings", "Student Annotation", "File Uploads"].map((type) => (
+                <div key={type} className="form-check">
+                  <input
+                    type="checkbox"
+                    id={`wd-${type.replace(/\s+/g, '-').toLowerCase()}`}
+                    checked={submissionTypes.includes(type)}
+                    onChange={() =>
+                      setAssignment({
+                        ...assignment,
+                        submissionTypes: submissionTypes.includes(type)
+                          ? submissionTypes.filter(t => t !== type)
+                          : [...submissionTypes, type],
+                      })
+                    }
+                  />
+                  <label htmlFor={`wd-${type.replace(/\s+/g, '-').toLowerCase()}`}>
+                    {type}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -306,14 +265,14 @@ export default function AssignmentEditor() {
 
       <hr />
       <Link
-        to={`/Kanbas/Courses/${assignment.course}/Assignments`}
+        to={`/Kanbas/Courses/${cid}/Assignments`}
         className="btn btn-secondary me-2"
       >
         Cancel
       </Link>
       <button
-        onClick={handleSave}
         className="btn btn-primary"
+        onClick={handleUpdate}
       >
         Save
       </button>

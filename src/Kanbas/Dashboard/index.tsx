@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import * as db from "../Database";
 
-export default function Dashboard(
-  { courses, course, setCourse, addNewCourse,
-  deleteCourse, updateCourse }: {
-  courses: any[]; course: any; setCourse: (course: any) => void;
-  addNewCourse: () => void; deleteCourse: (course: any) => void;
-  updateCourse: () => void; })
-  {
-    const defaultImage = "./images/default.jpg";
+export default function Dashboard({
+  courses,
+  course,
+  setCourse,
+  addNewCourse,
+  deleteCourse,
+  updateCourse,
+}: {
+  courses: any[];
+  course: any;
+  setCourse: (course: any) => void;
+  addNewCourse: () => void;
+  deleteCourse: (course: any) => void;
+  updateCourse: () => void;
+}) {
+  const defaultImage = "./images/default.jpg";
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -23,11 +30,13 @@ export default function Dashboard(
           {" "}
           Add{" "}
         </button>
-        <button className="btn btn-warning float-end me-2"
-onClick={updateCourse} id="wd-update-course-click">
-Update
-</button>
-
+        <button
+          className="btn btn-warning float-end me-2"
+          onClick={updateCourse}
+          id="wd-update-course-click"
+        >
+          Update
+        </button>
       </h5>
       <br />
       <input
@@ -48,7 +57,11 @@ Update
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {courses.map((course) => (
-            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+            <div
+              key={course._id}
+              className="wd-dashboard-course col"
+              style={{ width: "300px" }}
+            >
               <Link
                 to={`/Kanbas/Courses/${course._id}/Home`}
                 className="text-decoration-none"
@@ -96,15 +109,15 @@ Update
                       Delete
                     </button>
                     <button
-          id="wd-edit-course-click"
-          onClick={(event) => {
-            event.preventDefault();
-            setCourse(course);
-          }}
-          className="btn btn-warning me-2 float-end"
-        >
-          Edit
-        </button>
+                      id="wd-edit-course-click"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setCourse(course);
+                      }}
+                      className="btn btn-warning me-2 float-end"
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
               </Link>

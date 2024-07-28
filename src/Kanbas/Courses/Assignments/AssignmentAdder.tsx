@@ -42,7 +42,9 @@ export default function AssignmentAdder({
           </div>
           <div className="modal-body">
             <div className="mb-3">
-              <label htmlFor="assignment-name" className="form-label">Name</label>
+              <label htmlFor="assignment-name" className="form-label">
+                Name
+              </label>
               <input
                 className="form-control"
                 id="assignment-name"
@@ -52,7 +54,9 @@ export default function AssignmentAdder({
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="assignment-description" className="form-label">Description</label>
+              <label htmlFor="assignment-description" className="form-label">
+                Description
+              </label>
               <textarea
                 className="form-control"
                 id="assignment-description"
@@ -63,7 +67,9 @@ export default function AssignmentAdder({
               ></textarea>
             </div>
             <div className="mb-3">
-              <label htmlFor="assignment-points" className="form-label">Points</label>
+              <label htmlFor="assignment-points" className="form-label">
+                Points
+              </label>
               <input
                 type="number"
                 className="form-control"
@@ -74,7 +80,9 @@ export default function AssignmentAdder({
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="assignment-due-date" className="form-label">Due Date</label>
+              <label htmlFor="assignment-due-date" className="form-label">
+                Due Date
+              </label>
               <input
                 type="date"
                 className="form-control"

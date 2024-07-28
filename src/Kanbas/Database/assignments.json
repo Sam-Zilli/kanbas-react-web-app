@@ -1,7 +1,7 @@
 [
   {
     "_id": "A101",
-    "title": "Propulsion Assignment",
+    "name": "Propulsion Assignment",
     "description": "Design a propulsion system for a spacecraft.",
     "points": 100,
     "group": "ASSIGNMENTS",
@@ -18,7 +18,7 @@
   },
   {
     "_id": "A102",
-    "title": "Combustion Analysis",
+    "name": "Combustion Analysis",
     "description": "Perform analysis on combustion processes in aerospace applications.",
     "points": 80,
     "group": "ASSIGNMENTS",
@@ -35,7 +35,7 @@
   },
   {
     "_id": "A103",
-    "title": "Nozzle Design Project",
+    "name": "Nozzle Design Project",
     "description": "Design and simulate a nozzle for efficient fluid flow.",
     "points": 120,
     "group": "ASSIGNMENTS",
@@ -52,7 +52,7 @@
   },
   {
     "_id": "A201",
-    "title": "Aerodynamics Quiz",
+    "name": "Aerodynamics Quiz",
     "description": "Quiz covering fundamentals of aerodynamics.",
     "points": 50,
     "group": "QUIZZES",
@@ -68,7 +68,7 @@
   },
   {
     "_id": "A202",
-    "title": "Flow Analysis",
+    "name": "Flow Analysis",
     "description": "Analysis of fluid flow in aerospace systems.",
     "points": 90,
     "group": "ASSIGNMENTS",
@@ -85,7 +85,7 @@
   },
   {
     "_id": "A203",
-    "title": "Heating Analysis",
+    "name": "Heating Analysis",
     "description": "Analysis of heat transfer in aerospace structures.",
     "points": 75,
     "group": "ASSIGNMENTS",
@@ -102,7 +102,7 @@
   },
   {
     "_id": "A301",
-    "title": "Structural Design Task",
+    "name": "Structural Design Task",
     "description": "Design a structure for aerospace applications.",
     "points": 110,
     "group": "PROJECTS",
@@ -119,7 +119,7 @@
   },
   {
     "_id": "A302",
-    "title": "Orbital Calculations",
+    "name": "Orbital Calculations",
     "description": "Perform calculations for orbital mechanics.",
     "points": 85,
     "group": "EXAMS",
@@ -135,7 +135,7 @@
   },
   {
     "_id": "A303",
-    "title": "Systems Engineering Exam",
+    "name": "Systems Engineering Exam",
     "description": "Exam covering systems engineering principles.",
     "points": 100,
     "group": "EXAMS",

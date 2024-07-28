@@ -87,7 +87,7 @@ export default function Grades() {
             <tr>
               <th>Student Name</th>
               {filteredAssignments.map((assignment) => (
-                <th key={assignment._id}>{assignment.title}</th>
+                <th key={assignment._id}>{assignment.name}</th>
               ))}
             </tr>
           </thead>

@@ -8,7 +8,7 @@ export default function AssignmentsControls({
   addModule,
 }: {
   moduleName: string;
-  setModuleName: (title: string) => void;
+  setModuleName: (name: string) => void;
   addModule: () => void;
 }) {
   return (

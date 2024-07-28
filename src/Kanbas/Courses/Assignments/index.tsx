@@ -2,7 +2,6 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsGripVertical } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
-import * as db from "../../Database";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 import { LuNewspaper } from "react-icons/lu";
 import "./index.css";
@@ -60,7 +59,9 @@ export default function Assignments() {
 
       {/* Assignment List */}
       <ul id="wd-assignment-list" className="list-group">
-        {assignments.map((assignment) => (
+      {assignments
+          .filter((assignment: any) => assignment.course === cid)
+          .map((assignment: any) => (
           <li
             key={assignment._id}
             className="wd-assignment-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white assignment-card"
@@ -75,7 +76,7 @@ export default function Assignments() {
                     to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                     className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
                   >
-                    {assignment.title}
+                    {assignment.name}
                   </Link>
                   <div className="text-muted">
                     <span className="text-danger">Multiple Modules</span> |{" "}

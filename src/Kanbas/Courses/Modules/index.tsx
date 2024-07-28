@@ -61,11 +61,13 @@ export default function Modules() {
                     value={module.name}
                   />
                 )}
+                <div className="ms-auto">
                 <ModuleControlButtons
                   moduleId={module._id}
                   deleteModule={() => dispatch(deleteModule(module._id))}
                   editModule={() => dispatch(editModule(module._id))}
                 />
+                </div>
               </div>
             </li>
           ))}

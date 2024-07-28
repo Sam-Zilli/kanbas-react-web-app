@@ -10,6 +10,8 @@ const modulesSlice = createSlice({
   initialState,
   reducers: {
     addModule: (state, { payload: module }) => {
+      console.log("In reducer, add Module: ", module.name)
+      console.log("In reducer, add Module: ", module.course)
       const newModule: any = {
         _id: new Date().getTime().toString(),
         lessons: [],
@@ -36,5 +38,5 @@ const modulesSlice = createSlice({
 
 export const { addModule, deleteModule, updateModule, editModule } =
   modulesSlice.actions;
-  
+
 export default modulesSlice.reducer;

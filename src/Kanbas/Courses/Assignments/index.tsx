@@ -1,108 +1,104 @@
-import GreenCheckmark from "../Modules/GreenCheckmark";
-import { BsGripVertical } from "react-icons/bs";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { Link, useParams } from "react-router-dom";
-import { PiDotsSixVerticalFill } from "react-icons/pi";
-import { LuNewspaper } from "react-icons/lu";
-import "./index.css";
 import { useState } from "react";
-import {
-  addAssignment,
-  editAssignment,
-  updateAssignment,
-  deleteAssignment,
-} from "./reducer";
-import { useSelector, useDispatch } from "react-redux";
 import AssignmentsControls from "./AssignmentsControls";
+import AssignmentControlButtons from "./AssignmentControlButtons";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, editAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import { useParams } from "react-router-dom";
+import { PiDotsSixVerticalFill } from "react-icons/pi";
+
+import "./index.css";
 
 export default function Assignments() {
   const { cid } = useParams();
+  
+  // State variables for assignment details
   const [assignmentName, setAssignmentName] = useState("");
-  const assignments = useSelector(
-    (state: any) => state.assignmentsReducer.assignments
-  );
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(0);
+  const [dueDate, setDueDate] = useState("");
+
+  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
   const dispatch = useDispatch();
+
+  console.log("-------------------------");
+  console.log("All Assignments:", assignments);
+
+  // Handler for adding an assignment
+  const handleAddAssignment = () => {
+    dispatch(addAssignment({ 
+      name: assignmentName, 
+      description, 
+      points, 
+      dueDate, 
+      course: cid 
+    }));
+    // Reset fields
+    setAssignmentName("");
+    setDescription("");
+    setPoints(0);
+    setDueDate("");
+  };
 
   return (
     <div id="wd-assignments" className="container mt-4">
-      {/* Making all the buttons be in one row */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        {/* Search */}
-        <div className="position-relative w-50">
-          <input
-            id="wd-search-assignment"
-            className="form-control ps-5"
-            placeholder="Search for Assignments"
-          />
-          <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
-        </div>
+      <AssignmentsControls
+        assignmentName={assignmentName}
+        setAssignmentName={setAssignmentName}
+        description={description}
+        setDescription={setDescription}
+        points={points}
+        setPoints={setPoints}
+        dueDate={dueDate}
+        setDueDate={setDueDate}
+        addAssignment={handleAddAssignment}
+      />
 
-
-
-            {/* NEW WAY OF DOING Group, + Assignment Buttons */}
-          <AssignmentsControls
-            assignmentName={assignmentName}
-            setAssignmentName={setAssignmentName}
-            addAssignment={() => {
-              dispatch(addAssignment({ name: assignmentName, course: cid }));
-              setAssignmentName("");
-            }}
-          />
-
-
-      </div>
-
-      {/* Assignmnets Header with Oval-shaped Pill thing */}
+      {/* The Header thing that says Assignments */}
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
           <h3 id="wd-assignments-title" className="mb-0">
-            ASSIGNMENTS
+            Assignments
           </h3>
-
-          {/* Pill Thing */}
-          <div className="pill bg-secondary text-white px-3 py-1 rounded-pill">
-            40% of Total
-          </div>
-          <button className="btn btn-outline-secondary">+</button>
         </div>
       </div>
 
-      {/* Assignment List */}
-      <ul id="wd-assignment-list" className="list-group">
+      {/* List of assignments */}
+      <ul id="wd-assignments-list" className="list-group">
         {assignments
           .filter((assignment: any) => assignment.course === cid)
           .map((assignment: any) => (
             <li
               key={assignment._id}
-              className="wd-assignment-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white assignment-card"
+              className="wd-assignments-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-white d-flex justify-content-between align-items-center"
             >
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center flex-grow-1 text-black">
                 <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
-                <LuNewspaper className="me-3 fs-4 text-success" />
-                <div className="d-flex flex-grow-1 align-items-center me-3">
-                  <BsGripVertical className="me-3 fs-4" />
-                  <div className="flex-grow-1">
-                    <Link
-                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                      className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
-                    >
-                      {assignment.name}
-                    </Link>
-                    <div className="text-muted">
-                      <span className="text-danger">Multiple Modules</span> |{" "}
-                      {/* <strong>Not available until</strong>{" "}
-                    {assignment.availableOn} at {assignment.timeDue} | */}
-                      <strong>Not available until</strong> 12/1/2024 at 00:00AM
-                      |
-                      <br />
-                      {/* <strong>Due</strong> {assignment.dueDate} at{" "}
-                    {assignment.timeDue} | {assignment.points} pts */}
-                      <strong>Due</strong> 12/2/2024 at 00:00AM
-                    </div>
-                  </div>
+                {!assignment.editing && assignment.name}
+                {assignment.editing && (
+                  <input
+                    className="form-control w-50 d-inline-block text-dark assignments-name-text d-block mb-2"
+                    onChange={(e) =>
+                      dispatch(
+                        updateAssignment({ ...assignment, name: e.target.value })
+                      )
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch(updateAssignment({ ...assignment, editing: false }));
+                      }
+                    }}
+                    value={assignment.name}
+                  />
+                )}
+
+                {/* Each assignment's control buttons */}
+                <div className="ms-auto">
+                  <AssignmentControlButtons
+                    assignmentId={assignment._id}
+                    deleteAssignment={() => dispatch(deleteAssignment(assignment._id))}
+                    editAssignment={() => dispatch(editAssignment(assignment._id))}
+                  />
                 </div>
-                {/* Adding margin to the GreenCheckmark */}
-                <GreenCheckmark className="ms-3" />
               </div>
             </li>
           ))}

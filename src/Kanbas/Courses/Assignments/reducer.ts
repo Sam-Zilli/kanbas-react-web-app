@@ -4,16 +4,26 @@ import { assignments } from "../../Database";
 const initialState = {
   assignments: assignments,
 };
+
 const assignmentsSlice = createSlice({
   name: "assignments",
   initialState,
   reducers: {
     addAssignment: (state, { payload: assignment }) => {
+      console.log("In reducer, add Assignment: ", assignment.name)
+      console.log(assignment.course)
+      // console.log("In reducer, add Assignment: ", assignment.description)
+      // console.log("In reducer, add Assignment: ", assignment.points)
+      // console.log("In reducer, add Assignment: ", assignment.group)
+      // console.log("In reducer, add Assignment: ", assignment.dueDate)
       const newAssignment: any = {
         _id: new Date().getTime().toString(),
-        lessons: [],
         name: assignment.name,
-        course: assignment.course,
+        description: assignment.description,
+        points: assignment.points,
+        group: assignment.group, 
+        dueDate: assignment.dueDate,
+        course: assignment.course
       };
       state.assignments = [...state.assignments, newAssignment] as any;
     },
@@ -34,4 +44,5 @@ const assignmentsSlice = createSlice({
 });
 export const { addAssignment, deleteAssignment, updateAssignment, editAssignment } =
   assignmentsSlice.actions;
+
 export default assignmentsSlice.reducer;

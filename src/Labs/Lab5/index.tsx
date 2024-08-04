@@ -1,4 +1,5 @@
 import EnvironmentVariables from "./EnvironmentVariables";
+import PathParameters from "./PathParameters";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
 export default function Lab5() {
@@ -10,9 +11,7 @@ export default function Lab5() {
           Welcome
         </a>
 
-        <a href={`${REMOTE_SERVER}/lab5/add/5/10`} className="list-group-item">
-          Add 5 + 10
-        </a>
+        <PathParameters />
 
       </div><hr />
       <EnvironmentVariables />

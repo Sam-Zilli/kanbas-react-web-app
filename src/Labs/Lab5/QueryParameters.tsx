@@ -33,10 +33,6 @@ export default function QueryParameters() {
      href={`${REMOTE_SERVER}/lab5/calculator?operation=divide&a=${a}&b=${b}`}>
     Divide {a} / {b}
   </a>
-  
-  
-  
-  
   <hr />
 </div>
     )

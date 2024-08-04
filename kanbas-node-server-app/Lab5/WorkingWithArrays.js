@@ -5,12 +5,21 @@ let todos = [
   { id: 4, title: "Task 4", completed: true },
 ];
 export default function WorkingWithArrays(app) {
+  app.get("/lab5/todos/create", (req, res) => {
+    const newTodo = {
+      id: new Date().getTime(),
+      title: "New Task",
+      completed: false,
+    };
+    todos.push(newTodo);
+    res.json(todos);
+  });
+
   app.get("/lab5/todos", (req, res) => {
     const { completed } = req.query;
     if (completed !== undefined) {
       const completedBool = completed === "true";
-      const completedTodos = todos.filter(
-        (t) => t.completed === completedBool);
+      const completedTodos = todos.filter((t) => t.completed === completedBool);
       res.json(completedTodos);
       return;
     }

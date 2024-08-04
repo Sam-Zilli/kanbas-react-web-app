@@ -16,6 +16,12 @@ export default function WorkingWithArrays() {
       <a id="wd-retrieve-todo-by-id" className="btn btn-primary float-end" href={`${API}/${todo.id}`}>
         Get Todo by ID
       </a>
+      <h3>Filtering Array Items</h3>
+  <a id="wd-retrieve-completed-todos" className="btn btn-primary"
+     href={`${API}?completed=true`}>
+    Get Completed Todos
+  </a><hr/>
+
       <input id="wd-todo-id" value={todo.id} className="form-control w-50"
         onChange={(e) => setTodo({ ...todo, id: e.target.value })} />
       <hr />

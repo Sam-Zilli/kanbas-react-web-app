@@ -1,4 +1,5 @@
 import EnvironmentVariables from "./EnvironmentVariables";
+import HttpClient from "./HttpClient";
 import PathParameters from "./PathParameters";
 import WorkingWithArrays from "./WorkingWithArrays";
 import WorkingWithObjects from "./WorkingWithObjects";
@@ -17,6 +18,7 @@ export default function Lab5() {
         <PathParameters />
         <WorkingWithObjects />
         <WorkingWithArrays />
+        <HttpClient />
 
       </div><hr />
       <EnvironmentVariables />

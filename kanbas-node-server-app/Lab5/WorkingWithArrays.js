@@ -38,4 +38,11 @@ export default function WorkingWithArrays(app) {
     todos.splice(todoIndex, 1);
     res.json(todos);
   });
+  app.get("/lab5/todos/:id/title/:title", (req, res) => {
+    const { id, title } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.title = title;
+    res.json(todos);
+  });
+
 }

@@ -4,7 +4,14 @@ const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
 export default function WorkingWithArrays() {
   const API = `${REMOTE_SERVER}/lab5/todos`;
-  const [todo, setTodo] = useState({ id: "1" });
+  const [todo, setTodo] = useState({
+    id: "1",
+    title: "NodeJS Assignment",
+    description: "Create a NodeJS server with ExpressJS",
+    due: "2021-09-09",
+    completed: false,
+  });
+
 
   return (
     <div id="wd-working-with-arrays">
@@ -49,6 +56,15 @@ export default function WorkingWithArrays() {
         Create Todo
       </a>
       <hr />
+
+      <h3>Updating an Item in an Array</h3>
+      <a href={`${API}/${todo.id}/title/${todo.title}`} className="btn btn-primary float-end">
+        Update Todo</a>
+      <input value={todo.id} className="form-control w-25 float-start me-2"
+        onChange={(e) => setTodo({ ...todo, id: e.target.value })}/>
+      <input value={todo.title} className="form-control w-50 float-start"
+             onChange={(e) => setTodo({ ...todo, title: e.target.value }) }/>
+      <br /><br /><hr />
 
       <h3>Deleting from an Array</h3>
       <a

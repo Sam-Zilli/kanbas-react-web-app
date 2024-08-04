@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
 export default function WorkingWithObjects() {
-
   const [assignment, setAssignment] = useState({
     id: 1,
     title: "NodeJS Assignment",
@@ -25,9 +24,9 @@ export default function WorkingWithObjects() {
 
   return (
     <div>
-      <h3 id="wd-working-with-objects">Working With Objects</h3>
+      <h3 id="wd-working-with-objects"> Working With Objects</h3>
 
-
+      {/* Assignment - changing title */}
       <h4>Modifying Assignment Properties</h4>
       <a
         id="wd-update-assignment-title"
@@ -48,6 +47,59 @@ export default function WorkingWithObjects() {
 
 
 
+
+
+
+
+
+      {/* Assignment - changing score */}
+      <h4>Modifying Assignment Score</h4>
+      <a
+        id="wd-update-assignment-score"
+        className="btn btn-primary float-end"
+        href={`${ASSIGNMENT_API_URL}/score/${assignment.score}`}
+      >
+        Update Score
+      </a>
+      <input
+        className="form-control w-75"
+        id="wd-assignment-score"
+        value={assignment.score}
+        onChange={(e) =>
+          setAssignment({ ...assignment, score: Number(e.target.value) })
+        }
+      />
+      <hr />
+
+
+
+        {/* Assignment - Changing Completion Status */}
+      <h4>Modifying Assignment Completed Status</h4>
+      <a
+        id="wd-update-assignment-completed"
+        className="btn btn-primary float-end"
+        href={`${ASSIGNMENT_API_URL}/completed/${assignment.completed}`}
+      >
+        Update Completed Status
+      </a>
+      <input
+        type="checkbox"
+        id="wd-assignment-completed"
+        checked={assignment.completed}
+        onChange={(e) =>
+          setAssignment({ ...assignment, completed: e.target.checked })
+        }
+      />
+      <label htmlFor="wd-assignment-completed">Completed</label>
+      <hr />
+
+
+
+
+
+
+
+      {/* Assignment - Get Assignment */}
       <h4>Retrieving Assignments</h4>
       <a
         id="wd-retrieve-assignments"
@@ -67,6 +119,7 @@ export default function WorkingWithObjects() {
       </a>
       <hr />
 
+      {/* Module - Get Module */}
 
       <h4>Retrieving Modules</h4>
       <a
@@ -77,6 +130,8 @@ export default function WorkingWithObjects() {
         Get Module
       </a>
       <hr />
+
+      {/* Module - Get Name */}
       <h4>Retrieving Module Properties</h4>
       <a
         id="wd-retrieve-module-name"
@@ -86,7 +141,7 @@ export default function WorkingWithObjects() {
         Get Module Name
       </a>
 
-
+      {/* Module - Edit Name */}
       <h4>Modifying Module Properties</h4>
       <a
         id="wd-update-module-name"
@@ -99,12 +154,9 @@ export default function WorkingWithObjects() {
         className="form-control w-75"
         id="wd-module-name"
         value={module.name}
-        onChange={(e) =>
-          setModule({ ...module, name: e.target.value })
-        }
+        onChange={(e) => setModule({ ...module, name: e.target.value })}
       />
       <hr />
-
     </div>
   );
 }

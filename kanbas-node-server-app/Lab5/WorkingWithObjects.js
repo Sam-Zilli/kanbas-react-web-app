@@ -24,6 +24,17 @@ const module = {
         assignment.title = newTitle;
         res.json(assignment);
       });
+      app.get("/lab5/assignment/score/:newScore", (req, res) => {
+        const { newScore } = req.params;
+        assignment.score = newScore;
+        res.json(assignment);
+      })
+
+      app.get("/lab5/assignment/completed/:newStatus", (req, res) => {
+        const { newStatus } = req.params;
+        assignment.completed = newStatus;
+        res.json(assignment);
+      })
 
       // Module 
       app.get("/lab5/module/name", (req, res) => {

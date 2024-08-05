@@ -41,7 +41,8 @@ export default function Kanbas() {
   };
 
   
-  const updateCourse = () => {
+  const updateCourse = async () => {
+    await client.updateCourse(course);
     setCourses(
       courses.map((c) => {
         if (c._id === course._id) {

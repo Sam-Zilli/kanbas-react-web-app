@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Assignment } from "../../types";
+import { getFormSubmissionInfo } from "react-router-dom/dist/dom";
 
 interface AssignmentsState {
   assignments: Assignment[];
@@ -17,14 +18,35 @@ const assignmentsSlice = createSlice({
       state.assignments = action.payload;
     },
 
-    addAssignment: (state, { payload: assignment}) => {
-      console.log("In reducer, add Assignment! ", assignment.name)
-      const newAssignment: any = {
+    addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
+
+      console.log("Payload received in addAssignment:", action.payload);
+
+      // Create a new assignment with default values
+      const newAssignment: Assignment = {
         _id: new Date().getTime().toString(), // TEMPORARY local ID
-        name: assignment.name,
-        course: assignment.course
+        name: action.payload.name || "Untitled", // Default to "Untitled" if not provided
+        description: action.payload.description || "No description provided", // Default description
+        points: action.payload.points || 0, // Default to 0 if not provided
+        dueDate: action.payload.dueDate || "", // Default to an empty string if not provided
+        course: action.payload.course || "", // Default to an empty string if not provided
+        group: action.payload.group || "", // Default to an empty string if not provided
+        displayGradeAs: action.payload.displayGradeAs || "", // Default to an empty string if not provided
+        submissionTypes: action.payload.submissionTypes || [], // Default to an empty array if not provided
+        assignTo: action.payload.assignTo || "", // Default to an empty string if not provided
+        availableFrom: action.payload.availableFrom || "", // Default to an empty string if not provided
+        availableUntil: action.payload.availableUntil || "", // Default to an empty string if not provided
+        editing: action.payload.editing ?? false, // Default to false if not provided
       };
-      state.assignments = [...state.assignments, newAssignment] as any;
+
+      console.log("Creating new assignment:", newAssignment);
+
+      console.log("State before adding new assignment:", state.assignments);
+
+      // Add the new assignment to the state
+      state.assignments = [...state.assignments, newAssignment];
+
+      console.log("State after adding new assignment:", state.assignments);
     },
 
     deleteAssignment: (state, action: PayloadAction<string>) => {

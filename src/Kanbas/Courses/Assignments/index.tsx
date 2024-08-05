@@ -92,7 +92,7 @@ const handleAddAssignment = async () => {
 
     // Call the API to create the assignment
     const createdAssignment = await client.createAssignment(newAssignment);
-    
+
     console.log("API response (createdAssignment):", createdAssignment);
 
     // Dispatch action to add the assignment to the Redux store

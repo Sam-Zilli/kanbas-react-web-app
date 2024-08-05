@@ -36,6 +36,13 @@ export default function Modules() {
   }, []);
 
 
+  const saveModule = async (module: any) => {
+    const status = await client.updateModule(module);
+    dispatch(updateModule(module));
+  };
+
+
+
   return (
     <div id="wd-modules" className="container mt-4">
 
@@ -75,21 +82,20 @@ export default function Modules() {
               <div className="d-flex align-items-center flex-grow-1 text-black">
                 <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
                 {!module.editing && module.name}
+                
+
+
+
+
+                
                 {module.editing && (
-                  <input
-                    className="form-control w-50 d-inline-block text-dark modules-name-text d-block mb-2"
-                    onChange={(e) =>
-                      dispatch(
-                        updateModule({ ...module, name: e.target.value })
-                      )
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        dispatch(updateModule({ ...module, editing: false }));
-                      }
-                    }}
-                    value={module.name}
-                  />
+        <input className="form-control w-50 d-inline-block" value={module.name}
+        onChange={(e) => saveModule({ ...module, name: e.target.value }) }
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            saveModule({ ...module, editing: false });
+          }
+        }} />
                 )}
 
 

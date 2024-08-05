@@ -26,4 +26,17 @@ export default function ModuleRoutes(app) {
     res.json(modules);
   });
 
+
+  app.put("/api/modules/:mid", (req, res) => {
+    const { mid } = req.params;
+    const moduleIndex = db.modules.findIndex(
+      (m) => m._id === mid);
+    db.modules[moduleIndex] = {
+      ...db.modules[moduleIndex],
+      ...req.body
+    };
+    res.sendStatus(204);
+  });
+
+
 }

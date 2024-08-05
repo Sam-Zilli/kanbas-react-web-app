@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { TiDelete } from "react-icons/ti";
 import * as client from "./client";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
 export default function WorkingWithArraysAsynchronously() {
@@ -15,8 +16,19 @@ export default function WorkingWithArraysAsynchronously() {
     const todos = await client.createTodo();
     setTodos(todos);
   };
+  const deleteTodo = async (todo: any) => {
+    await client.deleteTodo(todo);
+    const newTodos = todos.filter((t) => t.id !== todo.id);
+    setTodos(newTodos);
+  };
 
-  
+  const postTodo = async () => {
+    const newTodo = await client.postTodo({
+      title: "New Posted Todo",
+      completed: false,
+    });
+    setTodos([...todos, newTodo]);
+  };
 
   useEffect(() => {
     fetchTodos();
@@ -24,14 +36,33 @@ export default function WorkingWithArraysAsynchronously() {
   return (
     <div id="wd-asynchronous-arrays">
       <h3>Working with Arrays Asynchronously</h3>
-      <h4> Todos
-           <FaPlusCircle onClick={createTodo} className="text-success float-end fs-3"
-                         id="wd-create-todo" /> </h4>
+      <h4>
+        {" "}
+        Todos
+        <FaPlusCircle
+          onClick={createTodo}
+          className="text-success float-end fs-3"
+          id="wd-create-todo"
+        />{" "}
+      </h4>
+      <FaPlusCircle
+        onClick={postTodo}
+        className="text-primary float-end fs-3 me-3"
+        id="wd-post-todo"
+      />
       <ul className="list-group">
         {todos.map((todo) => (
           <li key={todo.id} className="list-group-item">
-            <FaTrash onClick={() => removeTodo(todo)}
-                     className="text-danger float-end mt-1" id="wd-remove-todo"/>
+            <FaTrash
+              onClick={() => removeTodo(todo)}
+              className="text-danger float-end mt-1"
+              id="wd-remove-todo"
+            />
+            <TiDelete
+              onClick={() => deleteTodo(todo)}
+              className="text-danger float-end me-2 fs-3"
+              id="wd-delete-todo"
+            />
             <input
               type="checkbox"
               className="form-check-input me-2"

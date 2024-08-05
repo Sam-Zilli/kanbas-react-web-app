@@ -21,7 +21,7 @@ const assignmentsSlice = createSlice({
       // Create a new assignment with a unique _id
       const newAssignment: Assignment = {
         _id: new Date().getTime().toString(), 
-        ...action.payload, // Payload should not include _id
+        ...action.payload, 
       };
       state.assignments.push(newAssignment);
     },

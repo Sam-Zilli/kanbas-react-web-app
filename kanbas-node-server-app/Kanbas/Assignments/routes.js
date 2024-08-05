@@ -1,10 +1,29 @@
 import Database from "../Database/index.js";
-import { v4 as uuidv4 } from 'uuid'; // Ensure you install the 'uuid' package
 
 export default function AssignmentRoutes(app) {
+
+  // Delete an assignment
+  app.delete('/api/assignments/:id', (req, res) => {
+    const { id } = req.params;
+    const index = Database.assignments.findIndex(a => a._id === id);
+
+    if (index !== -1) {
+      Database.assignments.splice(index, 1);
+      res.sendStatus(204);
+    } else {
+      res.status(404).send('Assignment not found');
+    }
+  });
+
+
+
+
   // Create an assignment
-  app.post('/api/assignments', (req, res) => {
-    const newAssignment = { _id: uuidv4(), ...req.body }; // Generate a unique ID
+  app.post('/api/courses/:cid/assignments', (req, res) => {
+    const newAssignment = {...req.body,
+    course: cid,
+    _id: new Date().getTime().toString(),
+  };
     Database.assignments.push(newAssignment);
     res.status(201).send(newAssignment);
   });
@@ -38,16 +57,5 @@ export default function AssignmentRoutes(app) {
     }
   });
 
-  // Delete an assignment
-  app.delete('/api/assignments/:id', (req, res) => {
-    const { id } = req.params;
-    const index = Database.assignments.findIndex(a => a._id === id);
 
-    if (index !== -1) {
-      Database.assignments.splice(index, 1);
-      res.sendStatus(204);
-    } else {
-      res.status(404).send('Assignment not found');
-    }
-  });
 }

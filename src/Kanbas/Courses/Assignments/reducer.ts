@@ -18,27 +18,27 @@ const assignmentsSlice = createSlice({
     },
 
     addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
-      // Create a new assignment with a unique _id
+      // Create a new assignment with a temporary local ID
       const newAssignment: Assignment = {
-        _id: new Date().getTime().toString(), 
-        ...action.payload, 
+        _id: new Date().getTime().toString(), // Temporary ID for local use
+        ...action.payload,
       };
       state.assignments.push(newAssignment);
     },
 
     deleteAssignment: (state, action: PayloadAction<string>) => {
-      state.assignments = state.assignments.filter((assignment) => assignment._id !== action.payload);
+      state.assignments = state.assignments.filter((a) => a._id !== action.payload);
     },
 
     updateAssignment: (state, action: PayloadAction<Assignment>) => {
-      state.assignments = state.assignments.map((assignment) =>
-        assignment._id === action.payload._id ? action.payload : assignment
+      state.assignments = state.assignments.map((a) =>
+        a._id === action.payload._id ? action.payload : a
       );
     },
 
     editAssignment: (state, action: PayloadAction<string>) => {
-      state.assignments = state.assignments.map((assignment) =>
-        assignment._id === action.payload ? { ...assignment, editing: true } : assignment
+      state.assignments = state.assignments.map((a) =>
+        a._id === action.payload ? { ...a, editing: true } : a
       );
     },
   },
@@ -46,3 +46,54 @@ const assignmentsSlice = createSlice({
 
 export const { addAssignment, deleteAssignment, updateAssignment, editAssignment, setAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
+
+
+
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { Assignment } from "../../types";
+
+// interface AssignmentsState {
+//   assignments: Assignment[];
+// }
+
+// const initialState: AssignmentsState = {
+//   assignments: [],
+// };
+
+// const assignmentsSlice = createSlice({
+//   name: "assignments",
+//   initialState,
+//   reducers: {
+//     setAssignments: (state, action: PayloadAction<Assignment[]>) => {
+//       state.assignments = action.payload;
+//     },
+
+//     addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
+//       // Create a new assignment with a unique _id
+//       const newAssignment: Assignment = {
+//         _id: new Date().getTime().toString(), 
+//         ...action.payload, 
+//       };
+//       state.assignments.push(newAssignment);
+//     },
+
+//     deleteAssignment: (state, action: PayloadAction<string>) => {
+//       state.assignments = state.assignments.filter((assignment) => assignment._id !== action.payload);
+//     },
+
+//     updateAssignment: (state, action: PayloadAction<Assignment>) => {
+//       state.assignments = state.assignments.map((assignment) =>
+//         assignment._id === action.payload._id ? action.payload : assignment
+//       );
+//     },
+
+//     editAssignment: (state, action: PayloadAction<string>) => {
+//       state.assignments = state.assignments.map((assignment) =>
+//         assignment._id === action.payload ? { ...assignment, editing: true } : assignment
+//       );
+//     },
+//   },
+// });
+
+// export const { addAssignment, deleteAssignment, updateAssignment, editAssignment, setAssignments } = assignmentsSlice.actions;
+// export default assignmentsSlice.reducer;

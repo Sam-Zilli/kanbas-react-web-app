@@ -1,7 +1,7 @@
 import db from "../Database/index.js";
 
 export default function ModuleRoutes(app) {
-
+  // Delete Module
     app.delete("/api/modules/:mid", (req, res) => {
         const { mid } = req.params;
         db.modules = db.modules.filter((m) => m._id !== mid);
@@ -9,6 +9,7 @@ export default function ModuleRoutes(app) {
       });
     
 
+    // add module
   app.post("/api/courses/:cid/modules", (req, res) => {
     const { cid } = req.params;
     const newModule = {
@@ -20,6 +21,7 @@ export default function ModuleRoutes(app) {
     res.send(newModule);
   });
 
+    // retrieve module
   app.get("/api/courses/:cid/modules", (req, res) => {
     const { cid } = req.params;
     const modules = db.modules.filter((m) => m.course === cid);
@@ -27,6 +29,7 @@ export default function ModuleRoutes(app) {
   });
 
 
+  // updated module
   app.put("/api/modules/:mid", (req, res) => {
     const { mid } = req.params;
     const moduleIndex = db.modules.findIndex(

@@ -31,6 +31,11 @@ export const postTodo = async (todo: any) => {
   return response.data;
 };
 
+export const updateTodo = async (todo: any) => {
+  const response = await axios.put(`${TODOS_API}/${todo.id}`, todo);
+  return response.data;
+};
+
 
 const TODOS_API = `${REMOTE_SERVER}/lab5/todos`;
 export const fetchTodos = async () => {

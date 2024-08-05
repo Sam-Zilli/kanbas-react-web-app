@@ -8,6 +8,12 @@ import { setModules, addModule, editModule, updateModule, deleteModule } from ".
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 
 export default function Modules() {
+  const removeModule = async (moduleId: string) => {
+    await client.deleteModule(moduleId);
+    dispatch(deleteModule(moduleId));
+  };
+
+
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const modules = useSelector((state: any) => state.modulesReducer.modules);
@@ -91,7 +97,7 @@ export default function Modules() {
                 <div className="ms-auto">
                 <ModuleControlButtons
                   moduleId={module._id}
-                  deleteModule={() => dispatch(deleteModule(module._id))}
+                  deleteModule={(moduleId) => { removeModule(moduleId); }}
                   editModule={() => dispatch(editModule(module._id))}
                 />
                 </div>

@@ -13,6 +13,14 @@ export const updateTitle = async (title: string) => {
   const response = await axios.get(`${ASSIGNMENT_API}/title/${title}`);
   return response.data;
 };
+export const removeTodo = async (todo: any) => {
+  const response = await axios.get(`${TODOS_API}/${todo.id}/delete`);
+  return response.data;
+};
+export const createTodo = async () => {
+  const response = await axios.get(`${TODOS_API}/create`);
+  return response.data;
+};
 
 
 const TODOS_API = `${REMOTE_SERVER}/lab5/todos`;

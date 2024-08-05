@@ -1,7 +1,4 @@
-// src/Courses/Assignments/reducer.ts
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { assignments } from "../../Database"
 import { Assignment } from "../../types";
 
 interface AssignmentsState {
@@ -9,48 +6,43 @@ interface AssignmentsState {
 }
 
 const initialState: AssignmentsState = {
-  assignments: assignments as Assignment[], 
+  assignments: [],
 };
 
 const assignmentsSlice = createSlice({
   name: "assignments",
   initialState,
   reducers: {
-    addAssignment: (state, action: PayloadAction<Assignment>) => {
+    setAssignments: (state, action: PayloadAction<Assignment[]>) => {
+      state.assignments = action.payload;
+    },
+
+    addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
+      // Create a new assignment with a unique _id
       const newAssignment: Assignment = {
-        ...action.payload,
         _id: new Date().getTime().toString(), 
+        ...action.payload, // Payload should not include _id
       };
-      console.log(newAssignment.name)
-      console.log(newAssignment.course)
-      console.log(newAssignment.points)
       state.assignments.push(newAssignment);
     },
+
     deleteAssignment: (state, action: PayloadAction<string>) => {
-      state.assignments = state.assignments.filter(
-        (assignment) => assignment._id !== action.payload
-      );
+      state.assignments = state.assignments.filter((assignment) => assignment._id !== action.payload);
     },
+
     updateAssignment: (state, action: PayloadAction<Assignment>) => {
       state.assignments = state.assignments.map((assignment) =>
         assignment._id === action.payload._id ? action.payload : assignment
       );
     },
+
     editAssignment: (state, action: PayloadAction<string>) => {
       state.assignments = state.assignments.map((assignment) =>
-        assignment._id === action.payload
-          ? { ...assignment, editing: true }
-          : assignment
+        assignment._id === action.payload ? { ...assignment, editing: true } : assignment
       );
     },
   },
 });
 
-export const {
-  addAssignment,
-  deleteAssignment,
-  updateAssignment,
-  editAssignment,
-} = assignmentsSlice.actions;
-
+export const { addAssignment, deleteAssignment, updateAssignment, editAssignment, setAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;

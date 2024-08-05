@@ -2,29 +2,30 @@ import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
 import AssignmentAdder from "./AssignmentAdder";
 import { useState } from "react";
 
-type AssignmentsControlsProps = {
-  assignmentName: string;
-  setAssignmentName: (name: string) => void;
-  description: string;
-  setDescription: (description: string) => void;
-  points: number;
-  setPoints: (points: number) => void;
-  dueDate: string;
-  setDueDate: (dueDate: string) => void;
-  addAssignment: () => void;
-};
 
 export default function AssignmentsControls({
   assignmentName,
   setAssignmentName,
+  addAssignment,
   description,
   setDescription,
   points,
   setPoints,
   dueDate,
   setDueDate,
-  addAssignment,
-}: AssignmentsControlsProps) {
+}: {
+  assignmentName: string;
+  setAssignmentName: (name: string) => void;
+  addAssignment: () => void;
+  description: string;
+  setDescription: (description: string) => void;
+  points: number;
+  setPoints: (points: number) => void;
+  dueDate: string;
+  setDueDate: (dueDate: string) => void;
+
+}) {
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

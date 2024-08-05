@@ -5,7 +5,8 @@ import ConfirmationDialog from "./ConfirmationDialog";
 export default function AssignmentControlButtons({
   assignmentId,
   deleteAssignment,
-}: // editAssignment,
+  editAssignment
+}:
 {
   assignmentId: string;
   deleteAssignment: (assignmentId: string) => void;

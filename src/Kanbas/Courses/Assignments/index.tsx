@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
@@ -7,6 +7,7 @@ import * as client from "./client";
 import AssignmentsControls from "./AssignmentsControls";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import {
+  setAssignments,
   addAssignment,
   editAssignment,
   updateAssignment,
@@ -16,55 +17,58 @@ import {
 import "./index.css";
 
 export default function Assignments() {
+  const { mid } = useParams<{ mid?: string }>(); 
+  const moduleId = mid || "";
 
-
-
-
-
-
-
-
-
-
-
-
-  
-  const { cid } = useParams<{ cid?: string }>();
-  const courseId = cid || "";
-
-  // State variables for assignment details
   const [assignmentName, setAssignmentName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [points, setPoints] = useState<number>(0);
   const [dueDate, setDueDate] = useState<string>("");
 
-  const assignments = useSelector(
-    (state: any) => state.assignmentsReducer.assignments
-  );
+  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
   const dispatch = useDispatch();
 
-  const handleAddAssignment = () => {
-    dispatch(
-      addAssignment({
-        _id: "",
+  const fetchAssignments = async () => {
+    try {
+      const assignments = await client.findAssignmentsForModule(moduleId); 
+      dispatch(setAssignments(assignments));
+    } catch (error) {
+      console.error("Failed to fetch assignments:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (moduleId) {
+      fetchAssignments();
+    }
+  }, [moduleId]);
+
+  const handleAddAssignment = async () => {
+    try {
+      const newAssignment = {
         name: assignmentName,
         description,
         points,
         dueDate,
-        course: courseId,
+        moduleId,
         group: "",
         displayGradeAs: "",
         submissionTypes: [],
         assignTo: "",
         availableFrom: "",
         availableUntil: "",
-      })
-    );
-    // Reset fields
-    setAssignmentName("");
-    setDescription("");
-    setPoints(0);
-    setDueDate("");
+      };
+
+      const createdAssignment = await client.createAssignment(moduleId, newAssignment);
+      dispatch(addAssignment(createdAssignment));
+      // Reset fields
+      setAssignmentName("");
+      setDescription("");
+      setPoints(0);
+      setDueDate("");
+    } catch (error) {
+      console.error("Failed to add assignment:", error);
+    }
   };
 
   return (
@@ -73,13 +77,13 @@ export default function Assignments() {
         <AssignmentsControls
           assignmentName={assignmentName}
           setAssignmentName={setAssignmentName}
+          addAssignment={handleAddAssignment}
           description={description}
           setDescription={setDescription}
           points={points}
           setPoints={setPoints}
           dueDate={dueDate}
           setDueDate={setDueDate}
-          addAssignment={handleAddAssignment}
         />
       </div>
 
@@ -101,7 +105,7 @@ export default function Assignments() {
       {/* List of assignments */}
       <ul id="wd-assignments-list" className="list-group">
         {assignments
-          .filter((assignment: any) => assignment.course === courseId)
+          .filter((assignment: any) => assignment.moduleId === moduleId)
           .map((assignment: any) => (
             <li
               key={assignment._id}
@@ -112,7 +116,7 @@ export default function Assignments() {
                   <div className="d-flex align-items-center mb-2">
                     <PiDotsSixVerticalFill className="me-3 fs-4 text-black" />
                     <Link
-                      to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}
+                      to={`/Kanbas/Courses/${moduleId}/Assignments/${assignment._id}`}
                       className="wd-assignment-link text-dark text-decoration-none d-block mb-2"
                     >
                       {assignment.name}
@@ -143,7 +147,7 @@ export default function Assignments() {
                   <AssignmentControlButtons
                     assignmentId={assignment._id}
                     deleteAssignment={() =>
-                      dispatch(deleteAssignment(assignment._id))
+                      deleteAssignment(assignment._id)
                     }
                     editAssignment={() =>
                       dispatch(editAssignment(assignment._id))

@@ -1,5 +1,3 @@
-// src/Courses/Assignments/AssignmentsEditor.tsx
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,26 +28,8 @@ export default function AssignmentsEditor() {
   }, [aid, assignments, navigate, cid]);
 
   const handleUpdate = () => {
-  
     if (assignment) {
-      // console.log('Due Date:', assignment.dueDate);
-      // console.log('Available From:', assignment.availableFrom);
-      // console.log('Available Until:', assignment.availableUntil);
-      dispatch(
-        updateAssignment({
-          ...assignment,
-          name: assignment.name,
-          description: assignment.description,
-          points: assignment.points,
-          group: assignment.group,
-          displayGradeAs: assignment.displayGradeAs || '',
-          submissionTypes: assignment.submissionTypes || [],
-          assignTo: assignment.assignTo || '',
-          dueDate: assignment.dueDate,
-          availableFrom: assignment.availableFrom || '',
-          availableUntil: assignment.availableUntil || ''
-        })
-      );
+      dispatch(updateAssignment(assignment));
       navigate(`/Kanbas/Courses/${cid}/Assignments`);
     }
   };

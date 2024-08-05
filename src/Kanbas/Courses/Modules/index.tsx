@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
+import * as client from "./client";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import { setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 
 export default function Modules() {
@@ -11,6 +12,14 @@ export default function Modules() {
   const [moduleName, setModuleName] = useState("");
   const modules = useSelector((state: any) => state.modulesReducer.modules);
   const dispatch = useDispatch();
+  const fetchModules = async () => {
+    const modules = await client.findModulesForCourse(cid as string);
+    dispatch(setModules(modules));
+  };
+  useEffect(() => {
+    fetchModules();
+  }, []);
+
 
   return (
     <div id="wd-modules" className="container mt-4">

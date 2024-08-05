@@ -12,6 +12,15 @@ export default function Modules() {
   const [moduleName, setModuleName] = useState("");
   const modules = useSelector((state: any) => state.modulesReducer.modules);
   const dispatch = useDispatch();
+
+
+  const createModule = async (module: any) => {
+    const newModule = await client.createModule(cid as string, module);
+    dispatch(addModule(newModule));
+  };
+
+
+
   const fetchModules = async () => {
     const modules = await client.findModulesForCourse(cid as string);
     dispatch(setModules(modules));
@@ -30,7 +39,7 @@ export default function Modules() {
           moduleName={moduleName}
           setModuleName={setModuleName}
           addModule={() => {
-            dispatch(addModule({ name: moduleName, course: cid }));
+          createModule({ name: moduleName, course: cid });
             setModuleName("");
           }}
         />

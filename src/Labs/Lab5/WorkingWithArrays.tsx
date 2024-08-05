@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
 export default function WorkingWithArrays() {
+  const API = `${REMOTE_SERVER}/lab5/todos`;
   const [todo, setTodo] = useState({
     id: "1",
     title: "NodeJS Assignment",
@@ -10,31 +11,6 @@ export default function WorkingWithArrays() {
     due: "2021-09-09",
     completed: false,
   });
-  
-  const [errorMessage, setErrorMessage] = useState(null);
-  const updateTodo = async (todo: any) => {
-    try {
-      await client.updateTodo(todo);
-      setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
-    } catch (error: any) {
-      setErrorMessage(error.response.data.message);
-    }
-  };
-  const deleteTodo = async (todo: any) => {
-    try {
-      await client.deleteTodo(todo);
-      const newTodos = todos.filter((t) => t.id !== todo.id);
-      setTodos(newTodos);
-    } catch (error: any) {
-      console.log(error);
-      setErrorMessage(error.response.data.message);
-    }
-  };
-
-
-  
-  const API = `${REMOTE_SERVER}/lab5/todos`;
-
 
   // Handler to update the todo description
   const handleUpdateDescription = () => {

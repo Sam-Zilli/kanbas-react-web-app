@@ -17,13 +17,14 @@ const assignmentsSlice = createSlice({
       state.assignments = action.payload;
     },
 
-    addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
-      // Create a new assignment with a temporary local ID
-      const newAssignment: Assignment = {
-        _id: new Date().getTime().toString(), // Temporary ID for local use
-        ...action.payload,
+    addAssignment: (state, { payload: assignment}) => {
+      console.log("In reducer, add Assignment! ", assignment.name)
+      const newAssignment: any = {
+        _id: new Date().getTime().toString(), // TEMPORARY local ID
+        name: assignment.name,
+        course: assignment.course
       };
-      state.assignments.push(newAssignment);
+      state.assignments = [...state.assignments, newAssignment] as any;
     },
 
     deleteAssignment: (state, action: PayloadAction<string>) => {

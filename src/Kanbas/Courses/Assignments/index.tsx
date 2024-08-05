@@ -40,11 +40,6 @@ export default function Assignments() {
     }
   };
 
-  const createAssignment= async (assignment: any) => {
-    const newAssignment = await client.createAssignment(cid as string, assignment);
-    dispatch(addAssignment(newAssignment));
-  };
-
   // Fetch assignments based on Course Id
   useEffect(() => {
     const fetchAssignments = async () => {
@@ -65,35 +60,55 @@ export default function Assignments() {
     dispatch(updateAssignment(assignment));
   };
 
-  // Handle adding a new assignment
-  const handleAddAssignment = async () => {
-    try {
-      const newAssignment: Omit<Assignment, '_id'> = {
-        name: assignmentName,
-        description,
-        points,
-        dueDate,
-        course: cid || "", // Ensure courseId is correctly assigned
-        group: "",
-        displayGradeAs: "",
-        submissionTypes: [],
-        assignTo: "",
-        availableFrom: "",
-        availableUntil: "",
-      };
 
-      const createdAssignment = await client.createAssignment(cid as string, newAssignment);
+// Handle adding a new assignment
+const handleAddAssignment = async () => {
+  console.log("handleAddAssignment called");
+  console.log("Current state:", {
+    assignmentName,
+    description,
+    points,
+    dueDate,
+    cid
+  });
 
-      dispatch(addAssignment(createdAssignment));
-      // Reset fields
-      setAssignmentName("");
-      setDescription("");
-      setPoints(0);
-      setDueDate("");
-    } catch (error) {
-      console.error("Failed to add assignment:", error);
-    }
-  };
+  try {
+    // Construct the new assignment object
+    const newAssignment: Omit<Assignment, '_id'> = {
+      name: assignmentName,
+      description,
+      points,
+      dueDate,
+      course: cid || "", 
+      group: "",
+      displayGradeAs: "",
+      submissionTypes: [],
+      assignTo: "",
+      availableFrom: "",
+      availableUntil: "",
+    };
+
+    console.log("New assignment object:", newAssignment);
+
+    // Call the API to create the assignment
+    const createdAssignment = await client.createAssignment(newAssignment);
+    
+    console.log("API response (createdAssignment):", createdAssignment);
+
+    // Dispatch action to add the assignment to the Redux store
+    dispatch(addAssignment(createdAssignment));
+    console.log("Dispatched addAssignment with:", createdAssignment);
+
+    // Reset fields
+    setAssignmentName("");
+    setDescription("");
+    setPoints(0);
+    setDueDate("");
+    console.log("Fields reset");
+  } catch (error) {
+    console.error("Failed to add assignment:", error);
+  }
+};
 
   return (
     <div id="wd-assignments" className="container mt-4">

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
+import * as client from "./client";
 
 import AssignmentsControls from "./AssignmentsControls";
 import AssignmentControlButtons from "./AssignmentControlButtons";
@@ -15,8 +16,21 @@ import {
 import "./index.css";
 
 export default function Assignments() {
-  const { cid } = useParams<{ cid?: string }>(); 
-  const courseId = cid || ""; 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  const { cid } = useParams<{ cid?: string }>();
+  const courseId = cid || "";
 
   // State variables for assignment details
   const [assignmentName, setAssignmentName] = useState<string>("");
@@ -24,7 +38,9 @@ export default function Assignments() {
   const [points, setPoints] = useState<number>(0);
   const [dueDate, setDueDate] = useState<string>("");
 
-  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
+  const assignments = useSelector(
+    (state: any) => state.assignmentsReducer.assignments
+  );
   const dispatch = useDispatch();
 
   const handleAddAssignment = () => {
@@ -35,13 +51,13 @@ export default function Assignments() {
         description,
         points,
         dueDate,
-        course: courseId, 
-        group: "", 
-        displayGradeAs: "", 
-        submissionTypes: [], 
-        assignTo: "", 
-        availableFrom: "", 
-        availableUntil: "", 
+        course: courseId,
+        group: "",
+        displayGradeAs: "",
+        submissionTypes: [],
+        assignTo: "",
+        availableFrom: "",
+        availableUntil: "",
       })
     );
     // Reset fields
@@ -105,11 +121,20 @@ export default function Assignments() {
 
                   {/* Assignment Details */}
                   <div id="assignment-details" className="text-muted mb-2">
-                    <span className="text-danger">{assignment.group || 'Multiple Modules'}</span> |{" "}
-                    <strong>Points:</strong> {assignment.points || 'N/A'} |{" "}
-                    <strong>Not available until</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'} |
+                    <span className="text-danger">
+                      {assignment.group || "Multiple Modules"}
+                    </span>{" "}
+                    | <strong>Points:</strong> {assignment.points || "N/A"} |{" "}
+                    <strong>Not available until</strong>{" "}
+                    {assignment.dueDate
+                      ? new Date(assignment.dueDate).toLocaleString()
+                      : "N/A"}{" "}
+                    |
                     <br />
-                    <strong>Due</strong> {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'N/A'}
+                    <strong>Due</strong>{" "}
+                    {assignment.dueDate
+                      ? new Date(assignment.dueDate).toLocaleString()
+                      : "N/A"}
                   </div>
                 </div>
 

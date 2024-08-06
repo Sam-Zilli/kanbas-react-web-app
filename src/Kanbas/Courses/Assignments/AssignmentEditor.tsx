@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../store";
+import { RootState } from "../../store";
 import { updateAssignment } from "./reducer";
 import { Assignment } from "../../types";
 import * as client from "./client";

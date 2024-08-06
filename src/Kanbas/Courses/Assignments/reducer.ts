@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Assignment } from "../../types";
-import { getFormSubmissionInfo } from "react-router-dom/dist/dom";
 
 interface AssignmentsState {
   assignments: Assignment[];

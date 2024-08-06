@@ -1,0 +1,42 @@
+#wd-dashboard {
+  padding: 20px;
+}
+
+#wd-dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#wd-dashboard-published {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.card {
+  border: 1px solid #dee2e6; 
+  border-radius: 0.25rem; 
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); 
+  margin-bottom: 40px;
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 180px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.badge {
+  font-size: 0.875rem;
+}
+
+.btn {
+  margin-top: 10px; 
+}

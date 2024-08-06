@@ -1,0 +1,35 @@
+.list-group-item {
+    background-color: black; /* Default background color */
+    color: white; /* Default text color */
+    display: block; /* Ensure each link takes full width */
+    text-align: center; /* Center text and icons */
+    border: 0; /* Remove border */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  /* Custom styles for navigation links */
+  .nav-link {
+    background-color: black; /* Background color for all nav links */
+    color: white; /* Text color for all nav links */
+  }
+  
+  /* Active link styling */
+  .list-group-item.active {
+    background-color: white; /* Background color when active */
+    color: red; /* Text color when active */
+  }
+  
+  /* Ensure icon color matches the link text color when active */
+  .list-group-item.active .fs-1 {
+    color: red; /* Icon color when the link is active */
+  }
+  
+  /* Ensure icon color matches the link text color by default */
+  .list-group-item .fs-1 {
+    color: inherit; /* Ensure icon color matches link text color */
+  }
+
+
+  #wd-kanbas-navigation {
+    height: 100vh; /* Full viewport height */
+  }

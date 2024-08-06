@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
-import { updateAssignment, deleteAssignment } from "./reducer";
+import { updateAssignment } from "./reducer";
 import { Assignment } from "../../types";
+import * as client from "./client";
 
 export default function AssignmentsEditor() {
   const { cid, aid } = useParams<{ cid: string; aid: string }>();
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
+
 
   const [assignment, setAssignment] = useState<Assignment | null>(null);
 
@@ -27,19 +29,33 @@ export default function AssignmentsEditor() {
     }
   }, [aid, assignments, navigate, cid]);
 
-  const handleUpdate = () => {
+
+  const saveAssignment = async () => {
     if (assignment) {
-      dispatch(updateAssignment(assignment));
-      navigate(`/Kanbas/Courses/${cid}/Assignments`);
+      console.log("Starting saveAssignment function...");
+      console.log("Current assignment state:", assignment);
+  
+      try {
+        console.log("Attempting to update assignment on the server...");
+        const updatedAssignment = await client.updateAssignment(assignment);
+  
+        console.log("Received updated assignment from server:", updatedAssignment);
+  
+        console.log("Dispatching updateAssignment action with:", updatedAssignment);
+        dispatch(updateAssignment(updatedAssignment));
+  
+        console.log("Navigating to assignments list...");
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+      } catch (error) {
+        console.error("Error updating assignment:", error);
+        console.log("Navigating to assignments list due to error...");
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+      }
+    } else {
+      console.log("No assignment to save.");
     }
   };
-
-  // const handleDelete = () => {
-  //   if (assignment) {
-  //     dispatch(deleteAssignment(assignment._id));
-  //     navigate(`/Kanbas/Courses/${cid}/Assignments`);
-  //   }
-  // };
+  
 
   if (!assignment) return <div>Loading...</div>;
 
@@ -254,9 +270,11 @@ export default function AssignmentsEditor() {
       >
         Cancel
       </Link>
+
+      
       <button
         className="btn btn-primary"
-        onClick={handleUpdate}
+        onClick={saveAssignment}
       >
         Save
       </button>

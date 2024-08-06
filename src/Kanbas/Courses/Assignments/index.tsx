@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 import * as client from "./client";
 import AssignmentsControls from "./AssignmentsControls";
@@ -17,6 +17,7 @@ import { Assignment } from "../../types";
 
 export default function Assignments() {
   const { cid } = useParams<{ cid: string }>();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // State for assignment editing
@@ -36,6 +37,14 @@ export default function Assignments() {
     } catch (error) {
       console.error("Failed to delete assignment:", error);
     }
+  };
+
+  const handleAssignmentNameClick = (assignment: Assignment) => {
+    // Trigger updateAssignment or any other logic
+    saveAssignment(assignment);
+    
+    // Navigate to the desired path
+    navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`);
   };
 
   // Fetch assignments based on Course Id

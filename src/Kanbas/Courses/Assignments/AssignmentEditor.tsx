@@ -34,12 +34,12 @@ export default function AssignmentsEditor() {
     }
   };
 
-  const handleDelete = () => {
-    if (assignment) {
-      dispatch(deleteAssignment(assignment._id));
-      navigate(`/Kanbas/Courses/${cid}/Assignments`);
-    }
-  };
+  // const handleDelete = () => {
+  //   if (assignment) {
+  //     dispatch(deleteAssignment(assignment._id));
+  //     navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  //   }
+  // };
 
   if (!assignment) return <div>Loading...</div>;
 

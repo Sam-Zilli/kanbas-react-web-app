@@ -24,7 +24,6 @@ export default function Assignments() {
   const [description, setDescription] = useState<string>("");
   const [points, setPoints] = useState<number>(0);
   const [dueDate, setDueDate] = useState<string>("");
-  const [editingAssignment, setEditingAssignment] = useState<Assignment | null>(null);
 
   // Use correct selector and state type
   const assignments = useSelector((state: RootState) => state.assignmentsReducer.assignments);
@@ -109,13 +108,6 @@ export default function Assignments() {
       console.error("Failed to add assignment:", error);
     }
   };
-
-  // Watch for changes in the editing assignment and automatically save
-  useEffect(() => {
-    if (editingAssignment) {
-      saveAssignment(editingAssignment);
-    }
-  }, [editingAssignment]);
 
 
 

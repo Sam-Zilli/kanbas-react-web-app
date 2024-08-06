@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
 import ConfirmationDialog from "./ConfirmationDialog";
+
+interface Props {
+  assignmentId: string;
+  deleteAssignment: (assignmentId: string) => void;
+}
 
 export default function AssignmentControlButtons({
   assignmentId,
   deleteAssignment,
-  editAssignment
-}:
-{
-  assignmentId: string;
-  deleteAssignment: (assignmentId: string) => void;
-  editAssignment: (assignmentId: string) => void;
-}) {
+}: Props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDeleteClick = () => {
@@ -27,12 +27,10 @@ export default function AssignmentControlButtons({
     setIsDialogOpen(false);
   };
 
+
   return (
     <div className="d-flex align-items-center">
-      {/* <FaPencil
-        onClick={() => editAssignment(assignmentId)}
-        className="text-primary me-2 fs-5 cursor-pointer"
-      /> */}
+
       <FaTrash
         className="text-danger me-2 fs-5 cursor-pointer"
         onClick={handleDeleteClick}

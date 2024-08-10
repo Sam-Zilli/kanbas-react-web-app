@@ -8,6 +8,7 @@ import Grades from "./Grades";
 // TDL: A3 3.5ish is using Navigate but I'm not?
 import {Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from 'react-icons/fa';
+import PeopleTable from "./People/Table";
 
   export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams();
@@ -29,6 +30,7 @@ import { FaAlignJustify } from 'react-icons/fa';
       <Route path="Assignments" element={<Assignments />} />
       <Route path="Assignments/:aid" element={<AssignmentEditor />} />
       <Route path="Grades" element={<Grades />} />
+      <Route path="People" element={<PeopleTable />} />
     </Routes>
   </div>
 </div>

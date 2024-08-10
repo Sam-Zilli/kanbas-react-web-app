@@ -31,6 +31,7 @@ import PeopleTable from "./People/Table";
       <Route path="Assignments/:aid" element={<AssignmentEditor />} />
       <Route path="Grades" element={<Grades />} />
       <Route path="People" element={<PeopleTable />} />
+      <Route path="People/:uid" element={<PeopleTable />} />
     </Routes>
   </div>
 </div>

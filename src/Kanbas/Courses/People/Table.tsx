@@ -85,8 +85,7 @@ export default function PeopleTable() {
           ))}
         </tbody>
       </table>
-      {/* <PeopleDetails fetchUsers={fetchUsers} /> */}
-      <PeopleDetails />
+      <PeopleDetails fetchUsers={fetchUsers} />
     </div>
   );
 }

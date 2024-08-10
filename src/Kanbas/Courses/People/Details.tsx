@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import * as client from "./client";
 
-export default function PeopleDetails() {
+export default function PeopleDetails({ fetchUsers }:
+  { fetchUsers: () => void; }) {
+    const navigate = useNavigate();
+    const deleteUser = async (uid: string) => {
+      await client.deleteUser(uid);
+      fetchUsers();
+      navigate(`/Kanbas/Courses/${cid}/People`);
+    };
+  
   const { uid, cid } = useParams();
   const [user, setUser] = useState<any>({});
 
@@ -52,6 +60,10 @@ export default function PeopleDetails() {
       <br />
       <b>Total Activity:</b>
       <span className="wd-total-activity"> {user?.totalActivity} </span>
+      <hr />
+      <button onClick={() => deleteUser(uid)} className="btn btn-danger float-end wd-delete" > Delete </button>
+      <button onClick={() => navigate(`/Kanbas/Courses/${cid}/People`)}
+              className="btn btn-secondary float-start float-end me-2 wd-cancel" > Cancel </button>
     </div>
   );
 }

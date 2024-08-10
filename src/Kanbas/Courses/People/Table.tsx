@@ -2,12 +2,27 @@ import React, { useState, useEffect } from "react";
 import * as client from "./client";
 import PeopleDetails from "./Details";
 import { Link, useParams } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
 
 export default function PeopleTable() {
   const { cid } = useParams();
   const [users, setUsers] = useState<any[]>([]);
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
+
+
+
+  const createUser = async () => {
+    const user = await client.createUser({
+      firstName: "New",
+      lastName: `User${users.length + 1}`,
+      username: `newuser${Date.now()}`,
+      password: "password123",
+      section: "S101",
+      role: "STUDENT",
+    });
+    setUsers([...users, user]);
+  };
 
   const filterUsersByName = async (name: string) => {
     setName(name);
@@ -39,6 +54,10 @@ export default function PeopleTable() {
 
   return (
     <div id="wd-people-table">
+            <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
+        <FaPlus className="me-2" />
+        People
+      </button>
       <input
         onChange={(e) => filterUsersByName(e.target.value)}
         placeholder="Search people"

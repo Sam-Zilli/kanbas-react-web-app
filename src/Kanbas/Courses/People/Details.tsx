@@ -5,10 +5,17 @@ import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import * as client from "./client";
 
-export default function PeopleDetails() {
+export default function PeopleDetails({ fetchUsers }:
+  { fetchUsers: () => void; }) {
+   const navigate = useNavigate();
+   const deleteUser = async (uid: string) => {
+     await client.deleteUser(uid);
+     fetchUsers();
+     navigate(`/Kanbas/Courses/${cid}/People`);
+   };
+ 
   const { uid, cid } = useParams();
   const [user, setUser] = useState<any>({});
-  
   const fetchUser = async () => {
     if (!uid) return;
     const user = await client.findUserById(uid);
@@ -18,7 +25,6 @@ export default function PeopleDetails() {
     if (uid) fetchUser();
   }, [uid]);
   if (!uid) return null;
-
   return (
     <div className="wd-people-details position-fixed top-0 end-0 bottom-0 bg-white p-4 shadow w-25">
       <Link to={`/Kanbas/Courses/${cid}/People`} className="btn position-fixed end-0 top-0 wd-close-details">

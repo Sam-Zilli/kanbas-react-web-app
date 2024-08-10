@@ -5,6 +5,19 @@ export default function PeopleTable() {
   const [users, setUsers] = useState<any[]>([]);
 
   const [role, setRole] = useState("");
+
+  const [name, setName] = useState("");
+
+  const filterUsersByName = async (name: string) => {
+    setName(name);
+    if (name) {
+      const users = await client.findUsersByPartialName(name);
+      setUsers(users);
+    } else {
+      fetchUsers();
+    }
+  };
+
   const filterUsersByRole = async (role: string) => {
     setRole(role);
     if (role) {
@@ -24,6 +37,12 @@ export default function PeopleTable() {
   }, []);
   return (
     <div id="wd-people-table">
+      <input
+        onChange={(e) => filterUsersByName(e.target.value)}
+        placeholder="Search people"
+        className="form-control float-start w-25 me-2 wd-filter-by-name"
+      />
+
       <select
         value={role}
         onChange={(e) => filterUsersByRole(e.target.value)}

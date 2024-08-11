@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as client from "./client";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 
 export default function Signin() {
@@ -12,20 +12,20 @@ export default function Signin() {
 
   const signin = async () => {
     try {
-      console.log("signin0")
+      console.log("signin 0")
       const currentUser = await client.signin(credentials);
-      console.log("signin1") 
+      console.log("signin 1") 
       console.log("Current user: ", currentUser)
       dispatch(setCurrentUser(currentUser));
-      console.log("signin2")
+      console.log("signin 2, current user state after dispatch: ")
+
       navigate("/Kanbas/Account/Profile");
-      console.log("signin3")
+      console.log("signin 3")
     } catch (err: any) {
       console.log("signin ERORR")
       setError(err.response.data.message);
     }
   };
-
 
   return (
     <div id="wd-signin-screen">
@@ -41,5 +41,3 @@ export default function Signin() {
     </div>
   );
 }
-
-

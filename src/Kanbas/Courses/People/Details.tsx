@@ -6,12 +6,31 @@ import * as client from "./client";
 import { FaPencil } from "react-icons/fa6";
 import { FaCheck, FaUserCircle } from "react-icons/fa";
 
-export default function PeopleDetails({ fetchUsers }: { fetchUsers: () => void; }) {
-  const navigate = useNavigate();
+export default function PeopleDetails({ fetchUsers }:
+  { fetchUsers: () => void; }) {
+   const navigate = useNavigate();
+   const deleteUser = async (uid: string) => {
+     await client.deleteUser(uid);
+     fetchUsers();
+     navigate(`/Kanbas/Courses/${cid}/People`);
+   };
+ 
   const { uid, cid } = useParams<{ uid?: string; cid?: string }>();
   const [user, setUser] = useState<any>({});
+
   const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
+
+  const saveUser = async () => {
+    const [firstName, lastName] = name.split(" ");
+    const updatedUser = { ...user, firstName, lastName };
+    await client.updateUser(updatedUser);
+    setUser(updatedUser);
+    setEditing(false);
+    fetchUsers();
+    navigate(`/Kanbas/Courses/${cid}/People`);
+  };
+
 
   const fetchUser = async (userId: string) => {
     try {
@@ -23,23 +42,6 @@ export default function PeopleDetails({ fetchUsers }: { fetchUsers: () => void; 
     }
   };
 
-  const saveUser = async () => {
-    if (!uid) return; 
-    const [firstName, lastName] = name.split(" ");
-    const updatedUser = { ...user, firstName, lastName };
-    await client.updateUser(updatedUser);
-    setUser(updatedUser);
-    setEditing(false);
-    fetchUsers();
-    navigate(`/Kanbas/Courses/${cid}/People`);
-  };
-
-  const deleteUser = async (userId: string) => {
-    if (!userId) return; 
-    await client.deleteUser(userId);
-    fetchUsers();
-    navigate(`/Kanbas/Courses/${cid}/People`);
-  };
 
   useEffect(() => {
     if (uid) {
@@ -90,13 +92,9 @@ export default function PeopleDetails({ fetchUsers }: { fetchUsers: () => void; 
       <b>Total Activity:</b>
       <span className="wd-total-activity"> {user?.totalActivity} </span>
       <hr />
-      <button onClick={() => uid && deleteUser(uid)} className="btn btn-danger float-end wd-delete">
-        Delete
-      </button>
+      <button onClick={() => deleteUser(uid)} className="btn btn-danger float-end wd-delete" > Delete </button>
       <button onClick={() => navigate(`/Kanbas/Courses/${cid}/People`)}
-              className="btn btn-secondary float-start float-end me-2 wd-cancel">
-        Cancel
-      </button>
+              className="btn btn-secondary float-start float-end me-2 wd-cancel" > Cancel </button>
     </div>
   );
 }

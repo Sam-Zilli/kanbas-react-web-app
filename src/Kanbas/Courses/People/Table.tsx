@@ -25,6 +25,7 @@ export default function PeopleTable() {
   };
 
 
+
   const filterUsersByName = async (name: string) => {
     setName(name);
     if (name) {
@@ -56,7 +57,7 @@ export default function PeopleTable() {
 
   return (
     <div id="wd-people-table">
-            <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
+      <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
         <FaPlus className="me-2" />
         People
       </button>

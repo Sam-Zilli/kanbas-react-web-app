@@ -1,14 +1,21 @@
 import * as client from "./client";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
-
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<any>({});
+
   const fetchProfile = async () => {
+    try {
     const account = await client.profile();
     setProfile(account);
+  } catch (err: any) {
+    navigate("/Kanbas/Account/Signin");
+  }
+
   };
-  
+
   useEffect(() => { fetchProfile(); }, []);
   return (
     <div className="wd-profile-screen">

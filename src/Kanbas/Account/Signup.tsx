@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as client from "./client";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "./reducer";
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [user, setUser] = useState<any>({});
   const navigate = useNavigate();
   const signup = async () => {
+    console.log("in signup 0")
     try {
-    await client.signup(user);
-    navigate("/Kanbas/Account/Profile");
+      console.log("in signup 1")
+      const currentUser = await client.signup(user);
+      console.log("in signup 2")
+      dispatch(setCurrentUser(currentUser));
+      navigate("/Kanbas/Account/Profile");
+      console.log("in signup 3")
   } catch (err: any) {
+    console.log("signup ERROR")
     setError(err.response.data.message);
   }
 

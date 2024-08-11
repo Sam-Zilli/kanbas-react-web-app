@@ -1,20 +1,31 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as client from "./client";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "./reducer";
 
 export default function Signin() {
+  const [credentials, setCredentials] = useState<any>({});
+  const navigate = useNavigate();
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
+
   const signin = async () => {
     try {
-      await client.signin(credentials);
+      console.log("signin0")
+      const currentUser = await client.signin(credentials);
+      console.log("signin1") 
+      console.log("Current user: ", currentUser)
+      dispatch(setCurrentUser(currentUser));
+      console.log("signin2")
       navigate("/Kanbas/Account/Profile");
+      console.log("signin3")
     } catch (err: any) {
+      console.log("signin ERORR")
       setError(err.response.data.message);
     }
   };
 
-  const [credentials, setCredentials] = useState<any>({});
-  const navigate = useNavigate();
 
   return (
     <div id="wd-signin-screen">

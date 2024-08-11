@@ -1,14 +1,26 @@
 import * as client from "./client";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 export default function Profile() {
+
   const [profile, setProfile] = useState<any>({});
+
   const navigate = useNavigate();
+
   const fetchProfile = async () => {
     const account = await client.profile();
     setProfile(account);
   };
+
   useEffect(() => { fetchProfile(); }, []);
+
+  const signout = async () => {
+    await client.signout();
+    navigate("/Kanbas/Account/Signin");
+  };
+
+
   return (
     <div className="wd-profile-screen">
       <h1>Profile</h1>
@@ -30,6 +42,9 @@ export default function Profile() {
             <option value="USER">User</option>            <option value="ADMIN">Admin</option>
             <option value="FACULTY">Faculty</option>      <option value="STUDENT">Student</option>
           </select>
+          <button onClick={signout} className="wd-signout-btn btn btn-danger w-100">
+    Sign out
+  </button>
         </div>
       )}
     </div>

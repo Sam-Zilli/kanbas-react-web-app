@@ -24,6 +24,7 @@ export default function PeopleTable() {
     setUsers([...users, user]);
   };
 
+
   const filterUsersByName = async (name: string) => {
     setName(name);
     if (name) {
@@ -33,6 +34,7 @@ export default function PeopleTable() {
       fetchUsers();
     }
   };
+
 
   const filterUsersByRole = async (role: string) => {
     setRole(role);

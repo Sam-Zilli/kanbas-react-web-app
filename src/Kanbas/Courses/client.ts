@@ -15,7 +15,9 @@ export const fetchAllCourses = async () => {
 
 export const createCourse = async (course: any) => {
   try {
+    console.log("Testing adding course 1")
     const response = await axios.post(COURSES_API, course);
+    console.log("Testing adding course 2")
     return response.data;
   } catch (error) {
     console.error('Error creating course:', error);
@@ -35,7 +37,10 @@ export const deleteCourse = async (id: string) => {
 
 export const updateCourse = async (course: any) => {
   try {
+    console.log("Testing UPDATE course 1")
+    console.log("Course: ", course)
     const response = await axios.put(`${COURSES_API}/${course._id}`, course);
+    console.log("Testing UPDATE course 2")
     return response.data;
   } catch (error) {
     console.error('Error updating course:', error);

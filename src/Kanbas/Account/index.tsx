@@ -1,7 +1,9 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Signin from "./Signin";
 import AccountNavigation from "./Navigation";
-import { useSelector } from "react-redux";
+import Profile from "./Profile";
+import Signup from "./Signup";
+
 export default function Account() {
   return (
     <div className="wd-account-screen">
@@ -13,8 +15,8 @@ export default function Account() {
           <Routes>
           <Route path="/Account/*" element={<Account />} />
             <Route path="/Signin" element={<Signin />} />
-            <Route path="/Signup" element={<h1>Sign Up</h1>} />
-            <Route path="/Profile" element={<h1>Profile</h1>} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/Profile" element={<Profile />} />
           </Routes>
         </div>
       </div>

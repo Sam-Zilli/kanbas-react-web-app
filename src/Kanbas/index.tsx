@@ -19,15 +19,17 @@ export default function Kanbas() {
   };
 
   const fetchCourses = async () => {
+    console.log("in Kanbas/index.tsx fetchCourses 1")
     const courses = await client.fetchAllCourses();
+    console.log("in Kanbas/index.tsx fetchCourses 2")
     setCourses(courses);
   };
+
   useEffect(() => {
     fetchCourses();
   }, []);
 
   const [course, setCourse] = useState<any>({
-    _id: "1234",
     name: "New Course",
     number: "New Number",
     startDate: "2023-09-10",

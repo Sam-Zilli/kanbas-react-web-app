@@ -2,11 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signin from "./Signin";
 import AccountNavigation from "./Navigation";
 import { useSelector } from "react-redux";
-import Profile from "./Profile";
-import Signup from "./Signup";
-
 export default function Account() {
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
   return (
     <div className="wd-account-screen">
       <div className="d-flex">
@@ -15,11 +11,10 @@ export default function Account() {
         </div>
         <div className="flex-fill p-4 pt-0">
           <Routes>
-          <Route path="/" element={<Navigate to={ currentUser ? "/Kanbas/Account/Profile" : "/Kanbas/Account/Signin" }/>}/>
+          <Route path="/Account/*" element={<Account />} />
             <Route path="/Signin" element={<Signin />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/Profile" element={<Profile />} />
-            {/* <Route path="/Profile" element={<h4> HELLLOOO</h4>} /> */}
+            <Route path="/Signup" element={<h1>Sign Up</h1>} />
+            <Route path="/Profile" element={<h1>Profile</h1>} />
           </Routes>
         </div>
       </div>

@@ -33,6 +33,7 @@ export default function Modules() {
 
   const fetchModules = async () => {
     const modules = await client.findModulesForCourse(cid as string);
+    console.log("index.tsx about to dispatch modules")
     dispatch(setModules(modules));
   };
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function Modules() {
       {/* List of modules / for each module... */}
       <ul id="wd-modules-list" className="list-group">
         {modules
-          .filter((module: any) => module.course === cid)
+          // .filter((module: any) => module.course === cid)
           .map((module: any) => (
             <li
               key={module._id}

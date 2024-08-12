@@ -5,11 +5,11 @@ const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 // Fetch all courses
 export const fetchAllCourses = async () => {
-  console.log("Starting fetchAllCourses");
+  // console.log("Starting fetchAllCourses");
   try {
-    console.log("Fetching all courses from:", COURSES_API);
+    // console.log("Fetching all courses from:", COURSES_API);
     const { data } = await axios.get(COURSES_API);
-    console.log("Fetched courses successfully:", data);
+    // console.log("Fetched courses successfully:", data);
     return data;
   } catch (error) {
     console.error('Error fetching courses:', error);
@@ -19,14 +19,14 @@ export const fetchAllCourses = async () => {
 
 // Create a new course
 export const createCourse = async (course: any) => {
-  console.log("Starting createCourse");
+  // console.log("Starting createCourse");
   try {
-    console.log("Sending request to create course:", course);
+    //console.log("Sending request to create course:", course);
     const response = await axios.post(COURSES_API, course);
-    console.log("Course created successfully:", response.data);
+    //onsole.log("Course created successfully:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Error creating course:', error);
+    //console.error('Error creating course:', error);
     throw error;
   }
 };
@@ -35,26 +35,26 @@ export const createCourse = async (course: any) => {
 export const deleteCourse = async (id: string) => {
   console.log("Starting deleteCourse");
   try {
-    console.log("Sending request to delete course with ID:", id);
+    //console.log("Sending request to delete course with ID:", id);
     const response = await axios.delete(`${COURSES_API}/${id}`);
-    console.log("Course deleted successfully:", response.data);
+    //console.log("Course deleted successfully:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Error deleting course:', error);
+    //console.error('Error deleting course:', error);
     throw error;
   }
 };
 
 // Update a course
 export const updateCourse = async (course: any) => {
-  console.log("Starting updateCourse");
+  //console.log("Starting updateCourse");
   try {
-    console.log("Updating course with data:", course);
+    //console.log("Updating course with data:", course);
     const response = await axios.put(`${COURSES_API}/${course._id}`, course);
-    console.log("Course updated successfully:", response.data);
+    //console.log("Course updated successfully:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Error updating course:', error);
+    //console.error('Error updating course:', error);
     throw error;
   }
 };

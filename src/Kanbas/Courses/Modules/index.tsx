@@ -16,6 +16,7 @@ import { PiDotsSixVerticalFill } from "react-icons/pi";
 export default function Modules() {
   
   const removeModule = async (moduleId: string) => {
+    console.log("In index.tsx removeModule")
     await client.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
   };

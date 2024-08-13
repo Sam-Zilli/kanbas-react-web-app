@@ -8,6 +8,7 @@ export const fetchAllCourses = async () => {
   // console.log("Starting fetchAllCourses");
   try {
     // console.log("Fetching all courses from:", COURSES_API);
+    console.log("courses API: ", COURSES_API)
     const { data } = await axios.get(COURSES_API);
     // console.log("Fetched courses successfully:", data);
     return data;

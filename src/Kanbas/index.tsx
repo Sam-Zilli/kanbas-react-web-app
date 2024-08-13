@@ -18,10 +18,8 @@ export default function Kanbas() {
     setCourses([...courses, newCourse]);
   };
 
-  const fetchCourses = async () => {
-    console.log("in Kanbas/index.tsx fetchCourses 1")
+  const fetchCourses = async () => {1")
     const courses = await client.fetchAllCourses();
-    console.log("in Kanbas/index.tsx fetchCourses 2")
     setCourses(courses);
   };
 

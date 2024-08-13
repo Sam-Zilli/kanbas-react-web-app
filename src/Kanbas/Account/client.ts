@@ -7,21 +7,17 @@ export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
 
 export const signin = async (credentials: any) => {
-  console.log("REMOTE SERVER: ", process.env.REACT_APP_REMOTE_SERVER)
-  console.log("signin client. about to post ", USERS_API, "/signin with ", credentials)
   const response = await axiosWithCredentials.post(`${USERS_API}/signin`, credentials);
-  console.log("signin client 1")
-  console.log("response is: ", response.data)
   return response.data;
 };
 
 export const profile = async () => {
-  console.log("client.ts profile 0");
+
   try {
-    console.log("client.ts try")
+
     const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
-    console.log("Response status:", response.status);
-    console.log("client.ts profile 1");
+
+
     return response.data;
   } catch (error) {
     console.error("Profile fetch error:", error);

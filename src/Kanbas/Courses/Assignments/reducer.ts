@@ -19,8 +19,6 @@ const assignmentsSlice = createSlice({
 
     addAssignment: (state, action: PayloadAction<Omit<Assignment, '_id'>>) => {
 
-      console.log("Payload received in addAssignment:", action.payload);
-
       // Create a new assignment with default values
       const newAssignment: Assignment = {
         _id: new Date().getTime().toString(), // TEMPORARY local ID
@@ -38,14 +36,11 @@ const assignmentsSlice = createSlice({
         editing: action.payload.editing ?? false, // Default to false if not provided
       };
 
-      console.log("Creating new assignment:", newAssignment);
-
-      console.log("State before adding new assignment:", state.assignments);
 
       // Add the new assignment to the state
       state.assignments = [...state.assignments, newAssignment];
 
-      console.log("State after adding new assignment:", state.assignments);
+
     },
 
     deleteAssignment: (state, action: PayloadAction<string>) => {

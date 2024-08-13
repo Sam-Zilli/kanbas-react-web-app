@@ -12,17 +12,13 @@ export default function Signin() {
 
   const signin = async () => {
     try {
-      console.log("signin 0")
       const currentUser = await client.signin(credentials);
-      console.log("signin 1") 
-      console.log("Current user: ", currentUser)
       dispatch(setCurrentUser(currentUser));
-      console.log("signin 2, current user state after dispatch: ")
 
       navigate("/Kanbas/Account/Profile");
-      console.log("signin 3")
+
     } catch (err: any) {
-      console.log("signin ERORR")
+
       setError(err.response.data.message);
     }
   };

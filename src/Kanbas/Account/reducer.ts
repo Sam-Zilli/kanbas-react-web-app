@@ -9,12 +9,8 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      console.log("Current user before update:", state.currentUser);
-      console.log("Action received:", action);
 
       state.currentUser = action.payload;
-
-      console.log("Current user after update:", state.currentUser);
     },
   },
 });

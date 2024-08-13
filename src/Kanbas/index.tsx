@@ -18,7 +18,7 @@ export default function Kanbas() {
     setCourses([...courses, newCourse]);
   };
 
-  const fetchCourses = async () => {1")
+  const fetchCourses = async () => {
     const courses = await client.fetchAllCourses();
     setCourses(courses);
   };

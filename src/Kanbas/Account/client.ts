@@ -7,6 +7,7 @@ export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
 
 export const signin = async (credentials: any) => {
+  console.log("REMOTE SERVER: ", process.env.REACT_APP_REMOTE_SERVER)
   console.log("signin client 0")
   const response = await axiosWithCredentials.post(`${USERS_API}/signin`, credentials);
   console.log("signin client 1")

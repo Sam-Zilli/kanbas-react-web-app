@@ -10,12 +10,12 @@ export default function Profile() {
   const [profile, setProfile] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
 
-  // REMOVED SET ERROR
-
   const fetchProfile = useCallback(async () => {
     try {
       const account = await client.profile();
-      setProfile(account);
+      // Convert date to yyyy-MM-dd
+      const dob = account.dob ? new Date(account.dob).toISOString().split('T')[0] : '';
+      setProfile({ ...account, dob });
     } catch (err) {
       console.error("Fetch profile error:", err);
       navigate("/Kanbas/Account/Signin");

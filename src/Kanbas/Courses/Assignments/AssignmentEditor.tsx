@@ -32,23 +32,18 @@ export default function AssignmentsEditor() {
 
   const saveAssignment = async () => {
     if (assignment) {
-      console.log("Starting saveAssignment function...");
-      console.log("Current assignment state:", assignment);
   
       try {
-        console.log("Attempting to update assignment on the server...");
         const updatedAssignment = await client.updateAssignment(assignment);
   
-        console.log("Received updated assignment from server:", updatedAssignment);
+
   
-        console.log("Dispatching updateAssignment action with:", updatedAssignment);
+
         dispatch(updateAssignment(updatedAssignment));
   
-        console.log("Navigating to assignments list...");
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
       } catch (error) {
         console.error("Error updating assignment:", error);
-        console.log("Navigating to assignments list due to error...");
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
       }
     } else {

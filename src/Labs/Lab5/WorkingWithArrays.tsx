@@ -18,7 +18,7 @@ export default function WorkingWithArrays() {
       method: 'PUT',
     }).then(response => {
       if (response.ok) {
-        console.log("Description updated successfully");
+
       }
     });
   };
@@ -29,7 +29,7 @@ export default function WorkingWithArrays() {
       method: 'PUT',
     }).then(response => {
       if (response.ok) {
-        console.log("Completed status updated successfully");
+        
       }
     });
   };

@@ -16,6 +16,7 @@ import { PiDotsSixVerticalFill } from "react-icons/pi";
 export default function Modules() {
   
   const removeModule = async (moduleId: string) => {
+
     await client.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
   };
@@ -69,7 +70,7 @@ export default function Modules() {
       {/* List of modules / for each module... */}
       <ul id="wd-modules-list" className="list-group">
         {modules
-          .filter((module: any) => module.course === cid)
+          // .filter((module: any) => module.course === cid)
           .map((module: any) => (
             <li
               key={module._id}

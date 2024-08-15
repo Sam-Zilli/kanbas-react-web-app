@@ -12,16 +12,11 @@ export const deleteAssignment = async (assignmentId: string) => {
 
 export const createAssignment = async (assignment: Omit<Assignment, '_id'>) => {
   try {
-    // Log the assignment data being sent
-    console.log("Creating assignment with data:", assignment);
 
     const response = await axios.post(
       `${COURSES_API}/${assignment.course}/assignments`,
       assignment
     );
-
-    // Log the response from the server
-    console.log("Response from server:", response);
 
     return response.data;
   } catch (error) {

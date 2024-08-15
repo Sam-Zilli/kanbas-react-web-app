@@ -15,7 +15,7 @@ const modulesSlice = createSlice({
     },
 
     addModule: (state, { payload: module }) => {
-      console.log("In reducer, add Module: ", module.name)
+
       const newModule: any = {
         _id: new Date().getTime().toString(), // TEMPORARY local ID
         lessons: [],

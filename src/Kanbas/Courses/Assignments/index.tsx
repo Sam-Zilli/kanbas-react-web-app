@@ -63,11 +63,9 @@ export default function Assignments() {
 
   // Save assignment
   const saveAssignment = async (assignment: Assignment) => {
-    console.log("Saving assignment:", assignment);
     try {
       const updatedAssignment = await client.updateAssignment(assignment);
       dispatch(updateAssignment(updatedAssignment));
-      console.log("Assignment saved and updated in store:", updatedAssignment);
     } catch (error) {
       console.error("Error saving assignment:", error);
     }
@@ -75,15 +73,6 @@ export default function Assignments() {
 
   // Handle adding a new assignment
   const handleAddAssignment = async () => {
-    console.log("handleAddAssignment called");
-    console.log("Current state:", {
-      assignmentName,
-      description,
-      points,
-      dueDate,
-      cid
-    });
-
     try {
       const newAssignment: Omit<Assignment, '_id'> = {
         name: assignmentName,
@@ -99,20 +88,14 @@ export default function Assignments() {
         availableUntil: "",
       };
 
-      console.log("New assignment object:", newAssignment);
-
       const createdAssignment = await client.createAssignment(newAssignment);
 
-      console.log("API response (createdAssignment):", createdAssignment);
-
       dispatch(addAssignment(createdAssignment));
-      console.log("Dispatched addAssignment with:", createdAssignment);
 
       setAssignmentName("");
       setDescription("");
       setPoints(0);
       setDueDate("");
-      console.log("Fields reset");
     } catch (error) {
       console.error("Failed to add assignment:", error);
     }

@@ -47,7 +47,7 @@ export default function Quizzes() {
   };
 
   const handleContextMenu = (event: React.MouseEvent, quizId: string) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default context menu from appearing
     setContextMenu({ quizId, x: event.clientX, y: event.clientY });
   };
 
@@ -62,7 +62,6 @@ export default function Quizzes() {
   };
 
   const handlePublish = async (quizId: string) => {
-    // Assume there's a function to publish/unpublish a quiz
     const quiz = quizzes.find((q: any) => q._id === quizId);
     if (quiz) {
       const updatedQuiz = { ...quiz, published: !quiz.published };
@@ -71,13 +70,11 @@ export default function Quizzes() {
     setContextMenu(null);
   };
 
-
   const handleClickOutside = (event: MouseEvent) => {
     if (contextMenu && !(event.target as Element).closest(".context-menu")) {
       setContextMenu(null);
     }
   };
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -108,6 +105,7 @@ export default function Quizzes() {
           <li
             key={quiz._id}
             className="wd-quizzes-list-item list-group-item p-3 mb-3 border border-secondary rounded-3 bg-light d-flex justify-content-between align-items-center"
+            onContextMenu={(event) => handleContextMenu(event, quiz._id)}
           >
             <div className="w-100">
               {/* Quiz Name */}
@@ -141,29 +139,51 @@ export default function Quizzes() {
             {/* More Options Icon */}
             <button 
               className="btn btn-light btn-sm"
-              style={{ border: "none", background: "transparent" }}
-              aria-label="More options"
               onClick={(event) => handleContextMenu(event, quiz._id)}
             >
               <PiDotsSixVerticalFill size={24} />
             </button>
-
-            {/* Context Menu */}
-            {contextMenu && contextMenu.quizId === quiz._id && (
-              <div
-                className="context-menu"
-                style={{ position: "absolute", top: contextMenu.y, left: contextMenu.x, backgroundColor: "white", border: "1px solid #ccc", borderRadius: "4px", boxShadow: "0 2px 5px rgba(0,0,0,0.2)" }}
-              >
-                <button className="dropdown-item" onClick={() => handleEdit(quiz._id)}>Edit</button>
-                <button className="dropdown-item" onClick={() => handleDelete(quiz._id)}>Delete</button>
-                <button className="dropdown-item" onClick={() => handlePublish(quiz._id)}>
-                  {quiz.published ? "Unpublish" : "Publish"}
-                </button>
-              </div>
-            )}
           </li>
         ))}
       </ul>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          className="context-menu position-absolute"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+        >
+          <ul className="list-unstyled bg-white border rounded shadow">
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => handleEdit(contextMenu.quizId!)}
+              >
+                Edit
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => handleDelete(contextMenu.quizId!)}
+              >
+                Delete
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => handlePublish(contextMenu.quizId!)}
+              >
+                {quizzes.find((q: any) => q._id === contextMenu.quizId!)?.published ? "Unpublish" : "Publish"}
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
+
+
+

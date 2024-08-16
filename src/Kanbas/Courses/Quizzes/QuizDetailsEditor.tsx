@@ -80,7 +80,7 @@ export default function QuizEditor() {
             <label className="form-label">Description</label>
             <textarea
               className="form-control"
-              rows={3}
+              rows={3}form=""
               value={quizData.description}
               onChange={(e) => setQuizData({ ...quizData, description: e.target.value })}
             />

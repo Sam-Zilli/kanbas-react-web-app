@@ -191,7 +191,7 @@ export default function Quizzes() {
                 className="dropdown-item"
                 onClick={() => handlePublish(contextMenu.quizId!)}
               >
-                {quizzes.find((q: any) => q._id === contextMenu.quizId!)?.published ? "Unpublish" : "Publish"}
+                          {quizzes.find((q: any) => q._id === contextMenu.quizId!)?.published ? "Unpublish" : "Publish"}
               </button>
             </li>
           </ul>

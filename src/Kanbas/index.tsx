@@ -9,6 +9,7 @@ import * as client from "./Courses/client";
 import { useEffect, useState } from "react";
 import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
+import Forbidden from "./Forbidden"
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -80,6 +81,9 @@ export default function Kanbas() {
               <Route
                 path="Courses/:cid/*"
                 element={<ProtectedRoute><Courses courses={courses} /></ProtectedRoute>}
+              />
+              <Route path="Forbidden"
+              element = {<Forbidden />}
               />
             </Routes>
           </div>

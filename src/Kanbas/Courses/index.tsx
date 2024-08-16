@@ -12,6 +12,7 @@ import Quizzes from "./Quizzes";
 import QuizDetailsEditor from "./Quizzes/QuizDetailsEditor";
 import QuizQuestionsEditor from "./Quizzes/QuizQuestionsEditor";
 import QuizPreview from "./Quizzes/QuizPreview";
+import RoleBasedRoute from "../roleBasedRoute";
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -33,7 +34,14 @@ export default function Courses({ courses }: { courses: any[] }) {
           <Route path="Assignments" element={<Assignments />} />
           <Route path="Assignments/:aid" element={<AssignmentEditor />} />
           <Route path="Quizzes" element={<Quizzes />} />
-          <Route path="Quizzes/new" element={<QuizDetailsEditor />} />
+          <Route
+            path="Quizzes/new"
+            element={
+              <RoleBasedRoute requiredRole="FACULTY">
+                <QuizDetailsEditor />
+              </RoleBasedRoute>
+            }
+          />
           <Route path="Quizzes/:qid" element={<QuizDetailsEditor />} />
           <Route
             path="Quizzes/:qid/questions"

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import * as client from "./client";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
     setQuizzes,
     addQuiz,
@@ -24,7 +23,9 @@ export default function Quizzes() {
       };
       
       const fetchQuizzes = async () => {
+        console.log("index.tsx")
         const quizzes = await client.findQuizzesForCourse(cid as string);
+        console.log("index.tsx")
         dispatch(setQuizzes(quizzes));
       };
       useEffect(() => {
@@ -32,7 +33,7 @@ export default function Quizzes() {
       }, []);
     
       const saveQuizzes = async (quiz: any) => {
-        const status = await client.updateQuiz(quiz);
+        const status = await client.updateQuiz(cid as string, quiz);
         dispatch(updateQuiz(quiz));
       };
     
@@ -81,4 +82,3 @@ export default function Quizzes() {
         </div>
       );
     }
-    

@@ -33,9 +33,11 @@ export default function Quizzes() {
   }, []);
 
   const saveQuizzes = async (quiz: any) => {
-    console.log("index.tsx saveQuizzes")
-    await client.updateQuiz(cid as string, quiz);
+    console.log("index.tsx saveQuizzes");
+    const updatedQuiz = await client.updateQuiz(cid as string, quiz);
+    dispatch(updateQuiz(updatedQuiz)); 
   };
+  
 
   const removeQuiz = async (quizId: string) => {
     await client.deleteQuiz(cid as string, quizId);
@@ -62,11 +64,25 @@ export default function Quizzes() {
   };
 
   const handlePublish = async (quizId: string) => {
+    console.log("Handle Publish clicked...");
+  
+    // Find the quiz by ID
     const quiz = quizzes.find((q: any) => q._id === quizId);
+    console.log("Quiz before update: ", quiz);
+  
     if (quiz) {
+      // Toggle the published status
       const updatedQuiz = { ...quiz, published: !quiz.published };
+      console.log("Updated quiz (before save): ", updatedQuiz);
+  
+      // Save the updated quiz
+      console.log("before await saveQuizzes");
       await saveQuizzes(updatedQuiz);
+  
+      // Check the state of the quiz after saving
+      console.log("Updated quiz (after save): ", updatedQuiz);
     }
+  
     setContextMenu(null);
   };
 

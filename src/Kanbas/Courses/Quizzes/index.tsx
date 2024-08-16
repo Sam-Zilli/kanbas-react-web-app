@@ -33,7 +33,6 @@ export default function Quizzes() {
   }, []);
 
   const saveQuizzes = async (quiz: any) => {
-    console.log("index.tsx saveQuizzes");
     const updatedQuiz = await client.updateQuiz(cid as string, quiz);
     dispatch(updateQuiz(updatedQuiz)); 
   };
@@ -99,6 +98,10 @@ export default function Quizzes() {
     };
   }, [contextMenu]);
 
+  const handleQuizClick = (quizId: string) => {
+    navigate(`/Kanbas/courses/${cid}/quizzes/${quizId}`);
+  };
+
   return (
     <div id="wd-quizzes" className="container mt-4">
       <button 
@@ -125,7 +128,10 @@ export default function Quizzes() {
           >
             <div className="w-100">
               {/* Quiz Name */}
-              <div className="text-dark mb-2">
+              <div 
+                className="text-dark mb-2 cursor-pointer"
+                onClick={() => handleQuizClick(quiz._id)}
+              >
                 <strong className="fs-4">{quiz.name}</strong>
               </div>
 
@@ -200,6 +206,3 @@ export default function Quizzes() {
     </div>
   );
 }
-
-
-

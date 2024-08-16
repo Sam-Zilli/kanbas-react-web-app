@@ -23,9 +23,7 @@ export default function Quizzes() {
       };
       
       const fetchQuizzes = async () => {
-        console.log("index.tsx")
         const quizzes = await client.findQuizzesForCourse(cid as string);
-        console.log("index.tsx")
         dispatch(setQuizzes(quizzes));
       };
       useEffect(() => {

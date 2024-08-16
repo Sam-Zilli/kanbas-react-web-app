@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
     setQuizzes,
-    updateQuiz
+    addQuiz,
+    editQuiz,
+    updateQuiz,
+    deleteQuiz
   } from "./reducer";
 
 export default function Quizzes() {
@@ -15,10 +18,10 @@ export default function Quizzes() {
       const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
       const dispatch = useDispatch();
 
-    //   const createQuiz = async (quiz: any) => {
-    //     const newQuiz = await client.createQuiz(cid as string, quiz);
-    //     dispatch(addQuiz(newQuiz));
-    //   };
+      const createQuiz = async (quiz: any) => {
+        const newQuiz = await client.createQuiz(cid as string, quiz);
+        dispatch(addQuiz(newQuiz));
+      };
       
       const fetchQuizzes = async () => {
         const quizzes = await client.findQuizzesForCourse(cid as string);

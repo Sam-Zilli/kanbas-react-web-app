@@ -41,9 +41,7 @@ export default function Quizzes() {
   };
 
   const handleAddQuiz = () => {
-    console.log("in ahndleAddQuix1")
     navigate(`/Kanbas/courses/${cid}/quizzes/new`);
-    console.log("in handle add qyux 2")
   };
 
 

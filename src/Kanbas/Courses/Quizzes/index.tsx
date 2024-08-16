@@ -33,8 +33,8 @@ export default function Quizzes() {
   }, []);
 
   const saveQuizzes = async (quiz: any) => {
+    console.log("index.tsx saveQuizzes")
     await client.updateQuiz(cid as string, quiz);
-    dispatch(updateQuiz(quiz));
   };
 
   const removeQuiz = async (quizId: string) => {

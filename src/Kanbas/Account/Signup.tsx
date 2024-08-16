@@ -58,8 +58,8 @@ export default function Signup() {
         className="wd-role form-control mb-2"
       >
         <option value="">Select role...</option>
-        <option value="student">Student</option>
-        <option value="faculty">Faculty</option>
+        <option value="STUDENT">Student</option>
+        <option value="FACULTY">Faculty</option>
       </select>
       <button onClick={signup} className="wd-signup-btn btn btn-primary mb-2">
         Sign up

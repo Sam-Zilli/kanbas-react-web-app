@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Forbidden = () => {
+
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.accountReducer.currentUser);
+
+  // Log user type for testing
+  console.log("User Type on Forbidden Page:", currentUser?.role);
+
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>403 Forbidden</h1>

@@ -10,7 +10,7 @@ export default function QuizEditor() {
   const dispatch = useDispatch();
   const [tab, setTab] = useState("details");
   const [quizData, setQuizData] = useState({
-    title: "",
+    title: "New Quiz Title",
     description: "",
     quizType: "Graded Quiz",
     points: 0,

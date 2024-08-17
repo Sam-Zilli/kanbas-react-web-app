@@ -11,7 +11,6 @@ import Forbidden from "./Forbidden";
 
 function KanbasContent() {
   // Get Current User
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
     <div id="wd-kanbas">
@@ -27,7 +26,7 @@ function KanbasContent() {
               path="Dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard currentUser={currentUser} />
+                  <Dashboard />
                 </ProtectedRoute>
               }
             />

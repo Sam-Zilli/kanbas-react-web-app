@@ -1,26 +1,16 @@
-// src/Kanbas/Dashboard.tsx
-import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import * as client from "../Courses/client"
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as client from '../Courses/client';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Course } from "../types"
+import { Course } from '../types';
+import { setCurrentUser } from '../Account/reducer';
+import { Link } from 'react-router-dom';
 
-// interface Course {
-//   _id: string;
-//   name: string;
-//   number: string;
-//   startDate: string;
-//   endDate: string;
-//   description: string;
-// }
-
-interface DashboardProps {
-  currentUser: any;
-}
-
-export default function Dashboard({ currentUser }: DashboardProps) {
+export default function Dashboard() {
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [formErrors, setFormErrors] = useState<any>({});
@@ -29,17 +19,16 @@ export default function Dashboard({ currentUser }: DashboardProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // const courseNumbers = currentUser.courses;
-  // const filteredCourses = courses.filter((course) => courseNumbers.includes(course.number));
-
   const fetchCourses = useCallback(async () => {
     const courses = await client.fetchUsersCourses(currentUser.username);
     setCourses(courses);
-  }, []);
+  }, [currentUser.username]);
 
   useEffect(() => {
-    fetchCourses();
-  }, [fetchCourses]);
+    if (currentUser) {
+      fetchCourses();
+    }
+  }, [fetchCourses, currentUser]);
 
   const deleteCourse = async (courseId: string) => {
     await client.deleteCourse(courseId);
@@ -82,7 +71,12 @@ export default function Dashboard({ currentUser }: DashboardProps) {
           setCourseExistsError("Course number already exists");
           return;
         }
+        // Create Course Selected!
         await client.createCourse(selectedCourse, currentUser);
+        // Fetch updated user data
+        const updatedUser = await client.fetchUserById(currentUser._id);
+        dispatch(setCurrentUser(updatedUser)); // Update Redux store
+        fetchCourses();
       }
       setShowModal(false);
       setSelectedCourse(null);

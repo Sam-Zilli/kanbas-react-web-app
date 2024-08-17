@@ -133,6 +133,15 @@ export const updateCourse = async (course: any) => {
 };
 
 
-export const findCoursesByIds = async (courseNumbers: [String]) => {
-  return ""
-}
+// Fetch a user by ID
+export const fetchUserById = async (userId: string) => {
+  const url = `${USERS_API}/${userId}`;
+  try {
+    const { data } = await axios.get(url);
+    console.log("Fetched user:", data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching user by ID:', error);
+    throw error;
+  }
+};

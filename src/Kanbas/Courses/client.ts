@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as usersClient from "./People/client";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+export const USERS_API = `${REMOTE_SERVER}/api/users`;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 
@@ -25,6 +26,7 @@ export const createCourse = async (course: any, currentUser: any) => {
 
     // Step 2: Update the current user's courses list
     const updatedCourses = [...currentUser.courses, newCourse.number];
+    console.log("Updated Courses (should include new one?): ", updatedCourses)
     
     // Create an updated user object
     const updatedCurrentUser = {
@@ -32,32 +34,58 @@ export const createCourse = async (course: any, currentUser: any) => {
       courses: updatedCourses
     };
 
-    console.log(updatedCurrentUser)
-
     // Step 3: Update the user in the database
     await usersClient.updateUser(updatedCurrentUser);
 
-    // Return the new course
-    return newCourse;
+
+    // Step 4: Fetch all courses and filter based on the user's course list
+    const allCourses = await fetchAllCourses();
+    const filteredCourses = allCourses.filter((c: any) => updatedCurrentUser.courses.includes(c.number));
+
+    return filteredCourses;
+
   } catch (error) {
     console.error("Error creating course or updating user:", error);
     throw error;
   }
 };
 
-// Delete a course by ID
+// Delete a course by ID and update all users' course lists
 export const deleteCourse = async (id: string) => {
   try {
-    //console.log("Sending request to delete course with ID:", id);
-    const response = await axios.delete(`${COURSES_API}/${id}`);
-    //console.log("Course deleted successfully:", response.data);
-    return response.data;
+    // Step 1: Fetch the course to get the course number
+    const { data: deletedCourse } = await axios.get(`${COURSES_API}/${id}`);
+    const deletedCourseNumber = deletedCourse.number;
+
+    // Step 2: Delete the course
+    await axios.delete(`${COURSES_API}/${id}`);
+
+    // Step 3: Fetch all users
+    const { data: users } = await axios.get(USERS_API);
+
+    // Step 4: Update each user's course list
+    const updateUserPromises = users.map(async (user: any) => {
+      const updatedCourses = user.courses.filter((number: string) => number !== deletedCourseNumber);
+
+      if (updatedCourses.length !== user.courses.length) {
+        // Only update if there is a change
+        const updatedUser = {
+          ...user,
+          courses: updatedCourses
+        };
+        await usersClient.updateUser(updatedUser);
+      }
+    });
+
+    // Wait for all user updates to complete
+    await Promise.all(updateUserPromises);
+
+    return deletedCourse;
   } catch (error) {
-    //console.error('Error deleting course:', error);
+    console.error('Error deleting course or updating users:', error);
     throw error;
   }
 };
-
 // Update a course
 export const updateCourse = async (course: any) => {
   //console.log("Starting updateCourse");

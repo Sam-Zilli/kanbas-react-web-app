@@ -10,7 +10,6 @@ import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./Forbidden";
 import * as client from "./Courses/client";
-import { current } from "@reduxjs/toolkit";
 
 function KanbasContent() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -35,9 +34,8 @@ function KanbasContent() {
   }, [fetchCourses]);
 
   const addNewCourse = async () => {
-    const newCourse = await client.createCourse(course, currentUser);
-    console.log("about to set courses?")
-    setCourses([...courses, newCourse]);
+    const updatedCourses = await client.createCourse(course, currentUser);
+    setCourses([...updatedCourses]);
   };
 
   const deleteCourse = async (courseId: string) => {

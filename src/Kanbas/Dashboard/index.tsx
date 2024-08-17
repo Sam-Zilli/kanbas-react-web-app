@@ -1,15 +1,25 @@
-// src/Kanbas/Dashboard.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import * as client from "../Courses/client";
 
-// Define the props type
+interface Course {
+  _id: string;
+  name: string;
+  number: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+
 interface DashboardProps {
-  courses: any[];
-  setCourses: (courses: any[]) => void;
-  course: any;
-  setCourse: (course: any) => void;
-  currentUser: any;
+  courses: Course[];
+  setCourses: (courses: Course[]) => void;
+  course: Course;
+  setCourse: React.Dispatch<React.SetStateAction<Course>>;
+  currentUser: {
+    courses: string[];
+  };
 }
 
 export default function Dashboard({
@@ -35,7 +45,21 @@ export default function Dashboard({
     fetchCourses();
   }, [fetchCourses]);
 
-
+  useEffect(() => {
+    if (!course._id) {
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowDate = tomorrow.toISOString().split('T')[0]; // YYYY-MM-DD
+  
+      setCourse((prevCourse) => ({
+        ...prevCourse,
+        startDate: today,
+        endDate: tomorrowDate
+      }));
+    }
+  }, [course._id, setCourse]);
+  
 
   const deleteCourse = async (courseId: string) => {
     await client.deleteCourse(courseId);
@@ -55,15 +79,11 @@ export default function Dashboard({
     if (!course.number) errors.number = "Course number is required";
     if (!course.startDate) errors.startDate = "Start date is required";
     if (!course.endDate) errors.endDate = "End date is required";
-    if (!course.description) errors.description = "Description is required";
     if (new Date(course.startDate) > new Date(course.endDate)) errors.dateRange = "End date must be after start date";
     return errors;
   };
 
-
-
   const addNewCourse = async () => {
-    console.log("in index.tsx addNewCourse")
     try {
       const updatedCourses = await client.createCourse(course, currentUser);
       setCourses(updatedCourses);
@@ -72,9 +92,7 @@ export default function Dashboard({
     }
   };
 
-  
   const handleCreateCourse = async () => {
-    console.log("In index.tsx handleCreateCourse")
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -84,13 +102,14 @@ export default function Dashboard({
     setCourseExistsError(null);
     setLoading(true);
     try {
-      const exists = false; // WILL ADD CHECK HERE IF COURSE NUM ALRADY EXISTS
+      const exists = false; // WILL ADD CHECK HERE IF COURSE NUM ALREADY EXISTS
       if (exists) {
         setCourseExistsError("Course number already exists");
         return;
       }
       await addNewCourse();
       setCourse({
+        _id: "",
         name: "",
         number: "",
         startDate: "",
@@ -115,6 +134,7 @@ export default function Dashboard({
     try {
       await updateCourse();
       setCourse({
+        _id: "",
         name: "",
         number: "",
         startDate: "",
@@ -205,13 +225,13 @@ export default function Dashboard({
         {formErrors.dateRange && <div className="text-danger">{formErrors.dateRange}</div>}
 
         <button
-          type="button"
-          className="btn btn-primary me-2"
-          onClick={handleCreateCourse}
-          disabled={loading || course._id}
-        >
-          {loading ? 'Creating...' : 'Create Course'}
-        </button>
+  type="button"
+  className="btn btn-primary me-2"
+  onClick={handleCreateCourse}
+  disabled={loading || !!course._id}
+>
+  {loading ? 'Creating...' : 'Create Course'}
+</button>
 
         {course._id && (
           <button

@@ -19,6 +19,7 @@ export const fetchAllCourses = async () => {
 
 // Create a new course and update the current user's course list
 export const createCourse = async (course: any, currentUser: any) => {
+  console.log("client.ts createCourse")
   try {
     // Step 1: Create the new course
     const newCourseResponse = await axios.post(COURSES_API, course);

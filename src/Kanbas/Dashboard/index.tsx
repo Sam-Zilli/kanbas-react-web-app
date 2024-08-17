@@ -35,14 +35,7 @@ export default function Dashboard({
     fetchCourses();
   }, [fetchCourses]);
 
-  const addNewCourse = async () => {
-    try {
-      const updatedCourses = await client.createCourse(course, currentUser);
-      setCourses(updatedCourses);
-    } catch (error) {
-      console.error("Failed to create course:", error);
-    }
-  };
+
 
   const deleteCourse = async (courseId: string) => {
     await client.deleteCourse(courseId);
@@ -67,7 +60,21 @@ export default function Dashboard({
     return errors;
   };
 
+
+
+  const addNewCourse = async () => {
+    console.log("in index.tsx addNewCourse")
+    try {
+      const updatedCourses = await client.createCourse(course, currentUser);
+      setCourses(updatedCourses);
+    } catch (error) {
+      console.error("Failed to create course:", error);
+    }
+  };
+
+  
   const handleCreateCourse = async () => {
+    console.log("In index.tsx handleCreateCourse")
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);

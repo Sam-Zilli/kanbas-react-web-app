@@ -112,7 +112,7 @@ export default function Dashboard() {
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
 
-      {/* Conditionally render the "Add Course" button */}
+      {/* Conditionally render the "New Course" button */}
       {currentUser?.role === "FACULTY" && (
         <Button
           variant="primary"
@@ -166,20 +166,25 @@ export default function Dashboard() {
                   >
                     View Course
                   </Link>
-                  <Button
-                    variant="warning"
-                    className="ms-2"
-                    onClick={() => handleShowModal(course)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    className="ms-2"
-                    onClick={() => deleteCourse(course._id)}
-                  >
-                    Delete
-                  </Button>
+                  {/* Conditionally render Edit and Delete buttons */}
+                  {currentUser?.role === "FACULTY" && (
+                    <>
+                      <Button
+                        variant="warning"
+                        className="ms-2"
+                        onClick={() => handleShowModal(course)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="ms-2"
+                        onClick={() => deleteCourse(course._id)}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

@@ -8,9 +8,10 @@ import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
 import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
-import Forbidden from "./Forbidden"
+import Forbidden from "./Forbidden";
 import * as client from "./Courses/client";
 import { Course } from "./types";
+import AllCourses from "./Courses/Courses";
 
 function KanbasContent() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -18,7 +19,6 @@ function KanbasContent() {
 
   const fetchCourses = useCallback(async () => {
     if (currentUser) {
-      // // console.log("Curren user id: ", currentUser._id)
       const fetchedCourses = await client.fetchUsersCourses(currentUser._id);
       setCourses(fetchedCourses);
     }
@@ -42,8 +42,7 @@ function KanbasContent() {
               path="Dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard
-                  />
+                  <Dashboard />
                 </ProtectedRoute>
               }
             />
@@ -52,6 +51,14 @@ function KanbasContent() {
               element={
                 <ProtectedRoute>
                   <Courses courses={courses} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="Courses"
+              element={
+                <ProtectedRoute>
+                  <AllCourses />
                 </ProtectedRoute>
               }
             />

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as usersClient from "./People/client";
 import { Course } from "../types"
+import * as peopleClient from "./People/client";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
@@ -143,5 +144,42 @@ export const fetchUserById = async (userId: string) => {
   } catch (error) {
     console.error('Error fetching user by ID:', error);
     throw error;
+  }
+};
+
+export const enrollInCourse = async (courseId: string, uid: string) => {
+  try {
+    console.log("In enrollInCourse");
+
+    // Fetch the current user data
+    const userResponse = await axios.get(`${USERS_API}/${uid}`);
+    const user = userResponse.data;
+    console.log("User Data: ", user);
+
+    // Fetch the course data
+    const courseResponse = await axios.get(`${COURSES_API}/${courseId}`);
+    const course = courseResponse.data;
+    console.log("Course Data: ", course);
+
+    // Add the course number to the user's enrolledCourses list
+    const updatedUser = {
+      ...user,
+      courses: user.courses? [...user.courses, course.number] : [course.number],
+    };
+
+    console.log("Updated User: ", updatedUser);
+
+    // Update the user data
+    const updatedUserResponse = await peopleClient.updateUser(updatedUser);
+    console.log("Updated User Response: ", updatedUserResponse);
+
+    // Return a success response
+    return { success: true, message: "Successfully enrolled in the course." };
+  } catch (error) {
+    console.error('Failed to enroll in course:', error);
+
+    // Handle the error properly
+    const errorMessage = (error as Error).message || 'An unknown error occurred.';
+    return { success: false, message: errorMessage };
   }
 };

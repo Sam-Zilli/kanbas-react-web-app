@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import * as client from "../Courses/client"
 
 export default function Dashboard({
   courses,
@@ -16,6 +18,19 @@ export default function Dashboard({
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
 }) {
+
+  // Instead of loading ALL courses, only load the ones that current user is in
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const courseNumbers = currentUser.courses;
+
+  
+
+  // Filter the courses to include only those whose numbers are in courseNumbers
+  const filteredCourses = courses.filter(course => courseNumbers.includes(course.number));
+  console.log(filteredCourses)
+
+
+
   const defaultImage = "./images/default.jpg";
   return (
     <div id="wd-dashboard">
@@ -51,12 +66,12 @@ export default function Dashboard({
       />
       <hr />
       <h2 id="wd-dashboard-published">
-        Published Courses ({courses.length})
+        Published Courses ({filteredCourses.length})
       </h2>{" "}
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses.map((course) => (
+          {filteredCourses.map((course) => (
             <div
               key={course._id}
               className="wd-dashboard-course col"

@@ -52,3 +52,8 @@ export const updateCourse = async (course: any) => {
     throw error;
   }
 };
+
+
+export const findCoursesByIds = async (courseNumbers: [String]) => {
+  return ""
+}

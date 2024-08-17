@@ -5,15 +5,16 @@ import * as client from "../Courses/client"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Course } from "../types"
 
-interface Course {
-  _id: string;
-  name: string;
-  number: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
+// interface Course {
+//   _id: string;
+//   name: string;
+//   number: string;
+//   startDate: string;
+//   endDate: string;
+//   description: string;
+// }
 
 interface DashboardProps {
   currentUser: any;
@@ -32,7 +33,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
   // const filteredCourses = courses.filter((course) => courseNumbers.includes(course.number));
 
   const fetchCourses = useCallback(async () => {
-    const courses = await client.fetchAllCourses();
+    const courses = await client.fetchUsersCourses(currentUser.username);
     setCourses(courses);
   }, []);
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as usersClient from "./People/client";
+import { Course } from "../types"
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
@@ -19,21 +20,33 @@ export const fetchAllCourses = async () => {
 };
 
 
-// Get courses that are in the User's id list
-export const fetchUsersCourses = async () => {
+export const fetchUsersCourses = async (username: string) => {
+  console.log("client.ts fetchUsersCourses, username: ", username);
+  const url = `${USERS_API}/courses/${username}`;
+  
   try {
-    const { data } = await axios.get(COURSES_API);
-    console.log("client.ts fetchUsersCourses: ", data)
+    // Fetch the user's course numbers
+    const { data: userCourses } = await axios.get(url);
+    console.log("User courses:", userCourses);
 
-    // do the filtering here!
-    const filteredCourses = ""
+    // Fetch all available courses
+    const allCourses = await fetchAllCourses();
+    console.log("All courses:", allCourses);
 
-    return filteredCourses;
+    // Filter the courses
+    const selectedCourses = allCourses.filter((course: Course) => 
+      userCourses.includes(course.number)
+    );
+
+    return selectedCourses;
+
   } catch (error) {
     console.error('Error fetching courses:', error);
     throw error;
   }
 };
+
+
 
 // Create a new course and update the current user's course list
 export const createCourse = async (course: any, currentUser: any) => {

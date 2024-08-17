@@ -13,3 +13,13 @@ export interface Assignment {
   availableUntil: string;
   editing?: boolean;
 }
+
+
+export interface Course {
+  _id: string;
+  name: string;
+  number: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}

@@ -11,7 +11,7 @@ const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 export const fetchAllCourses = async () => {
   try {
     const { data } = await axios.get(COURSES_API);
-    console.log("client.ts fetchAllCourses: ", data)
+    // console.log("client.ts fetchAllCourses: ", data)
     return data;
   } catch (error) {
     console.error('Error fetching courses:', error);
@@ -21,17 +21,17 @@ export const fetchAllCourses = async () => {
 
 
 export const fetchUsersCourses = async (userId: string) => {
-  console.log("client.ts fetchUsersCourses, user id: ", userId);
+  // console.log("client.ts fetchUsersCourses, user id: ", userId);
   const url = `${USERS_API}/courses/${userId}`;
-  console.log(url)
+  // console.log(url)
   try {
     // Fetch the user's course numbers
     const { data: userCourses } = await axios.get(url);
-    console.log("User courses:", userCourses);
+    // console.log("User courses:", userCourses);
 
     // Fetch all available courses
     const allCourses = await fetchAllCourses();
-    console.log("All courses:", allCourses);
+    // console.log("All courses:", allCourses);
 
     // Filter the courses
     const selectedCourses = allCourses.filter((course: Course) => 
@@ -50,7 +50,7 @@ export const fetchUsersCourses = async (userId: string) => {
 
 // Create a new course and update the current user's course list
 export const createCourse = async (course: any, currentUser: any) => {
-  console.log("client.ts createCourse")
+  // console.log("client.ts createCourse")
   try {
     // Step 1: Create the new course
     const newCourseResponse = await axios.post(COURSES_API, course);
@@ -58,7 +58,7 @@ export const createCourse = async (course: any, currentUser: any) => {
 
     // Step 2: Update the current user's courses list
     const updatedCourses = [...currentUser.courses, newCourse.number];
-    console.log("Updated Courses (should include new one?): ", updatedCourses)
+    // console.log("Updated Courses (should include new one?): ", updatedCourses)
     
     // Create an updated user object
     const updatedCurrentUser = {
@@ -120,11 +120,11 @@ export const deleteCourse = async (id: string) => {
 };
 // Update a course
 export const updateCourse = async (course: any) => {
-  //console.log("Starting updateCourse");
+  //// console.log("Starting updateCourse");
   try {
-    //console.log("Updating course with data:", course);
+    //// console.log("Updating course with data:", course);
     const response = await axios.put(`${COURSES_API}/${course._id}`, course);
-    //console.log("Course updated successfully:", response.data);
+    //// console.log("Course updated successfully:", response.data);
     return response.data;
   } catch (error) {
     //console.error('Error updating course:', error);
@@ -138,7 +138,7 @@ export const fetchUserById = async (userId: string) => {
   const url = `${USERS_API}/${userId}`;
   try {
     const { data } = await axios.get(url);
-    console.log("Fetched user:", data);
+    // console.log("Fetched user:", data);
     return data;
   } catch (error) {
     console.error('Error fetching user by ID:', error);

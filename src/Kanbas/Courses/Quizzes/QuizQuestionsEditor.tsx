@@ -14,7 +14,7 @@ export default function QuizQuestionsEditor() {
   };
 
   const handleCancelClick = () => {
-    console.log("Cancelled")
+    // console.log("Cancelled")
     };
 
   return (

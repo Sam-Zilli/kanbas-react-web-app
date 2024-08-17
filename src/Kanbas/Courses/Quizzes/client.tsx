@@ -50,7 +50,7 @@ export const updateQuiz = async (courseId: string, quiz: any) => {
 
 // Wrapper function to update a quiz
 export const saveQuiz = async (courseId: string, quiz: any) => {
-  console.log("In client.tsx saveQuiz")
+  // console.log("In client.tsx saveQuiz")
   try {
     const response = await updateQuiz(courseId, quiz);
     return response;

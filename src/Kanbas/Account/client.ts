@@ -47,6 +47,6 @@ export const signout = async () => {
 
 // pass in a user
 export const updateProfile = async (profileData: User) => {
-  console.log("UpdateProfile: ", profileData)
+  // // console.log("UpdateProfile: ", profileData)
   peopleClient.updateUser(profileData)
 }

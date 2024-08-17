@@ -18,7 +18,7 @@ function KanbasContent() {
 
   const fetchCourses = useCallback(async () => {
     if (currentUser) {
-      console.log("Curren user id: ", currentUser._id)
+      // // console.log("Curren user id: ", currentUser._id)
       const fetchedCourses = await client.fetchUsersCourses(currentUser._id);
       setCourses(fetchedCourses);
     }

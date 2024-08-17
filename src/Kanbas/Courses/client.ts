@@ -10,7 +10,25 @@ const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 export const fetchAllCourses = async () => {
   try {
     const { data } = await axios.get(COURSES_API);
+    console.log("client.ts fetchAllCourses: ", data)
     return data;
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    throw error;
+  }
+};
+
+
+// Get courses that are in the User's id list
+export const fetchUsersCourses = async () => {
+  try {
+    const { data } = await axios.get(COURSES_API);
+    console.log("client.ts fetchUsersCourses: ", data)
+
+    // do the filtering here!
+    const filteredCourses = ""
+
+    return filteredCourses;
   } catch (error) {
     console.error('Error fetching courses:', error);
     throw error;

@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const fetchCourses = useCallback(async () => {
-    const courses = await client.fetchUsersCourses(currentUser.username);
+    const courses = await client.fetchUsersCourses(currentUser._id);
     setCourses(courses);
   }, [currentUser.username]);
 

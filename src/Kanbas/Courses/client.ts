@@ -20,10 +20,10 @@ export const fetchAllCourses = async () => {
 };
 
 
-export const fetchUsersCourses = async (username: string) => {
-  console.log("client.ts fetchUsersCourses, username: ", username);
-  const url = `${USERS_API}/courses/${username}`;
-  
+export const fetchUsersCourses = async (userId: string) => {
+  console.log("client.ts fetchUsersCourses, user id: ", userId);
+  const url = `${USERS_API}/courses/${userId}`;
+  console.log(url)
   try {
     // Fetch the user's course numbers
     const { data: userCourses } = await axios.get(url);

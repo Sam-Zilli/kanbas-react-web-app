@@ -5,7 +5,6 @@ import { setCurrentUser } from "./reducer";
 import * as client from "./client";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,6 +31,16 @@ export default function Profile() {
       navigate("/Kanbas/Account/Signin");
     } catch (err) {
       console.error("Signout error:", err);
+    }
+  };
+
+  const saveProfile = async () => {
+    try {
+      await client.updateProfile(profile);
+      alert("Profile updated successfully!");
+    } catch (err) {
+      console.error("Save profile error:", err);
+      alert("Failed to update profile.");
     }
   };
 
@@ -120,6 +129,13 @@ export default function Profile() {
               <option value="STUDENT">Student</option>
             </select>
           </div>
+          <button 
+            type="button" 
+            onClick={saveProfile} 
+            className="btn btn-primary w-100 mb-3"
+          >
+            Save
+          </button>
           <button 
             type="button" 
             onClick={signout} 

@@ -23,3 +23,13 @@ export interface Course {
   endDate: string;
   description: string;
 }
+
+export interface User {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dob: string; 
+  email: string;
+  role: 'USER' | 'ADMIN' | 'FACULTY' | 'STUDENT';
+}

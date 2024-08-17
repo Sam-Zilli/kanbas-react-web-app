@@ -1,6 +1,10 @@
 import axios from "axios";
+import { User } from "../types"
+import * as peopleClient from "../Courses/People/client";
+
 
 const axiosWithCredentials = axios.create({ withCredentials: true });
+
 
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
@@ -40,3 +44,9 @@ export const signout = async () => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
   return response.data;
 };
+
+// pass in a user
+export const updateProfile = async (profileData: User) => {
+  console.log("UpdateProfile: ", profileData)
+  peopleClient.updateUser(profileData)
+}

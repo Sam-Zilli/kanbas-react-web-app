@@ -8,7 +8,7 @@ import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
 import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
-import Forbidden from "./Forbidden";
+import Forbidden from "./Forbidden"
 import * as client from "./Courses/client";
 import { Course } from "./types";
 

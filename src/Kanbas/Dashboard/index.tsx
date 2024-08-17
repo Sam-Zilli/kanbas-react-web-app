@@ -8,7 +8,6 @@ import { Course } from '../types';
 import { setCurrentUser } from '../Account/reducer';
 import { Link } from 'react-router-dom';
 
-
 export default function Dashboard() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
@@ -21,15 +20,15 @@ export default function Dashboard() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const fetchCourses = useCallback(async () => {
-    const courses = await client.fetchUsersCourses(currentUser._id);
-    setCourses(courses);
-  }, [currentUser.username]);
+    if (currentUser) {
+      const courses = await client.fetchUsersCourses(currentUser._id);
+      setCourses(courses);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser) {
-      fetchCourses();
-    }
-  }, [fetchCourses, currentUser]);
+    fetchCourses();
+  }, [fetchCourses]);
 
   const deleteCourse = async (courseId: string) => {
     await client.deleteCourse(courseId);
@@ -72,7 +71,7 @@ export default function Dashboard() {
           setCourseExistsError("Course number already exists");
           return;
         }
-        // Create Course Selected!
+        // Create Course
         await client.createCourse(selectedCourse, currentUser);
         // Fetch updated user data
         const updatedUser = await client.fetchUserById(currentUser._id);
@@ -113,12 +112,15 @@ export default function Dashboard() {
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
 
-      <Button
-        variant="primary"
-        onClick={() => handleShowModal()}
-      >
-        New Course
-      </Button>
+      {/* Conditionally render the "Add Course" button */}
+      {currentUser?.role === "FACULTY" && (
+        <Button
+          variant="primary"
+          onClick={() => handleShowModal()}
+        >
+          New Course
+        </Button>
+      )}
 
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})

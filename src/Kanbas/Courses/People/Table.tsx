@@ -12,18 +12,17 @@ export default function PeopleTable() {
 
 
 
-  const createUser = async () => {
-    const user = await client.createUser({
-      firstName: "New",
-      lastName: `User${users.length + 1}`,
-      username: `newuser${Date.now()}`,
-      password: "password123",
-      section: "S101",
-      role: "STUDENT",
-    });
-    setUsers([...users, user]);
-  };
-
+  // const createUser = async () => {
+  //   const user = await client.createUser({
+  //     firstName: "New",
+  //     lastName: `User${users.length + 1}`,
+  //     username: `newuser${Date.now()}`,
+  //     password: "password123",
+  //     section: "S101",
+  //     role: "STUDENT",
+  //   });
+  //   setUsers([...users, user]);
+  // };
 
 
   const filterUsersByName = async (name: string) => {
@@ -32,7 +31,7 @@ export default function PeopleTable() {
       const users = await client.findUsersByPartialName(name);
       setUsers(users);
     } else {
-      fetchUsers();
+      fetchUsersInCourse();
     }
   };
 
@@ -43,29 +42,32 @@ export default function PeopleTable() {
       const users = await client.findUsersByRole(role);
       setUsers(users);
     } else {
-      fetchUsers();
+      fetchUsersInCourse();
     }
   };
 
-  const fetchUsers = async () => {
-    const users = await client.findAllUsers();
+  const fetchUsersInCourse = async () => {
+    const users = await client.findAllUsersInCourse(cid as string);
     setUsers(users);
   };
   useEffect(() => {
-    fetchUsers();
+    fetchUsersInCourse();
   }, []);
 
   return (
     <div id="wd-people-table">
-      <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
+      {/* <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
         <FaPlus className="me-2" />
         People
-      </button>
+      </button> */}
+
       <input
         onChange={(e) => filterUsersByName(e.target.value)}
         placeholder="Search people"
         className="form-control float-start w-25 me-2 wd-filter-by-name"
       />
+
+
       <select
         value={role}
         onChange={(e) => filterUsersByRole(e.target.value)}
@@ -76,6 +78,9 @@ export default function PeopleTable() {
         <option value="TA">Assistants</option>{" "}
         <option value="FACULTY">Faculty</option>
       </select>
+
+
+
       <table className="table table-striped">
         <thead>
           <tr>
@@ -107,7 +112,7 @@ export default function PeopleTable() {
           ))}
         </tbody>
       </table>
-      <PeopleDetails fetchUsers={fetchUsers} />
+      <PeopleDetails fetchUsers={fetchUsersInCourse} />
     </div>
   );
 }

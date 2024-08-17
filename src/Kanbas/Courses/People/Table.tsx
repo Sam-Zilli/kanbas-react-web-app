@@ -11,27 +11,13 @@ export default function PeopleTable() {
   const [name, setName] = useState("");
 
 
-
-  // const createUser = async () => {
-  //   const user = await client.createUser({
-  //     firstName: "New",
-  //     lastName: `User${users.length + 1}`,
-  //     username: `newuser${Date.now()}`,
-  //     password: "password123",
-  //     section: "S101",
-  //     role: "STUDENT",
-  //   });
-  //   setUsers([...users, user]);
-  // };
-
-
   const filterUsersByName = async (name: string) => {
     setName(name);
     if (name) {
       const users = await client.findUsersByPartialName(name);
       setUsers(users);
     } else {
-      fetchUsersInCourse();
+      findAllUsersInCourse();
     }
   };
 
@@ -42,17 +28,19 @@ export default function PeopleTable() {
       const users = await client.findUsersByRole(role);
       setUsers(users);
     } else {
-      fetchUsersInCourse();
+      findAllUsersInCourse();
     }
   };
 
-  const fetchUsersInCourse = async () => {
-    const users = await client.findAllUsersInCourse(cid as string);
+  const findAllUsersInCourse = async () => {
+    const users = await client.findUsersForCourse(cid as string)
     setUsers(users);
   };
+
   useEffect(() => {
-    fetchUsersInCourse();
+    findAllUsersInCourse();
   }, []);
+
 
   return (
     <div id="wd-people-table">
@@ -112,7 +100,7 @@ export default function PeopleTable() {
           ))}
         </tbody>
       </table>
-      <PeopleDetails fetchUsers={fetchUsersInCourse} />
+      <PeopleDetails fetchUsers={findAllUsersInCourse} />
     </div>
   );
 }

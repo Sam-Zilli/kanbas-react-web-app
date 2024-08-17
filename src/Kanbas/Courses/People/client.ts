@@ -1,6 +1,7 @@
 import axios from "axios";
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
+const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 export const findAllUsers = async () => {
   const response = await axios.get(USERS_API);
@@ -12,26 +13,6 @@ export const findUsersByRole = async (role: string) => {
     axios.get(`${USERS_API}?role=${role}`);
   return response.data;
 };
-
-export const findAllUsersInCourse = async (cid: string) => {
-  const response = [
-    {
-      "username": "iron_man",
-      "password": "stark123",
-      "firstName": "Tony",
-      "lastName": "Stark",
-      "email": "tony@stark.com",
-      "dob": "1970-05-29",
-      "role": "STUDENT",
-      "loginId": "001234561S",
-      "section": "S101",
-      "lastActivity": "2020-10-01",
-      "totalActivity": "10:21:32",
-      "courses": ["RS101", "RS102"] 
-    }]
-    return response;
-}
-
 
 export const findUsersByPartialName = async (name: string) => {
   const response = await axios.get(`${USERS_API}?name=${name}`);
@@ -60,4 +41,14 @@ export const createUser = async (user: any) => {
   return response.data;
 };
 
+export const findUsersForCourse = async (courseId: string) => {
+  try {
 
+    const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+
+    return response.data;
+  } catch (error) {
+    console.error(`Error finding users for course ID: ${courseId}`, error);
+    throw error; 
+  }
+};

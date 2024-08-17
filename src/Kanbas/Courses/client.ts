@@ -161,10 +161,17 @@ export const enrollInCourse = async (courseId: string, uid: string) => {
     const course = courseResponse.data;
     console.log("Course Data: ", course);
 
-    // Add the course number to the user's enrolledCourses list
+    // Check if the course is already in the user's courses list
+    const isCourseAlreadyEnrolled = user.courses && user.courses.includes(course.number);
+    if (isCourseAlreadyEnrolled) {
+      console.log("User is already enrolled in this course");
+      return { success: false, message: "Already enrolled in this course." };
+    }
+
+    // Add the course number to the user's courses list
     const updatedUser = {
       ...user,
-      courses: user.courses? [...user.courses, course.number] : [course.number],
+      courses: user.courses ? [...user.courses, course.number] : [course.number],
     };
 
     console.log("Updated User: ", updatedUser);

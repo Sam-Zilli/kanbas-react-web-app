@@ -36,6 +36,7 @@ function KanbasContent() {
 
   const addNewCourse = async () => {
     const newCourse = await client.createCourse(course, currentUser);
+    console.log("about to set courses?")
     setCourses([...courses, newCourse]);
   };
 

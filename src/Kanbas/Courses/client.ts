@@ -32,6 +32,8 @@ export const createCourse = async (course: any, currentUser: any) => {
       courses: updatedCourses
     };
 
+    console.log(updatedCurrentUser)
+
     // Step 3: Update the user in the database
     await usersClient.updateUser(updatedCurrentUser);
 

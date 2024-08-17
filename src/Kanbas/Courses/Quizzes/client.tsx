@@ -39,9 +39,7 @@ export const findQuizzesForCourse = async (courseId: string) => {
 // Function to update an existing quiz
 export const updateQuiz = async (courseId: string, quiz: any) => {
   try {
-    console.log("client.tsx updateQuiz")
     const quizId = quiz._id.toString();
-    console.log(quizId)
     const response = await axios.put(`${COURSES_API}/${courseId}/quizzes/${quizId}`, quiz);
     return response.data;
   } catch (error) {

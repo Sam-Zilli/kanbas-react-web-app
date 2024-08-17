@@ -8,6 +8,7 @@ import { Course } from '../types';
 import { setCurrentUser } from '../Account/reducer';
 import { Link } from 'react-router-dom';
 
+
 export default function Dashboard() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: any) => state.accountReducer.currentUser);

@@ -1,7 +1,9 @@
 import axios from 'axios';
+import * as usersClient from "./People/client";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+
 
 // Fetch all courses
 export const fetchAllCourses = async () => {
@@ -14,14 +16,29 @@ export const fetchAllCourses = async () => {
   }
 };
 
-// Create a new course
-export const createCourse = async (course: any) => {
+// Create a new course and update the current user's course list
+export const createCourse = async (course: any, currentUser: any) => {
   try {
+    // Step 1: Create the new course
+    const newCourseResponse = await axios.post(COURSES_API, course);
+    const newCourse = newCourseResponse.data;
 
-    const response = await axios.post(COURSES_API, course);
+    // Step 2: Update the current user's courses list
+    const updatedCourses = [...currentUser.courses, newCourse.number];
+    
+    // Create an updated user object
+    const updatedCurrentUser = {
+      ...currentUser,
+      courses: updatedCourses
+    };
 
-    return response.data;
+    // Step 3: Update the user in the database
+    await usersClient.updateUser(updatedCurrentUser);
+
+    // Return the new course
+    return newCourse;
   } catch (error) {
+    console.error("Error creating course or updating user:", error);
     throw error;
   }
 };

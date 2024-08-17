@@ -1,31 +1,60 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+// src/Kanbas/Dashboard.tsx
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import * as client from "../Courses/client";
 
-export default function Dashboard({
-  courses,
-  course,
-  setCourse,
-  addNewCourse,
-  deleteCourse,
-  updateCourse,
-}: {
+// Define the props type
+interface DashboardProps {
   courses: any[];
+  setCourses: (courses: any[]) => void;
   course: any;
   setCourse: (course: any) => void;
-  addNewCourse: () => void;
-  deleteCourse: (course: any) => void;
-  updateCourse: () => void;
-}) {
+  currentUser: any;
+}
+
+export default function Dashboard({
+  courses,
+  setCourses,
+  course,
+  setCourse,
+  currentUser
+}: DashboardProps) {
   const [formErrors, setFormErrors] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [courseExistsError, setCourseExistsError] = useState<string | null>(null);
 
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const courseNumbers = currentUser.courses;
+  const filteredCourses = courses.filter((course) => courseNumbers.includes(course.number));
 
-  const filteredCourses = courses.filter(course => courseNumbers.includes(course.number));
+  const fetchCourses = useCallback(async () => {
+    const fetchedCourses = await client.fetchAllCourses();
+    setCourses(fetchedCourses);
+  }, [setCourses]);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
+
+  const addNewCourse = async () => {
+    try {
+      const updatedCourses = await client.createCourse(course, currentUser);
+      setCourses(updatedCourses);
+    } catch (error) {
+      console.error("Failed to create course:", error);
+    }
+  };
+
+  const deleteCourse = async (courseId: string) => {
+    await client.deleteCourse(courseId);
+    setCourses(courses.filter((c) => c._id !== courseId));
+  };
+
+  const updateCourse = async () => {
+    await client.updateCourse(course);
+    setCourses(
+      courses.map((c) => (c._id === course._id ? course : c))
+    );
+  };
 
   const validateForm = () => {
     const errors: any = {};
@@ -48,9 +77,7 @@ export default function Dashboard({
     setCourseExistsError(null);
     setLoading(true);
     try {
-      // Check if course number already exists
-      // const exists = await client.courseExists(course.number);
-      const exists = false
+      const exists = false; // WILL ADD CHECK HERE IF COURSE NUM ALRADY EXISTS
       if (exists) {
         setCourseExistsError("Course number already exists");
         return;
@@ -98,11 +125,10 @@ export default function Dashboard({
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
       
-      <h5>
-        {course._id ? "Edit Course" : "New Course"}
-      </h5>
+      <h5>{course._id ? "Edit Course" : "New Course"}</h5>
       
       {/* New/Edit Course Form */}
       <form>
@@ -237,29 +263,16 @@ export default function Dashboard({
                     </p>
                     <Link
                       to={`/Kanbas/Courses/${course._id}/Home`}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                     >
-                      Go
+                      View Course
                     </Link>
                     <button
-                      onClick={(event) => {
-                        event.preventDefault();
-                        deleteCourse(course._id);
-                      }}
-                      className="btn btn-danger float-end"
-                      id="wd-delete-course-click"
+                      type="button"
+                      className="btn btn-outline-danger ms-2"
+                      onClick={() => deleteCourse(course._id)}
                     >
                       Delete
-                    </button>
-                    <button
-                      id="wd-edit-course-click"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setCourse(course);
-                      }}
-                      className="btn btn-warning me-2 float-end"
-                    >
-                      Edit
                     </button>
                   </div>
                 </div>

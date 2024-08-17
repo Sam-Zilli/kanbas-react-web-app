@@ -24,32 +24,6 @@ function KanbasContent() {
   // Get Current User
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const fetchCourses = useCallback(async () => {
-    const courses = await client.fetchAllCourses();
-    setCourses(courses);
-  }, []);
-
-  useEffect(() => {
-    fetchCourses();
-  }, [fetchCourses]);
-
-  const addNewCourse = async () => {
-    const updatedCourses = await client.createCourse(course, currentUser);
-    setCourses([...updatedCourses]);
-  };
-
-  const deleteCourse = async (courseId: string) => {
-    await client.deleteCourse(courseId);
-    setCourses(courses.filter((c) => c._id !== courseId));
-  };
-
-  const updateCourse = async () => {
-    await client.updateCourse(course);
-    setCourses(
-      courses.map((c) => (c._id === course._id ? course : c))
-    );
-  };
-
   return (
     <div id="wd-kanbas">
       <div className="d-flex h-100">
@@ -66,11 +40,10 @@ function KanbasContent() {
                 <ProtectedRoute>
                   <Dashboard
                     courses={courses}
+                    setCourses={setCourses}
                     course={course}
                     setCourse={setCourse}
-                    addNewCourse={addNewCourse}
-                    deleteCourse={deleteCourse}
-                    updateCourse={updateCourse}
+                    currentUser={currentUser}
                   />
                 </ProtectedRoute>
               }

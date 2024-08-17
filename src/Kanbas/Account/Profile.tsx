@@ -37,7 +37,9 @@ export default function Profile() {
   const saveProfile = async () => {
     try {
       await client.updateProfile(profile);
-      alert("Profile updated successfully!");
+      alert("Profile updated successfully! Signing out...");
+      // Call signout after successfully updating the profile
+      await signout();
     } catch (err) {
       console.error("Save profile error:", err);
       alert("Failed to update profile.");

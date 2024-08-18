@@ -1,7 +1,8 @@
-import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
-import AssignmentAdder from "./AssignmentAdder";
-import { useState } from "react";
-
+import { useState } from "react"
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import FacultyButtons from "./FacultyButtons";
+import { FaCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function AssignmentsControls({
   assignmentName,
@@ -25,7 +26,7 @@ export default function AssignmentsControls({
   setDueDate: (dueDate: string) => void;
 
 }) {
-
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,45 +50,22 @@ export default function AssignmentsControls({
           />
           <FaMagnifyingGlass className="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" />
         </div>
-      </div>
-
-      {/* Controls on the right side */}
-      <div className="d-flex align-items-center">
-        {/* Add Assignment Button */}
-        <button
-          className="btn btn-lg btn-danger me-2"
-          data-bs-toggle="modal"
-          data-bs-target="#wd-add-assignment-dialog"
-        >
-          <FaPlus
-            className="position-relative me-2"
-            style={{ bottom: "1px" }}
+        {/* Conditionally render FacultyButtons based on userRole */}
+        {currentUser.role === 'FACULTY' && (
+          <FacultyButtons
+            assignmentName={assignmentName}
+            setAssignmentName={setAssignmentName}
+            description={description}
+            setDescription={setDescription}
+            points={points}
+            setPoints={setPoints}
+            dueDate={dueDate}
+            setDueDate={setDueDate}
+            addAssignment={addAssignment}
           />
-          Assignment
-        </button>
-
-        {/* Group Button */}
-        <button
-          id="wd-add-assignment-group"
-          className="btn btn-lg btn-success me-2"
-        >
-          + Group
-        </button>
-
-        {/* Assignment Adder Component */}
-        <AssignmentAdder
-          dialogTitle="Add Assignment"
-          assignmentName={assignmentName}
-          setAssignmentName={setAssignmentName}
-          description={description}
-          setDescription={setDescription}
-          points={points}
-          setPoints={setPoints}
-          dueDate={dueDate}
-          setDueDate={setDueDate}
-          addAssignment={addAssignment}
-        />
+        )}
       </div>
+
     </div>
   );
 }

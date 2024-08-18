@@ -1,5 +1,5 @@
 // src/Kanbas/Courses/Quizzes/QuizDetailsEditor.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -18,6 +18,17 @@ const EditorModules = {
 };
 
 const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChange }) => {
+
+  const [showAttempts, setShowAttempts] = useState(quizData.multipleAttempts);
+
+  // Update state if quizData.multipleAttempts changes from outside
+  useEffect(() => {
+    setShowAttempts(quizData.multipleAttempts);
+  }, [quizData.multipleAttempts]);
+
+
+
+
   return (
     <div className="details p-4 border">
       <h2>Quiz Details Editor</h2>
@@ -158,27 +169,33 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         />
       </div>
 
-      {/* Multiple Attempts */}
-      <div className="mb-3 form-check">
+     {/* Multiple Attempts */}
+     <div className="mb-3 form-check">
         <input
           type="checkbox"
           className="form-check-input"
           checked={quizData.multipleAttempts}
-          onChange={(e) => onChange('multipleAttempts', e.target.checked)}
+          onChange={(e) => {
+            onChange('multipleAttempts', e.target.checked);
+            setShowAttempts(e.target.checked);
+          }}
         />
         <label className="form-check-label">Multiple Attempts</label>
       </div>
 
       {/* Attempts */}
-      <div className="mb-3">
-        <label className="form-label">Attempts</label>
-        <input
-          type="number"
-          className="form-control"
-          value={quizData.attempts}
-          onChange={(e) => onChange('attempts', parseInt(e.target.value, 10))}
-        />
-      </div>
+      {showAttempts && (
+        <div className="mb-3">
+          <label className="form-label">Attempts</label>
+          <input
+            type="number"
+            className="form-control"
+            value={quizData.attempts}
+            onChange={(e) => onChange('attempts', parseInt(e.target.value, 10))}
+          />
+        </div>
+      )}
+
 
       {/* Show Correct Answers */}
       <div className="mb-3">

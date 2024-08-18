@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as client from './client'; // Import your API client
 
+// Define the type for QuizData
+interface QuizData {
+    name: string;
+    description?: string;
+    course: string;
+    points: number;
+    dueDate?: string;
+    availableDate?: string;
+    untilDate?: string;
+    numberOfQuestions: number;
+    studentScore: number;
+    published: boolean;
+    type: "Graded Quiz" | "Practice Quiz" | "Graded Survey" | "Ungraded Survey";
+    assignmentGroup: "Quizzes" | "Exams" | "Assignments" | "Project";
+    shuffleAnswers: boolean;
+    timeLimit: number;
+    multipleAttempts: boolean;
+    attempts: number;
+    showCorrectAnswers: "Never" | "AfterSubmission" | "AfterDueDate";
+    accessCode: string;
+    oneQuestionAtATime: boolean;
+    webcamRequired: boolean;
+    lockQuestionsAfterAnswering: boolean;
+    questions: any[]; // Replace with the appropriate type if you have one
+}
+
 export default function QuizDetails() {
-    const { cid, qid } = useParams(); // Extract course ID and quiz ID from URL params
+    const { cid, qid } = useParams<{ cid: string; qid: string }>(); // Extract course ID and quiz ID from URL params
     const navigate = useNavigate(); // For navigation
-    const dispatch = useDispatch(); // For dispatching actions (if needed)
     
     // Initialize state with default values
-    const [quizData, setQuizData] = useState({
+    const [quizData, setQuizData] = useState<QuizData>({
         name: "",
         description: "",
         course: cid || "", // Set course to cid from params
@@ -75,6 +99,19 @@ export default function QuizDetails() {
         untilDate
     } = quizData;
 
+    // Navigation functions
+    const handlePreview = () => {
+        if (qid) {
+            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/preview`);
+        }
+    };
+
+    const handleEdit = () => {
+        if (qid) {
+            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/edit`);
+        }
+    };
+
     return (
         <div className="container mt-4">
             <div className="card">
@@ -133,12 +170,12 @@ export default function QuizDetails() {
                     </dl>
                 </div>
                 <div className="card-footer text-center">
-                    <Link to={`/quiz/preview/${qid}`} className="btn btn-primary me-2">
+                    <button onClick={handlePreview} className="btn btn-primary me-2">
                         Preview
-                    </Link>
-                    <Link to={`/quiz/edit/${qid}`} className="btn btn-secondary">
+                    </button>
+                    <button onClick={handleEdit} className="btn btn-secondary">
                         Edit
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>

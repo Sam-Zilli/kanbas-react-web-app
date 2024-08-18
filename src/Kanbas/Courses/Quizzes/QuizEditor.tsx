@@ -85,10 +85,19 @@ export default function QuizEditor() {
 
   const handleSave = async () => {
     try {
-      if (cid && qid) {
-        await client.updateQuiz(cid, quizData);
-        dispatch(saveQuiz(quizData));
-        navigate(`/Kanbas/courses/${cid}/quizzes/${qid}`); 
+      if (cid) {
+        if (qid) {
+          // Update existing quiz
+          console.log("QuizEditor.tsx handleSave existing quiz")
+          await client.updateQuiz(cid, quizData);
+          dispatch(saveQuiz(quizData));
+        } else {
+          console.log("QuizEditor.tsx handleSave new quiz")
+          // Create new quiz
+          await client.createQuiz(cid, quizData); 
+          dispatch(saveQuiz(quizData));
+        }
+        navigate(`/Kanbas/courses/${cid}/quizzes`);
       }
     } catch (error) {
       console.error("Failed to save quiz:", error);

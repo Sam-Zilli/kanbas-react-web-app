@@ -96,7 +96,8 @@ export default function QuizDetails() {
         lockQuestionsAfterAnswering,
         dueDate,
         availableDate,
-        untilDate
+        untilDate,
+        numberOfQuestions
     } = quizData;
 
     // Navigation functions
@@ -120,6 +121,10 @@ export default function QuizDetails() {
                 </div>
                 <div className="card-body">
                     <dl className="row">
+
+                    <dt className="col-sm-4">Number of Questions:</dt>
+                    <dd className="col-sm-8">{numberOfQuestions}</dd>
+
                         <dt className="col-sm-4">Quiz Type:</dt>
                         <dd className="col-sm-8">{type}</dd>
 

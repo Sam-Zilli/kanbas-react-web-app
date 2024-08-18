@@ -17,6 +17,7 @@ export const deleteQuiz = async (courseId: string, quizId: string) => {
 // Function to create a new quiz
 export const createQuiz = async (courseId: string, quiz: any) => {
   try {
+    console.log("CREATE QUIZ")
     const response = await axios.post(`${COURSES_API}/${courseId}/quizzes`, quiz);
     return response.data;
   } catch (error) {
@@ -65,6 +66,7 @@ export const getQuiz = async (cid: string, qid: string) => {
 
 // Function to update an existing quiz
 export const updateQuiz = async (cid: string, quiz: any) => {
+  console.log("CLIENT.TS UPDATEQUIZ")
   try {
     const qid = quiz._id.toString();
     const response = await axios.put(`${COURSES_API}/${cid}/quizzes/${qid}`, quiz);

@@ -43,18 +43,25 @@ export default function QuizEditor() {
     fetchQuizData();
   }, [cid, qid]);
 
-  const handleSave = () => {
-    dispatch(saveQuiz(quizData));
-    navigate(`/courses/${cid}/quizzes`);
+  const handleSave = async () => {
+    try {
+      if (cid && qid) {
+        await client.updateQuiz(cid, quizData);
+        dispatch(saveQuiz(quizData));
+        navigate(-1); // Go back one page
+      }
+    } catch (error) {
+      console.error("Failed to save quiz:", error);
+    }
   };
 
   const handlePublish = () => {
     dispatch(publishQuiz(quizData));
-    navigate(`/courses/${cid}/quizzes`);
+    navigate(-1); // Go back one page
   };
 
   const handleCancel = () => {
-    navigate(`/courses/${cid}/quizzes`);
+    navigate(-1); // Go back one page
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
@@ -65,7 +72,7 @@ export default function QuizEditor() {
     }));
   };
 
-  
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Quiz Editor</h1>

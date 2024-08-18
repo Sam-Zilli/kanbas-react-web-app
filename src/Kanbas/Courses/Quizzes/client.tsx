@@ -36,17 +36,6 @@ export const findQuizzesForCourse = async (courseId: string) => {
   }
 };
 
-// Function to update an existing quiz
-export const updateQuiz = async (courseId: string, quiz: any) => {
-  try {
-    const quizId = quiz._id.toString();
-    const response = await axios.put(`${COURSES_API}/${courseId}/quizzes/${quizId}`, quiz);
-    return response.data;
-  } catch (error) {
-    console.error(`Error updating quiz with ID: ${quiz._id} for course ID: ${courseId}`, error);
-    throw error;
-  }
-};
 
 // Wrapper function to update a quiz
 export const saveQuiz = async (courseId: string, quiz: any) => {
@@ -73,5 +62,17 @@ export const getQuiz = async (cid: string, qid: string) => {
   } catch (error) {
     console.error('Error fetching quiz data:', error);
     throw new Error('Failed to fetch quiz data.');
+  }
+};
+
+// Function to update an existing quiz
+export const updateQuiz = async (courseId: string, quiz: any) => {
+  try {
+    const quizId = quiz._id.toString();
+    const response = await axios.put(`${COURSES_API}/${courseId}/quizzes/${quizId}`, quiz);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating quiz with ID: ${quiz._id} for course ID: ${courseId}`, error);
+    throw error;
   }
 };

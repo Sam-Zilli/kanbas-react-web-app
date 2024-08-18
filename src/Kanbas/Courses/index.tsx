@@ -10,6 +10,7 @@ import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import Quizzes from "./Quizzes";
 import QuizEditor from "./Quizzes/QuizEditor";
+import QuizDetails from "./Quizzes/QuizDetails";
 import QuizQuestionsEditor from "./Quizzes/QuizQuestionsEditor";
 import QuizPreview from "./Quizzes/QuizPreview";
 import RoleBasedRoute from "../roleBasedRoute";
@@ -43,7 +44,7 @@ export default function Courses({ courses }: { courses: any[] }) {
               </RoleBasedRoute>
             }
           />
-          <Route path="Quizzes/:qid" element={<QuizEditor />} />
+          <Route path="Quizzes/:qid" element={<QuizDetails />} />
           <Route
             path="Quizzes/:qid/questions"
             element={<QuizQuestionsEditor />}

@@ -59,16 +59,26 @@ export default function QuizEditor() {
       if (cid && qid) {
         await client.updateQuiz(cid, quizData);
         dispatch(saveQuiz(quizData));
-        // navigate(`/courses/${cid}/quizzes`);
+        navigate(`/Kanbas/courses/${cid}/quizzes/${qid}`); 
       }
     } catch (error) {
       console.error("Failed to save quiz:", error);
     }
   };
+  
 
-  const handlePublish = () => {
-    dispatch(publishQuiz(quizData));
-    navigate(`/courses/${cid}/quizzes`);
+
+  const handlePublish = async () => {
+    try {
+      if (cid && qid) {
+        const updatedQuizData = { ...quizData, published: true };
+        await client.updateQuiz(cid, updatedQuizData);
+        dispatch(publishQuiz(updatedQuizData));
+        navigate(`/Kanbas/courses/${cid}/quizzes/${qid}`);
+      }
+    } catch (error) {
+      console.error("Failed to publish quiz:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -83,13 +93,13 @@ export default function QuizEditor() {
     }));
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
-    const { type, value, checked } = e.target;
-    setQuizData(prev => ({
-      ...prev,
-      [field]: type === "checkbox" ? checked : value
-    }));
-  };
+  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
+  //   const { type, value, checked } = e.target;
+  //   setQuizData(prev => ({
+  //     ...prev,
+  //     [field]: type === "checkbox" ? checked : value
+  //   }));
+  // };
 
   const handleEditorChange = (value: string) => {
     setQuizData(prev => ({

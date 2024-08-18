@@ -30,7 +30,6 @@ export default function Quizzes() {
 
   const fetchQuizzes = async () => {
     const quizzes = await client.findQuizzesForCourse(cid as string);
-    console.log("Quizzes: ", quizzes)
     dispatch(setQuizzes(quizzes));
   };
 

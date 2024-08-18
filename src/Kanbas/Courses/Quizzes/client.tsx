@@ -28,9 +28,7 @@ export const createQuiz = async (courseId: string, quiz: any) => {
 // Function to find quizzes for a specific course
 export const findQuizzesForCourse = async (courseId: string) => {
   try {
-    console.log(courseId)
     const response = await axios.get(`${COURSES_API}/${courseId}/quizzes`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error(`Error finding quizzes for course ID: ${courseId}`, error);
@@ -41,7 +39,6 @@ export const findQuizzesForCourse = async (courseId: string) => {
 
 // Wrapper function to update a quiz
 export const saveQuiz = async (courseId: string, quiz: any) => {
-  // console.log("In client.tsx saveQuiz")
   try {
     const response = await updateQuiz(courseId, quiz);
     return response;
@@ -58,7 +55,6 @@ export const getQuiz = async (cid: string, qid: string) => {
     
     // Make the HTTP GET request
     const response = await axios.get(url);
-    console.log("Response: ", response.data)
     // Return the quiz data
     return response.data;
   } catch (error) {

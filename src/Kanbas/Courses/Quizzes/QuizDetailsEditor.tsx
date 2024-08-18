@@ -44,8 +44,8 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
       </div>
 
       {/* Points */}
-      <div className="mb-3">
-        <label className="form-label">Points</label>
+      {/* <div className="mb-3">
+        <label className="form-label">Points (Total From Questions)</label>
         <input
           type="number"
           className="form-control"
@@ -53,7 +53,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
           onChange={(e) => onChange('points', parseInt(e.target.value, 10))}
           readOnly // Points will be calculated based on questions
         />
-      </div>
+      </div> */}
 
       {/* Due Date */}
       <div className="mb-3">
@@ -89,7 +89,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
       </div>
 
       {/* Number of Questions */}
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <label className="form-label">Number of Questions</label>
         <input
           type="number"
@@ -97,10 +97,10 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
           value={quizData.numberOfQuestions}
           onChange={(e) => onChange('numberOfQuestions', parseInt(e.target.value, 10))}
         />
-      </div>
+      </div> */}
 
       {/* Student Score */}
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <label className="form-label">Student Score</label>
         <input
           type="number"
@@ -108,7 +108,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
           value={quizData.studentScore}
           onChange={(e) => onChange('studentScore', parseInt(e.target.value, 10))}
         />
-      </div>
+      </div> */}
 
       {/* Type */}
       <div className="mb-3">
@@ -120,6 +120,8 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         >
           <option value="Graded Quiz">Graded Quiz</option>
           <option value="Practice Quiz">Practice Quiz</option>
+          <option value="Graded Survey">Graded Survey</option>
+          <option value="Ungraded Survey">Ungraded Survey</option>
         </select>
       </div>
 

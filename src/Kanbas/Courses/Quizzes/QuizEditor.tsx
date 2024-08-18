@@ -82,7 +82,7 @@ export default function QuizEditor() {
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    navigate(`/Kanbas/courses/${cid}/quizzes`);
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>, field: FieldType) => {

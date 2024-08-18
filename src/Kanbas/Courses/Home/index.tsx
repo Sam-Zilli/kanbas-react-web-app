@@ -9,9 +9,9 @@ export default function Home() {
         <td valign="top">
           <Modules />
         </td>
-        <td valign="top">
+        {/* <td valign="top">
           <CourseStatus />
-        </td>
+        </td> */}
       </tr>
     </table>
   );

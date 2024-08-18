@@ -48,13 +48,22 @@ export default function Quizzes() {
   };
 
   const handleContextMenu = (event: React.MouseEvent, quizId: string) => {
-    event.preventDefault(); // Prevent the default context menu from appearing
+    event.preventDefault();
     setContextMenu({ quizId, x: event.clientX, y: event.clientY });
   };
 
   const handleEdit = (quizId: string) => {
-    navigate(`/Kanbas/courses/${cid}/quizzes/${quizId}/edit`);
-    setContextMenu(null);
+    // Find the quiz by ID
+    const quiz = quizzes.find((q: any) => q._id === quizId);
+  
+    if (quiz) {
+      // Navigate to the edit page with quiz data
+      navigate(`/Kanbas/courses/${cid}/quizzes/${quizId}/edit`, {
+        state: { quiz }
+      });
+    }
+  
+    setContextMenu(null); // Close the context menu
   };
 
   const handleDelete = (quizId: string) => {

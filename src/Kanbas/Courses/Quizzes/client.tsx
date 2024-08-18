@@ -59,3 +59,19 @@ export const saveQuiz = async (courseId: string, quiz: any) => {
     throw error;
   }
 };
+
+export const getQuiz = async (cid: string, qid: string) => {
+  try {
+    // Construct the URL for fetching the quiz
+    const url = `${COURSES_API}/${cid}/quizzes/${qid}`;
+    
+    // Make the HTTP GET request
+    const response = await axios.get(url);
+    console.log("Response: ", response.data)
+    // Return the quiz data
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching quiz data:', error);
+    throw new Error('Failed to fetch quiz data.');
+  }
+};

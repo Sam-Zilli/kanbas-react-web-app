@@ -3,7 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { saveQuiz, publishQuiz } from './reducer';
 import "bootstrap/dist/css/bootstrap.min.css";
-import * as client from './client'; // Adjust this import based on where client is located
+import * as client from './client'; 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import quill styles
 
 type FieldType = 'dueDate' | 'availableDate' | 'untilDate' | 'otherField';
 
@@ -89,6 +91,13 @@ export default function QuizEditor() {
     }));
   };
 
+  const handleEditorChange = (value: string) => {
+    setQuizData(prev => ({
+      ...prev,
+      description: value
+    }));
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Quiz Editor</h1>
@@ -125,11 +134,10 @@ export default function QuizEditor() {
           </div>
           <div className="mb-3">
             <label className="form-label">Description</label>
-            <textarea
-              className="form-control"
-              rows={3}
+            <ReactQuill
               value={quizData.description}
-              onChange={(e) => setQuizData({ ...quizData, description: e.target.value })}
+              onChange={handleEditorChange}
+              modules={EditorModules}
             />
           </div>
           <div className="mb-3">
@@ -354,3 +362,12 @@ export default function QuizEditor() {
     </div>
   );
 }
+
+const EditorModules = {
+  toolbar: [
+    [{ 'header': '1'}, { 'header': '2' }],
+    ['bold', 'italic', 'underline'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    ['link']
+  ]
+};

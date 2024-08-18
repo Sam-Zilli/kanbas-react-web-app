@@ -15,6 +15,10 @@ export default function Quizzes() {
   const { cid } = useParams();
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
   const dispatch = useDispatch();
+
+  // Get current user and their role from the Redux store
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const userRole = currentUser?.role; // Role of the current user
   
   const [contextMenu, setContextMenu] = useState<{ quizId: string | null, x: number, y: number } | null>(null);
 
@@ -36,7 +40,6 @@ export default function Quizzes() {
     const updatedQuiz = await client.updateQuiz(cid as string, quiz);
     dispatch(updateQuiz(updatedQuiz)); 
   };
-  
 
   const removeQuiz = async (quizId: string) => {
     await client.deleteQuiz(cid as string, quizId);
@@ -53,11 +56,9 @@ export default function Quizzes() {
   };
 
   const handleEdit = (quizId: string) => {
-    // Find the quiz by ID
     const quiz = quizzes.find((q: any) => q._id === quizId);
   
     if (quiz) {
-      // Navigate to the edit page with quiz data
       navigate(`/Kanbas/courses/${cid}/quizzes/${quizId}/edit`, {
         state: { quiz }
       });
@@ -72,23 +73,11 @@ export default function Quizzes() {
   };
 
   const handlePublish = async (quizId: string) => {
-    // console.log("Handle Publish clicked...");
-  
-    // Find the quiz by ID
     const quiz = quizzes.find((q: any) => q._id === quizId);
-    // console.log("Quiz before update: ", quiz);
   
     if (quiz) {
-      // Toggle the published status
       const updatedQuiz = { ...quiz, published: !quiz.published };
-      // console.log("Updated quiz (before save): ", updatedQuiz);
-  
-      // Save the updated quiz
-      // console.log("before await saveQuizzes");
       await saveQuizzes(updatedQuiz);
-  
-      // Check the state of the quiz after saving
-      // console.log("Updated quiz (after save): ", updatedQuiz);
     }
   
     setContextMenu(null);
@@ -113,12 +102,15 @@ export default function Quizzes() {
 
   return (
     <div id="wd-quizzes" className="container mt-4">
-      <button 
-        className="btn btn-primary mb-3"
-        onClick={handleAddQuiz}
-      >
-        Add Quiz
-      </button>
+      {/* Conditionally render Add Quiz button based on role */}
+      {userRole === 'FACULTY' && (
+        <button 
+          className="btn btn-primary mb-3"
+          onClick={handleAddQuiz}
+        >
+          Add Quiz
+        </button>
+      )}
 
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
@@ -136,7 +128,6 @@ export default function Quizzes() {
             onContextMenu={(event) => handleContextMenu(event, quiz._id)}
           >
             <div className="w-100">
-              {/* Quiz Name */}
               <div 
                 className="text-dark mb-2 cursor-pointer"
                 onClick={() => handleQuizClick(quiz._id)}
@@ -144,7 +135,6 @@ export default function Quizzes() {
                 <strong className="fs-4">{quiz.name}</strong>
               </div>
 
-              {/* Quiz Details */}
               <div className="row text-dark">
                 <div className="col-md-2">
                   <strong>Points:</strong> {quiz.points}
@@ -167,19 +157,21 @@ export default function Quizzes() {
               </div>
             </div>
 
-            {/* More Options Icon */}
-            <button 
-              className="btn btn-light btn-sm"
-              onClick={(event) => handleContextMenu(event, quiz._id)}
-            >
-              <PiDotsSixVerticalFill size={24} />
-            </button>
+            {/* Conditionally render More Options Icon based on role */}
+            {userRole === 'FACULTY' && (
+              <button 
+                className="btn btn-light btn-sm"
+                onClick={(event) => handleContextMenu(event, quiz._id)}
+              >
+                <PiDotsSixVerticalFill size={24} />
+              </button>
+            )}
           </li>
         ))}
       </ul>
 
-      {/* Context Menu */}
-      {contextMenu && (
+      {/* Conditionally render Context Menu based on role */}
+      {contextMenu && userRole === 'FACULTY' && (
         <div
           className="context-menu position-absolute"
           style={{ top: contextMenu.y, left: contextMenu.x }}
@@ -206,7 +198,7 @@ export default function Quizzes() {
                 className="dropdown-item"
                 onClick={() => handlePublish(contextMenu.quizId!)}
               >
-                          {quizzes.find((q: any) => q._id === contextMenu.quizId!)?.published ? "Unpublish" : "Publish"}
+                {quizzes.find((q: any) => q._id === contextMenu.quizId!)?.published ? "Unpublish" : "Publish"}
               </button>
             </li>
           </ul>

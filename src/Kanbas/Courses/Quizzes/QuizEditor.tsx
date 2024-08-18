@@ -59,7 +59,7 @@ export default function QuizEditor() {
       if (cid && qid) {
         await client.updateQuiz(cid, quizData);
         dispatch(saveQuiz(quizData));
-        navigate(`/courses/${cid}/quizzes`);
+        // navigate(`/courses/${cid}/quizzes`);
       }
     } catch (error) {
       console.error("Failed to save quiz:", error);

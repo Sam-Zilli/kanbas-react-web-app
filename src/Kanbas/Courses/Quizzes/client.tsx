@@ -64,13 +64,13 @@ export const getQuiz = async (cid: string, qid: string) => {
 };
 
 // Function to update an existing quiz
-export const updateQuiz = async (courseId: string, quiz: any) => {
+export const updateQuiz = async (cid: string, quiz: any) => {
   try {
-    const quizId = quiz._id.toString();
-    const response = await axios.put(`${COURSES_API}/${courseId}/quizzes/${quizId}`, quiz);
+    const qid = quiz._id.toString();
+    const response = await axios.put(`${COURSES_API}/${cid}/quizzes/${qid}`, quiz);
     return response.data;
   } catch (error) {
-    console.error(`Error updating quiz with ID: ${quiz._id} for course ID: ${courseId}`, error);
+    console.error(`Error updating quiz with ID: ${quiz._id} for course ID: ${cid}`, error);
     throw error;
   }
 };

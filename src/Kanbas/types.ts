@@ -35,14 +35,13 @@ export interface User {
 }
 
 
-export interface Question {
-  type: 'multiple_choice' | 'true_false' | 'short_answer' | 'fill_in_the_blank';
-  description?: string;
-  options?: string[]; // Required for 'multiple_choice' type
-  correctAnswer: string | string[]; // Can be a single answer or an array of answers
+export type Question = {
+  type: string;
+  description: string;
+  options: string[];
+  correctAnswer: string;
   points: number;
-}
-
+};
 
 export interface Quiz {
   name: string;
@@ -68,3 +67,30 @@ export interface Quiz {
   lockQuestionsAfterAnswering: boolean;
   questions: Question[]; // Array of Question objects
 }
+
+
+
+export type QuizData = {
+  name: string;
+  description: string;
+  course: string;
+  points: number;
+  dueDate: string;
+  availableDate: string;
+  untilDate: string;
+  numberOfQuestions: number;
+  studentScore: number;
+  published: boolean;
+  type: string;
+  assignmentGroup: string;
+  shuffleAnswers: boolean;
+  timeLimit: number;
+  multipleAttempts: boolean;
+  attempts: number;
+  showCorrectAnswers: string;
+  accessCode: string;
+  oneQuestionAtATime: boolean;
+  webcamRequired: boolean;
+  lockQuestionsAfterAnswering: boolean;
+  questions: Question[];
+};

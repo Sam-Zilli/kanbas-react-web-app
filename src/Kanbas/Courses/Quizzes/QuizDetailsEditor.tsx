@@ -26,7 +26,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
     setShowAttempts(quizData.multipleAttempts);
   }, [quizData.multipleAttempts]);
 
-
+  const quizName = quizData.name || "New Quiz";
 
 
   return (
@@ -39,10 +39,11 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         <input
           type="text"
           className="form-control"
-          value={quizData.name}
+          value={quizName} 
           onChange={(e) => onChange('name', e.target.value)}
         />
       </div>
+
 
       {/* Description */}
       <div className="mb-3">

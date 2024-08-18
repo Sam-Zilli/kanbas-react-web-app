@@ -67,6 +67,7 @@ export const getQuiz = async (cid: string, qid: string) => {
 // Function to update an existing quiz
 export const updateQuiz = async (cid: string, quiz: any) => {
   console.log("CLIENT.TS UPDATEQUIZ")
+  console.log(quiz)
   try {
     const qid = quiz._id.toString();
     const response = await axios.put(`${COURSES_API}/${cid}/quizzes/${qid}`, quiz);

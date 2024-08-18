@@ -34,14 +34,7 @@ export interface User {
   role: 'USER' | 'ADMIN' | 'FACULTY' | 'STUDENT';
 }
 
-
-export type Question = {
-  type: string;
-  description: string;
-  options: string[];
-  correctAnswer: string;
-  points: number;
-};
+// =============================== QUIZZES ===========================
 
 export interface Quiz {
   name: string;
@@ -69,7 +62,6 @@ export interface Quiz {
 }
 
 
-
 export type QuizData = {
   name: string;
   description: string;
@@ -93,4 +85,35 @@ export type QuizData = {
   webcamRequired: boolean;
   lockQuestionsAfterAnswering: boolean;
   questions: Question[];
+};
+
+
+// =============================== QUESITONS ===========================
+
+
+export type Question = 
+  | MultipleChoiceQuestion
+  | TrueFalseQuestion
+  | FillInTheBlankQuestion;
+
+export type MultipleChoiceQuestion = {
+  type: 'multiple_choice';
+  question: string; 
+  options: string[];
+  correctAnswer: string;
+  points: number;
+};
+
+export type TrueFalseQuestion = {
+  type: 'true_false';
+  question: string; 
+  correctAnswer: 'True' | 'False';
+  points: number;
+};
+
+export type FillInTheBlankQuestion = {
+  type: 'fill_in_the_blank';
+  question: string; 
+  correctAnswer: string;
+  points: number;
 };

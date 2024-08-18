@@ -1,21 +1,17 @@
-// src/Kanbas/Courses/Quizzes/QuizQuestionsEditor.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
-
-type Question = {
-  type: string;
-  description: string;
-  options: string[];
-  correctAnswer: string;
-  points: number;
-};
+import { Question, MultipleChoiceQuestion, TrueFalseQuestion, FillInTheBlankQuestion } from "../../types";
+import MultipleChoiceQuestionEditor from './MultipleChoiceEditor';
+import TrueFalseQuestionEditor from './TrueFalseEditor';
+import FillInTheBlankQuestionEditor from './FillInTheBlankEditor';
+import { Modal, Button } from 'react-bootstrap'; // Import modal components
 
 type QuizQuestionsEditorProps = {
   questions: Question[];
-  onQuestionChange: (index: number, field: keyof Question, value: any) => void;
+  onQuestionChange: (index: number, field: keyof Question | 'options', value: any) => void;
   onQuestionRemove: (index: number) => void;
-  onAddQuestion: () => void;
+  onAddQuestion: (newQuestion: Question) => void; // Change handler for adding new questions
 };
 
 const EditorModules = {
@@ -27,16 +23,43 @@ const EditorModules = {
   ]
 };
 
+// Type guards
+const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion =>
+  question.type === 'multiple_choice';
+
+const isTrueFalseQuestion = (question: Question): question is TrueFalseQuestion =>
+  question.type === 'true_false';
+
+const isFillInTheBlankQuestion = (question: Question): question is FillInTheBlankQuestion =>
+  question.type === 'fill_in_the_blank';
+
 const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
   questions,
   onQuestionChange,
   onQuestionRemove,
   onAddQuestion
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [newQuestion, setNewQuestion] = useState<Question>({
+    type: 'multiple_choice', // Default type
+    question: '',
+    options: [],
+    correctAnswer: '',
+    points: 0
+  });
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+  const handleAddQuestion = () => {
+    onAddQuestion(newQuestion);
+    handleClose();
+  };
+
   return (
     <div className="questions p-4 border">
       <h2>Quiz Questions Editor</h2>
-      <button className="btn btn-primary mb-3" onClick={onAddQuestion}>Add Question</button>
+      <Button className="btn btn-primary mb-3" onClick={handleShow}>Add Question</Button>
       {questions.map((question, index) => (
         <div key={index} className="mb-4">
           <div className="mb-3">
@@ -48,48 +71,35 @@ const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
             >
               <option value="multiple_choice">Multiple Choice</option>
               <option value="true_false">True/False</option>
+              <option value="fill_in_the_blank">Fill in the Blank</option>
             </select>
           </div>
           <div className="mb-3">
-            <label className="form-label">Description</label>
+            <label className="form-label">Question</label>
             <ReactQuill
-              value={question.description}
-              onChange={(value) => onQuestionChange(index, 'description', value)}
+              value={question.question}
+              onChange={(value) => onQuestionChange(index, 'question', value)}
               modules={EditorModules}
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label">Options</label>
-            {question.options.map((option, optIndex) => (
-              <div key={optIndex} className="mb-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={option}
-                  onChange={(e) => {
-                    const updatedOptions = [...question.options];
-                    updatedOptions[optIndex] = e.target.value;
-                    onQuestionChange(index, 'options', updatedOptions);
-                  }}
-                />
-              </div>
-            ))}
-            <button
-              className="btn btn-secondary mt-2"
-              onClick={() => onQuestionChange(index, 'options', [...question.options, ""])}
-            >
-              Add Option
-            </button>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Correct Answer</label>
-            <input
-              type="text"
-              className="form-control"
-              value={question.correctAnswer}
-              onChange={(e) => onQuestionChange(index, 'correctAnswer', e.target.value)}
+          {isMultipleChoiceQuestion(question) && (
+            <MultipleChoiceQuestionEditor
+              question={question}
+              onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
             />
-          </div>
+          )}
+          {isTrueFalseQuestion(question) && (
+            <TrueFalseQuestionEditor
+              question={question}
+              onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
+            />
+          )}
+          {isFillInTheBlankQuestion(question) && (
+            <FillInTheBlankQuestionEditor
+              question={question}
+              onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
+            />
+          )}
           <div className="mb-3">
             <label className="form-label">Points</label>
             <input
@@ -99,11 +109,173 @@ const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
               onChange={(e) => onQuestionChange(index, 'points', parseInt(e.target.value, 10))}
             />
           </div>
-          <button className="btn btn-danger" onClick={() => onQuestionRemove(index)}>Remove Question</button>
+          <Button className="btn btn-danger" onClick={() => onQuestionRemove(index)}>Remove Question</Button>
         </div>
       ))}
+
+      {/* Modal for adding new questions */}
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Question</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <label className="form-label">Type</label>
+            <select
+              className="form-select"
+              value={newQuestion.type}
+              onChange={(e) => {
+                const type = e.target.value as 'multiple_choice' | 'true_false' | 'fill_in_the_blank';
+                setNewQuestion(prev => {
+                  switch(type) {
+                    case 'multiple_choice':
+                      return { ...prev, type, options: [], correctAnswer: '' };
+                    case 'true_false':
+                      return { ...prev, type, correctAnswer: 'True' }; // Default to 'True'
+                    case 'fill_in_the_blank':
+                      return { ...prev, type, correctAnswer: '' };
+                    default:
+                      return prev;
+                  }
+                });
+              }}
+            >
+              <option value="multiple_choice">Multiple Choice</option>
+              <option value="true_false">True/False</option>
+              <option value="fill_in_the_blank">Fill in the Blank</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Question</label>
+            <ReactQuill
+              value={newQuestion.question}
+              onChange={(value) => setNewQuestion(prev => ({ ...prev, question: value }))}
+              modules={EditorModules}
+            />
+          </div>
+          {newQuestion.type === 'multiple_choice' && (
+            <MultipleChoiceQuestionEditor
+              question={newQuestion as MultipleChoiceQuestion}
+              onQuestionChange={(field, value) => setNewQuestion(prev => ({ ...prev, [field]: value }))}
+            />
+          )}
+          {/* Implement editors for other types if needed */}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>Close</Button>
+          <Button variant="primary" onClick={handleAddQuestion}>Add Question</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
 export default QuizQuestionsEditor;
+
+
+
+
+// // src/Kanbas/Courses/Quizzes/QuizQuestionsEditor.tsx
+
+// import React from 'react';
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css'; 
+// import { Question, MultipleChoiceQuestion, TrueFalseQuestion, FillInTheBlankQuestion } from "../../types";
+// import MultipleChoiceQuestionEditor from './MultipleChoiceEditor';
+// import TrueFalseQuestionEditor from './TrueFalseEditor';
+// import FillInTheBlankQuestionEditor from './FillInTheBlankEditor';
+
+// type QuizQuestionsEditorProps = {
+//   questions: Question[];
+//   onQuestionChange: (index: number, field: keyof Question | 'options', value: any) => void;
+//   onQuestionRemove: (index: number) => void;
+//   onAddQuestion: () => void;
+// };
+
+
+// const EditorModules = {
+//   toolbar: [
+//     [{ 'header': '1'}, { 'header': '2' }],
+//     ['bold', 'italic', 'underline'],
+//     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+//     ['link']
+//   ]
+// };
+
+// // Type guards
+// const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion =>
+//   question.type === 'multiple_choice';
+
+// const isTrueFalseQuestion = (question: Question): question is TrueFalseQuestion =>
+//   question.type === 'true_false';
+
+// const isFillInTheBlankQuestion = (question: Question): question is FillInTheBlankQuestion =>
+//   question.type === 'fill_in_the_blank';
+
+// const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
+//   questions,
+//   onQuestionChange,
+//   onQuestionRemove,
+//   onAddQuestion
+// }) => {
+//   return (
+//     <div className="questions p-4 border">
+//       <h2>Quiz Questions Editor</h2>
+//       <button className="btn btn-primary mb-3" onClick={onAddQuestion}>Add Question</button>
+//       {questions.map((question, index) => (
+//         <div key={index} className="mb-4">
+//           <div className="mb-3">
+//             <label className="form-label">Type</label>
+//             <select
+//               className="form-select"
+//               value={question.type}
+//               onChange={(e) => onQuestionChange(index, 'type', e.target.value)}
+//             >
+//               <option value="multiple_choice">Multiple Choice</option>
+//               <option value="true_false">True/False</option>
+//               <option value="fill_in_the_blank">Fill in the Blank</option>
+//             </select>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Question</label>
+//             <ReactQuill
+//               value={question.question} // Updated from description to question
+//               onChange={(value) => onQuestionChange(index, 'question', value)}
+//               modules={EditorModules}
+//             />
+//           </div>
+//           {isMultipleChoiceQuestion(question) && (
+//             <MultipleChoiceQuestionEditor
+//               question={question}
+//               onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
+//             />
+//           )}
+//           {isTrueFalseQuestion(question) && (
+//             <TrueFalseQuestionEditor
+//               question={question}
+//               onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
+//             />
+//           )}
+//           {isFillInTheBlankQuestion(question) && (
+//             <FillInTheBlankQuestionEditor
+//               question={question}
+//               onQuestionChange={(field, value) => onQuestionChange(index, field, value)}
+//             />
+//           )}
+//           <div className="mb-3">
+//             <label className="form-label">Points</label>
+//             <input
+//               type="number"
+//               className="form-control"
+//               value={question.points}
+//               onChange={(e) => onQuestionChange(index, 'points', parseInt(e.target.value, 10))}
+//             />
+//           </div>
+//           <button className="btn btn-danger" onClick={() => onQuestionRemove(index)}>Remove Question</button>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default QuizQuestionsEditor;

@@ -1,4 +1,3 @@
-// src/Kanbas/Courses/Quizzes/QuizEditor.tsx
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,10 +6,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as client from './client'; 
 import QuizDetailsEditor from './QuizDetailsEditor';
 import QuizQuestionsEditor from './QuizQuestionsEditor';
-import { QuizData, Question } from "../../types"
+import { QuizData, Question, MultipleChoiceQuestion } from "../../types";
 
-
+// Define the types for question fields
 type FieldType = 'dueDate' | 'availableDate' | 'untilDate';
+
+// Type guard functions
+const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion => question.type === 'multiple_choice';
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
@@ -44,14 +46,7 @@ export default function QuizEditor() {
 
   const [questions, setQuestions] = useState<Question[]>(quizData.questions || []);
 
-  const handleAddQuestion = () => {
-    const newQuestion: Question = {
-      type: "multiple_choice",
-      description: "",
-      options: [],
-      correctAnswer: "",
-      points: 0
-    };
+  const handleAddQuestion = (newQuestion: Question) => {
     setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
   };
   
@@ -129,16 +124,29 @@ export default function QuizEditor() {
     }));
   };
 
-  const handleQuestionChange = (index: number, field: keyof Question, value: any) => {
+
+  const handleQuestionChange = (index: number, field: keyof Question | 'options', value: any) => {
+    console.log(`Updating question at index ${index}, field ${field} with value`, value);
     setQuestions(prevQuestions => {
       const updatedQuestions = [...prevQuestions];
-      const updatedQuestion = { ...updatedQuestions[index], [field]: value };
-      if (JSON.stringify(updatedQuestions[index]) !== JSON.stringify(updatedQuestion)) {
-        updatedQuestions[index] = updatedQuestion;
+      const question = updatedQuestions[index];
+  
+      if (field === 'options') {
+        if (isMultipleChoiceQuestion(question)) {
+          question.options = value;
+        }
+      } else {
+        updatedQuestions[index] = {
+          ...question,
+          [field]: value,
+        };
       }
+  
       return updatedQuestions;
     });
   };
+  
+  
 
   return (
     <div className="container mt-5">

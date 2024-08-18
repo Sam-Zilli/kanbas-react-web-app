@@ -1,10 +1,31 @@
-export default function FillInTheBlankEditor () {
+// src/Kanbas/Courses/Quizzes/FillInTheBlankEditor.tsx
+import React from 'react';
+import { FillInTheBlankQuestion } from "../../types";
+
+type FillInTheBlankQuestionEditorProps = {
+  question: FillInTheBlankQuestion;
+  onQuestionChange: (field: keyof FillInTheBlankQuestion, value: any) => void;
+};
+
+const FillInTheBlankQuestionEditor: React.FC<FillInTheBlankQuestionEditorProps> = ({
+  question,
+  onQuestionChange,
+}) => {
   return (
-    <div>
-      ??????
+    <div className="mb-3">
+      <label className="form-label">Correct Answer</label>
+      <input
+        type="text"
+        className="form-control"
+        value={question.correctAnswer}
+        onChange={(e) => onQuestionChange('correctAnswer', e.target.value)}
+      />
     </div>
-  )
-}
+  );
+};
+
+export default FillInTheBlankQuestionEditor;
+
 
 // // src/Kanbas/Courses/Quizzes/FillInTheBlankEditor.tsx
 // import React from 'react';
@@ -24,12 +45,12 @@ export default function FillInTheBlankEditor () {
 //   return (
 //     <div>
 //       <div className="mb-3">
-//         <label className="form-label">Description</label>
+//         <label className="form-label">question</label>
 //         <input
 //           className="form-control"
 //           type="text"
-//           value={question.description}
-//           onChange={(e) => onQuestionChange('description', e.target.value)}
+//           value={question.question}
+//           onChange={(e) => onQuestionChange('question', e.target.value)}
 //         />
 //       </div>
 //       <div className="mb-3">

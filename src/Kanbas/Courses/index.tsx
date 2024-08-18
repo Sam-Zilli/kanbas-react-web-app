@@ -8,7 +8,7 @@ import Grades from "./Grades";
 import { Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
-import Quizzes from "./Quizzes";
+import QuizList from "./Quizzes/index";
 import QuizEditor from "./Quizzes/QuizEditor";
 import QuizDetails from "./Quizzes/QuizDetails";
 import QuizQuestionsEditor from "./Quizzes/QuizQuestionsEditor";
@@ -35,7 +35,11 @@ export default function Courses({ courses }: { courses: any[] }) {
           <Route path="Modules" element={<Modules />} />
           <Route path="Assignments" element={<Assignments />} />
           <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-          <Route path="Quizzes" element={<Quizzes />} />
+
+          {/* The list of quizzes page */}
+          <Route path="Quizzes" element={<QuizList />} />
+
+
           <Route
             path="Quizzes/new"
             element={
@@ -44,12 +48,20 @@ export default function Courses({ courses }: { courses: any[] }) {
               </RoleBasedRoute>
             }
           />
-          <Route path="Quizzes/:qid" element={<QuizDetails />} />
+
+
+          <Route path="Quizzes/:qid" element={<QuizList />} />
+
+
           <Route
             path="Quizzes/:qid/questions"
             element={<QuizQuestionsEditor />}
           />
+
+
           <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />
+
+
           <Route path="Quizzes/:qid/edit" element={<QuizEditor /> } />
 
           <Route path="Grades" element={<Grades />} />

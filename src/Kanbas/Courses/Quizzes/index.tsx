@@ -10,7 +10,7 @@ import {
 } from "./reducer";
 import { PiDotsSixVerticalFill } from "react-icons/pi";
 
-export default function Quizzes() {
+export default function QuizList() {
   const navigate = useNavigate();
   const { cid } = useParams();
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);

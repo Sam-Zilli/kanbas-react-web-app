@@ -6,8 +6,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as client from './client'; 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import quill styles
-
+type Question = {
+  type: string;
+  description: string;
+  options: string[];
+  correctAnswer: string;
+  points: number;
+};
 type FieldType = 'dueDate' | 'availableDate' | 'untilDate' | 'otherField';
+
+const EditorModules = {
+  toolbar: [
+    [{ 'header': '1'}, { 'header': '2' }],
+    ['bold', 'italic', 'underline'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    ['link']
+  ]
+};
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
@@ -39,21 +54,48 @@ export default function QuizEditor() {
     questions: []
   });
 
+  const [questions, setQuestions] = useState<Question[]>(quizData.questions || []);
+
+  const handleAddQuestion = () => {
+    const newQuestion: Question = {
+      type: "multiple_choice",
+      description: "",
+      options: [],
+      correctAnswer: "",
+      points: 0
+    };
+    setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+  };
+  
+  const handleQuestionChange = (index: number, field: keyof Question, value: any) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[index] = { ...updatedQuestions[index], [field]: value };
+    setQuestions(updatedQuestions);
+  };
+  
+  
+  const handleRemoveQuestion = (index: number) => {
+    const updatedQuestions = questions.filter((_, i) => i !== index);
+    setQuestions(updatedQuestions);
+  };
   useEffect(() => {
     const fetchQuizData = async () => {
       if (qid) {
         try {
           const response = await client.getQuiz(cid as string, qid);
           setQuizData(response);
+          setQuestions(response.questions || []); 
         } catch (error) {
           console.error("Failed to fetch quiz data:", error);
         }
       }
     };
-
+  
     fetchQuizData();
   }, [cid, qid]);
 
+  
+  
   const handleSave = async () => {
     try {
       if (cid && qid) {
@@ -390,24 +432,77 @@ export default function QuizEditor() {
         </div>
       )}
 
-      {tab === "questions" && (
+{tab === "questions" && (
         <div className="questions p-4 border">
           <h2>Quiz Questions Editor</h2>
-
-          <button className="btn btn-primary" onClick={() => {/* Logic to add a new question */}}>New Question</button>
-          
-          {/* Display list of questions */}
+          <button className="btn btn-primary mb-3" onClick={handleAddQuestion}>Add Question</button>
+          {questions.map((question, index) => (
+            <div key={index} className="mb-4">
+              <div className="mb-3">
+                <label className="form-label">Type</label>
+                <select
+                  className="form-select"
+                  value={question.type}
+                  onChange={(e) => handleQuestionChange(index, 'type', e.target.value)}
+                >
+                  <option value="multiple_choice">Multiple Choice</option>
+                  <option value="true_false">True/False</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Description</label>
+                <ReactQuill
+                  value={question.description}
+                  onChange={(value) => handleQuestionChange(index, 'description', value)}
+                  modules={EditorModules}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Options</label>
+                {question.options.map((option, optIndex) => (
+                  <div key={optIndex} className="mb-2">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={option}
+                      onChange={(e) => {
+                        const updatedOptions = [...question.options];
+                        updatedOptions[optIndex] = e.target.value;
+                        handleQuestionChange(index, 'options', updatedOptions);
+                      }}
+                    />
+                  </div>
+                ))}
+                <button
+                  className="btn btn-secondary mt-2"
+                  onClick={() => handleQuestionChange(index, 'options', [...question.options, ""])}
+                >
+                  Add Option
+                </button>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Correct Answer</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={question.correctAnswer}
+                  onChange={(e) => handleQuestionChange(index, 'correctAnswer', e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Points</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={question.points}
+                  onChange={(e) => handleQuestionChange(index, 'points', parseInt(e.target.value, 10))}
+                />
+              </div>
+              <button className="btn btn-danger" onClick={() => handleRemoveQuestion(index)}>Remove Question</button>
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 }
-
-const EditorModules = {
-  toolbar: [
-    [{ 'header': '1'}, { 'header': '2' }],
-    ['bold', 'italic', 'underline'],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    ['link']
-  ]
-};

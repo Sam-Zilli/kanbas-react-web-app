@@ -28,7 +28,9 @@ export const createQuiz = async (courseId: string, quiz: any) => {
 // Function to find quizzes for a specific course
 export const findQuizzesForCourse = async (courseId: string) => {
   try {
+    console.log(courseId)
     const response = await axios.get(`${COURSES_API}/${courseId}/quizzes`);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error(`Error finding quizzes for course ID: ${courseId}`, error);

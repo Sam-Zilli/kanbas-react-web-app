@@ -72,14 +72,14 @@ export default function QuizEditor() {
   };
 
   const handleCancel = () => {
-    navigate(-1)
+    navigate(-1);
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>, field: FieldType) => {
     const { value } = e.target;
     setQuizData(prev => ({
       ...prev,
-      [field]: new Date(value).toISOString()
+      [field]: value // Save date as string in ISO format
     }));
   };
 
@@ -342,6 +342,36 @@ export default function QuizEditor() {
               </label>
             </div>
           </div>
+          
+          {/* Date Fields */}
+          <div className="mb-3">
+            <label className="form-label">Due Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={quizData.dueDate.split('T')[0]} // Format date string for input
+              onChange={(e) => handleDateChange(e, 'dueDate')}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Available Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={quizData.availableDate.split('T')[0]} // Format date string for input
+              onChange={(e) => handleDateChange(e, 'availableDate')}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Available Until Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={quizData.untilDate.split('T')[0]} // Format date string for input
+              onChange={(e) => handleDateChange(e, 'untilDate')}
+            />
+          </div>
+
           <div className="d-flex justify-content-end">
             <button className="btn btn-primary me-2" onClick={handleSave}>Save</button>
             <button className="btn btn-success me-2" onClick={handlePublish}>Save and Publish</button>

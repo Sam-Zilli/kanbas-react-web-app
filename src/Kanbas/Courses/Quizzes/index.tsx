@@ -16,6 +16,7 @@ export default function Quizzes() {
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
   const dispatch = useDispatch();
 
+
   // Get current user and their role from the Redux store
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const userRole = currentUser?.role; // Role of the current user
@@ -29,6 +30,7 @@ export default function Quizzes() {
 
   const fetchQuizzes = async () => {
     const quizzes = await client.findQuizzesForCourse(cid as string);
+    console.log("Quizzes: ", quizzes)
     dispatch(setQuizzes(quizzes));
   };
 

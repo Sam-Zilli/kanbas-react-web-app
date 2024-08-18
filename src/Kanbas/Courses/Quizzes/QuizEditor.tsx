@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as client from './client'; 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import quill styles
+
 type Question = {
   type: string;
   description: string;
@@ -67,13 +68,7 @@ export default function QuizEditor() {
     setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
   };
   
-  const handleQuestionChange = (index: number, field: keyof Question, value: any) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index] = { ...updatedQuestions[index], [field]: value };
-    setQuestions(updatedQuestions);
-  };
-  
-  
+
   const handleRemoveQuestion = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setQuestions(updatedQuestions);
@@ -135,19 +130,24 @@ export default function QuizEditor() {
     }));
   };
 
-  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
-  //   const { type, value, checked } = e.target;
-  //   setQuizData(prev => ({
-  //     ...prev,
-  //     [field]: type === "checkbox" ? checked : value
-  //   }));
-  // };
-
   const handleEditorChange = (value: string) => {
-    setQuizData(prev => ({
-      ...prev,
-      description: value
-    }));
+    // Check if the value has actually changed before updating the state
+    if (quizData.description !== value) {
+      setQuizData(prev => ({
+        ...prev,
+        description: value
+      }));
+    }
+  };
+  const handleQuestionChange = (index: number, field: keyof Question, value: any) => {
+    setQuestions(prevQuestions => {
+      const updatedQuestions = [...prevQuestions];
+      const updatedQuestion = { ...updatedQuestions[index], [field]: value };
+      if (JSON.stringify(updatedQuestions[index]) !== JSON.stringify(updatedQuestion)) {
+        updatedQuestions[index] = updatedQuestion;
+      }
+      return updatedQuestions;
+    });
   };
 
   return (

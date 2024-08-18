@@ -98,7 +98,7 @@ export default function QuizEditor() {
             className={`nav-link ${tab === "details" ? "active" : ""}`}
             onClick={() => setTab("details")}
           >
-            Details
+            Quiz Details Editor
           </button>
         </li>
         <li className="nav-item">
@@ -106,14 +106,14 @@ export default function QuizEditor() {
             className={`nav-link ${tab === "questions" ? "active" : ""}`}
             onClick={() => setTab("questions")}
           >
-            Questions
-          </button>
+            Quiz Questions Editor
+           </button>
         </li>
       </ul>
 
       {tab === "details" && (
         <div className="details p-4 border">
-          <h2>Quiz Details</h2>
+          <h2>Quiz Details Editor</h2>
           <div className="mb-3">
             <label className="form-label">Name</label>
             <input
@@ -344,7 +344,7 @@ export default function QuizEditor() {
 
       {tab === "questions" && (
         <div className="questions p-4 border">
-          <h2>Quiz Questions</h2>
+          <h2>Quiz Questions Editor</h2>
 
           <button className="btn btn-primary" onClick={() => {/* Logic to add a new question */}}>New Question</button>
           

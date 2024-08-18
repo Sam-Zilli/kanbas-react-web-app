@@ -100,6 +100,20 @@ export default function Quizzes() {
     navigate(`/Kanbas/courses/${cid}/quizzes/${quizId}`);
   };
 
+  const getAvailabilityStatus = (availableDate: string, availableUntilDate?: string) => {
+    const now = new Date();
+    const available = new Date(availableDate);
+    const availableUntil = availableUntilDate ? new Date(availableUntilDate) : null;
+  
+    if (now > (availableUntil || now)) { // If current date is after availableUntilDate or if it's not set
+      return 'Closed';
+    } else if (now >= available && (availableUntil ? now <= availableUntil : true)) { // If current date is between availableDate and availableUntilDate, or availableUntilDate is not set
+      return 'Available';
+    } else {
+      return `Not available until ${available.toLocaleDateString()}`;
+    }
+  };
+
   return (
     <div id="wd-quizzes" className="container mt-4">
       {/* Conditionally render Add Quiz button based on role */}
@@ -146,7 +160,7 @@ export default function Quizzes() {
                   <strong>Due Date:</strong> {quiz.dueDate ? new Date(quiz.dueDate).toLocaleDateString() : 'N/A'}
                 </div>
                 <div className="col-md-2">
-                  <strong>Available:</strong> {quiz.availableDate ? new Date(quiz.availableDate).toLocaleDateString() : 'N/A'}
+                  <strong>Available:</strong> {getAvailabilityStatus(quiz.availableDate, quiz.availableUntilDate)}
                 </div>
                 <div className="col-md-2">
                   <strong>Score:</strong> {quiz.studentScore || 'N/A'}

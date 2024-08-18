@@ -9,7 +9,7 @@ import { Route, Routes, useLocation, useParams } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import Quizzes from "./Quizzes";
-import QuizDetailsEditor from "./Quizzes/QuizDetailsEditor";
+import QuizEditor from "./Quizzes/QuizEditor";
 import QuizQuestionsEditor from "./Quizzes/QuizQuestionsEditor";
 import QuizPreview from "./Quizzes/QuizPreview";
 import RoleBasedRoute from "../roleBasedRoute";
@@ -39,17 +39,17 @@ export default function Courses({ courses }: { courses: any[] }) {
             path="Quizzes/new"
             element={
               <RoleBasedRoute requiredRole="FACULTY">
-                <QuizDetailsEditor />
+                <QuizEditor />
               </RoleBasedRoute>
             }
           />
-          <Route path="Quizzes/:qid" element={<QuizDetailsEditor />} />
+          <Route path="Quizzes/:qid" element={<QuizEditor />} />
           <Route
             path="Quizzes/:qid/questions"
             element={<QuizQuestionsEditor />}
           />
           <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />
-          <Route path="Quizzes/:qid/edit" element={<QuizDetailsEditor /> } />
+          <Route path="Quizzes/:qid/edit" element={<QuizEditor /> } />
 
           <Route path="Grades" element={<Grades />} />
           <Route path="People" element={<PeopleTable />} />

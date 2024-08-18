@@ -36,11 +36,35 @@ export interface User {
 
 
 export interface Question {
-  _id: string;                  // Unique identifier for the question
-  text: string;                 // The text of the question
-  points: number;               // Points assigned to this question
-  type: 'multiple-choice' | 'true-false' | 'short-answer' | 'essay'; // Type of question
-  choices?: string[];           // Choices for multiple-choice questions
-  correctAnswer: string | string[]; // Correct answer(s) for the question
-  explanation?: string;         // Optional explanation for the correct answer
+  type: 'multiple_choice' | 'true_false' | 'short_answer' | 'fill_in_the_blank';
+  description?: string;
+  options?: string[]; // Required for 'multiple_choice' type
+  correctAnswer: string | string[]; // Can be a single answer or an array of answers
+  points: number;
+}
+
+
+export interface Quiz {
+  name: string;
+  description?: string;
+  course: string;
+  points: number;
+  dueDate?: string; // ISO 8601 date string
+  availableDate?: string; // ISO 8601 date string
+  untilDate?: string; // ISO 8601 date string
+  numberOfQuestions: number;
+  studentScore?: number;
+  published: boolean;
+  type: 'Graded Quiz' | 'Practice Quiz' | 'Graded Survey' | 'Ungraded Survey';
+  assignmentGroup: 'Quizzes' | 'Exams' | 'Assignments' | 'Project';
+  shuffleAnswers: boolean;
+  timeLimit: number; // Time limit in minutes
+  multipleAttempts: boolean;
+  attempts: number; // Number of allowed attempts
+  showCorrectAnswers: 'Never' | 'AfterSubmission' | 'AfterDueDate'; // When correct answers are shown
+  accessCode: string;
+  oneQuestionAtATime: boolean;
+  webcamRequired: boolean;
+  lockQuestionsAfterAnswering: boolean;
+  questions: Question[]; // Array of Question objects
 }

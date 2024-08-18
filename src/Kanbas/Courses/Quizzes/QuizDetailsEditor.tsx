@@ -1,9 +1,13 @@
+import React, { ChangeEvent } from 'react';
 import { useState, useEffect } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { saveQuiz, publishQuiz } from "./reducer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as client from "./client"; // Adjust this import based on where client is located
+
+type FieldType = 'dueDate' | 'availableDate' | 'otherField'; 
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
@@ -11,30 +15,25 @@ export default function QuizEditor() {
   const dispatch = useDispatch();
   const [tab, setTab] = useState("details");
   const [quizData, setQuizData] = useState({
-    title: "",
+    name: "",
     description: "",
-    quizType: "Graded Quiz",
+    course: cid || "", // Set course to cid from params
     points: 0,
-    assignmentGroup: "Quizzes",
-    shuffleAnswers: "Yes",
-    timeLimit: 20,
-    multipleAttempts: "No",
-    showCorrectAnswers: "",
-    accessCode: "",
-    oneQuestionAtATime: "Yes",
-    webcamRequired: "No",
-    lockQuestionsAfterAnswering: "No",
     dueDate: "",
     availableDate: "",
-    untilDate: "",
+    numberOfQuestions: 0,
+    studentScore: 0,
+    published: false,
+    questions: []
   });
 
   useEffect(() => {
     const fetchQuizData = async () => {
       if (qid) {
         try {
-          const response = await client.getQuiz(cid as string, qid as string);
-          setQuizData(response.data);
+          const response = await client.getQuiz(cid as string, qid);
+          // Adjust response data to match schema if necessary
+          setQuizData(response);
         } catch (error) {
           console.error("Failed to fetch quiz data:", error);
         }
@@ -58,21 +57,30 @@ export default function QuizEditor() {
     navigate(`/courses/${cid}/quizzes`);
   };
 
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
+    const { value } = e.target;
+    setQuizData(prev => ({
+      ...prev,
+      [field]: new Date(value)
+    }));
+  };
+
+  
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Quiz Editor</h1>
       <ul className="nav nav-tabs">
         <li className="nav-item">
-          <button 
-            className={`nav-link ${tab === "details" ? "active" : ""}`} 
+          <button
+            className={`nav-link ${tab === "details" ? "active" : ""}`}
             onClick={() => setTab("details")}
           >
             Details
           </button>
         </li>
         <li className="nav-item">
-          <button 
-            className={`nav-link ${tab === "questions" ? "active" : ""}`} 
+          <button
+            className={`nav-link ${tab === "questions" ? "active" : ""}`}
             onClick={() => setTab("questions")}
           >
             Questions
@@ -84,12 +92,12 @@ export default function QuizEditor() {
         <div className="details p-4 border">
           <h2>Quiz Details</h2>
           <div className="mb-3">
-            <label className="form-label">Title</label>
+            <label className="form-label">Name</label>
             <input
               type="text"
               className="form-control"
-              value={quizData.title}
-              onChange={(e) => setQuizData({ ...quizData, title: e.target.value })}
+              value={quizData.name}
+              onChange={(e) => setQuizData({ ...quizData, name: e.target.value })}
             />
           </div>
           <div className="mb-3">
@@ -102,17 +110,31 @@ export default function QuizEditor() {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Quiz Type</label>
-            <select
-              className="form-select"
-              value={quizData.quizType}
-              onChange={(e) => setQuizData({ ...quizData, quizType: e.target.value })}
-            >
-              <option value="Graded Quiz">Graded Quiz</option>
-              <option value="Practice Quiz">Practice Quiz</option>
-              <option value="Graded Survey">Graded Survey</option>
-              <option value="Ungraded Survey">Ungraded Survey</option>
-            </select>
+            <label className="form-label">Points</label>
+            <input
+              type="number"
+              className="form-control"
+              value={quizData.points}
+              onChange={(e) => setQuizData({ ...quizData, points: parseInt(e.target.value, 10) })}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Due Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={quizData.dueDate ? quizData.dueDate.toString().split('T')[0] : ""}
+              onChange={(e) => handleDateChange(e, "dueDate")}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Available Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={quizData.availableDate ? quizData.availableDate.toString().split('T')[0] : ""}
+              onChange={(e) => handleDateChange(e, "availableDate")}
+            />
           </div>
           <div className="d-flex justify-content-end">
             <button className="btn btn-primary me-2" onClick={handleSave}>Save</button>

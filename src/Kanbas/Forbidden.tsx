@@ -8,9 +8,6 @@ const Forbidden: React.FC = () => {
 
   const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser) as User | null;
 
-//   // Log user type for testing
-//   // console.log("User Type on Forbidden Page:", currentUser?.role);
-
   if (!currentUser) {
     return <Navigate to="/Kanbas/Account/Signin" />;
   }

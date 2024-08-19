@@ -20,7 +20,7 @@ export default function QuizEditor() {
   const dispatch = useDispatch();
   const [tab, setTab] = useState("details");
   const [quizData, setQuizData] = useState<QuizData>({
-    name: "",
+    name: "New Quiz",
     description: "",
     course: cid || "",
     points: 0,

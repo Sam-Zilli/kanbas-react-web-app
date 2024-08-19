@@ -105,15 +105,25 @@ export default function QuizList() {
     const now = new Date();
     const available = new Date(availableDate);
     const availableUntil = availableUntilDate ? new Date(availableUntilDate) : null;
-  
-    if (now > (availableUntil || now)) { // If current date is after availableUntilDate or if it's not set
-      return 'Closed';
-    } else if (now >= available && (availableUntil ? now <= availableUntil : true)) { // If current date is between availableDate and availableUntilDate, or availableUntilDate is not set
-      return 'Available';
+
+    // Convert dates to start of the day to avoid time issues
+    const startOfDay = (date: Date) => new Date(date.setHours(0, 0, 0, 0));
+
+    const nowStartOfDay = startOfDay(now);
+    const availableStartOfDay = startOfDay(available);
+    const availableUntilStartOfDay = availableUntil ? startOfDay(availableUntil) : null;
+
+    if (availableUntilStartOfDay && nowStartOfDay > availableUntilStartOfDay) {
+        // If current date is after availableUntilDate
+        return 'Closed';
+    } else if (nowStartOfDay >= availableStartOfDay && (!availableUntilStartOfDay || nowStartOfDay <= availableUntilStartOfDay)) {
+        // If current date is between availableDate and availableUntilDate, or availableUntilDate is not set
+        return 'Available';
     } else {
-      return `Not available until ${available.toLocaleDateString()}`;
+        // If current date is before availableDate
+        return `Not available until ${availableStartOfDay.toLocaleDateString()}`;
     }
-  };
+};
 
   return (
     <div id="wd-quizzes" className="container mt-4">

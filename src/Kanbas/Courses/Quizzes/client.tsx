@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Question } from "../../types"
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
@@ -74,6 +75,26 @@ export const updateQuiz = async (cid: string, quiz: any) => {
     return response.data;
   } catch (error) {
     console.error(`Error updating quiz with ID: ${quiz._id} for course ID: ${cid}`, error);
+    throw error;
+  }
+};
+
+export const fetchQuizById = async (cid: string, qid: string) => {
+  console.log("in fetchQuizById");
+  try {
+    const response = await fetch(`/api/courses/${cid}/quizzes/${qid}`);
+
+    if (!response.ok) {
+      throw new Error(`Error fetching quiz with ID ${qid}: ${response.statusText}`);
+    }
+
+    const data = await response.json(); // Parse the JSON response
+
+    console.log(data);
+    
+    return data;
+  } catch (error) {
+    console.error('Error fetching quiz:', error);
     throw error;
   }
 };

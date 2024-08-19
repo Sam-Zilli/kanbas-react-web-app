@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as client from './client'; // Import your API client
+import * as client from './client';
 
 // Define the type for QuizData
 interface QuizData {

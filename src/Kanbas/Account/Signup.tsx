@@ -7,12 +7,11 @@ import { setCurrentUser } from "./reducer";
 export default function Signup() {
   const [user, setUser] = useState({ username: "", password: "", role: "" });
   const [error, setError] = useState<string | null>(null);
-  const [roleError, setRoleError] = useState<string | null>(null); // Error thrown if no role is chosen
+  const [roleError, setRoleError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const signup = async () => {
-    // Makes sure that a role is selected
     if (!user.role) {
       setRoleError("Please select a role.");
       return;
@@ -53,13 +52,13 @@ export default function Signup() {
         value={user.role}
         onChange={(e) => {
           setUser({ ...user, role: e.target.value });
-          setRoleError(null); // Clear role error when user selects a role
+          setRoleError(null);
         }}
         className="wd-role form-control mb-2"
       >
         <option value="">Select role...</option>
-        <option value="student">Student</option>
-        <option value="faculty">Faculty</option>
+        <option value="STUDENT">Student</option>
+        <option value="FACULTY">Faculty</option>
       </select>
       <button onClick={signup} className="wd-signup-btn btn btn-primary mb-2">
         Sign up

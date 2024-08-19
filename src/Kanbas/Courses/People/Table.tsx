@@ -11,28 +11,13 @@ export default function PeopleTable() {
   const [name, setName] = useState("");
 
 
-
-  const createUser = async () => {
-    const user = await client.createUser({
-      firstName: "New",
-      lastName: `User${users.length + 1}`,
-      username: `newuser${Date.now()}`,
-      password: "password123",
-      section: "S101",
-      role: "STUDENT",
-    });
-    setUsers([...users, user]);
-  };
-
-
-
   const filterUsersByName = async (name: string) => {
     setName(name);
     if (name) {
       const users = await client.findUsersByPartialName(name);
       setUsers(users);
     } else {
-      fetchUsers();
+      findAllUsersInCourse();
     }
   };
 
@@ -43,29 +28,34 @@ export default function PeopleTable() {
       const users = await client.findUsersByRole(role);
       setUsers(users);
     } else {
-      fetchUsers();
+      findAllUsersInCourse();
     }
   };
 
-  const fetchUsers = async () => {
-    const users = await client.findAllUsers();
+  const findAllUsersInCourse = async () => {
+    const users = await client.findUsersForCourse(cid as string)
     setUsers(users);
   };
+
   useEffect(() => {
-    fetchUsers();
+    findAllUsersInCourse();
   }, []);
+
 
   return (
     <div id="wd-people-table">
-      <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
+      {/* <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
         <FaPlus className="me-2" />
         People
-      </button>
+      </button> */}
+
       <input
         onChange={(e) => filterUsersByName(e.target.value)}
         placeholder="Search people"
         className="form-control float-start w-25 me-2 wd-filter-by-name"
       />
+
+
       <select
         value={role}
         onChange={(e) => filterUsersByRole(e.target.value)}
@@ -76,6 +66,9 @@ export default function PeopleTable() {
         <option value="TA">Assistants</option>{" "}
         <option value="FACULTY">Faculty</option>
       </select>
+
+
+
       <table className="table table-striped">
         <thead>
           <tr>
@@ -107,7 +100,7 @@ export default function PeopleTable() {
           ))}
         </tbody>
       </table>
-      <PeopleDetails fetchUsers={fetchUsers} />
+      <PeopleDetails fetchUsers={findAllUsersInCourse} />
     </div>
   );
 }

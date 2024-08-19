@@ -8,9 +8,7 @@ import { enrollments, users, assignments, grades } from "../../Database";
 export default function Grades() {
   
   const { cid } = useParams();
-  // const chosenEnrollments = enrollments.filter(enrollment => enrollment.course === cid);
   const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
-  // Function to get full name from users database
   
   const getFullName = (userId: string) => {
     const user = users.find(user => user._id === userId);
@@ -19,8 +17,6 @@ export default function Grades() {
     }
     return "Unknown User";
   };
-
-  // Function to get grade for a specific user and assignment
     const getGrade = (userId:string, assignmentId:string) => {
       const grade = grades.find(g => g.student === userId && g.assignment === assignmentId);
       return grade ? grade.grade : ''; 
@@ -28,7 +24,6 @@ export default function Grades() {
 
   return (
     <div className="container mt-4">
-      {/* Top Buttons */}
       <div className="d-flex justify-content-end mb-4">
         <button className="btn btn-secondary me-2" style={{ backgroundColor: '#6c757d', color: 'white' }}>
           <FaFileImport className="me-1" /> Import
@@ -41,7 +36,6 @@ export default function Grades() {
         </button>
       </div>
 
-      {/* Search and Filter */}
       <div className="row mb-4">
         <div className="col-md-6 mb-3 mb-md-0">
           <div className="d-flex flex-column">
@@ -73,14 +67,12 @@ export default function Grades() {
         </div>
       </div>
 
-      {/* Apply Filter Button */}
       <div className="mb-4">
         <button className="btn" style={{ backgroundColor: '#6c757d', color: 'white' }}>
           <CiFilter className="me-1" /> Apply Filter
         </button>
       </div>
 
-      {/* Grades Table */}
       <div className="table-responsive">
         <table className="table table-striped">
           <thead>

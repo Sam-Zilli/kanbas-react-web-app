@@ -2,11 +2,11 @@ import { MdDoNotDisturbAlt } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { BiImport } from "react-icons/bi";
 import { LiaFileImportSolid } from "react-icons/lia";
-import { FiTarget } from "react-icons/fi"; // Choose Home Page Icon
-import { BsFillFileBarGraphFill } from "react-icons/bs"; // View Course Stream Icon
-import { IoMegaphoneOutline } from "react-icons/io5"; // New Announcment Icon
-import { IoAnalyticsSharp } from "react-icons/io5"; // New Analytics Icon
-import { HiOutlineBellAlert } from "react-icons/hi2"; // View Course Notifications Icon
+import { FiTarget } from "react-icons/fi"; 
+import { BsFillFileBarGraphFill } from "react-icons/bs"; 
+import { IoMegaphoneOutline } from "react-icons/io5"; 
+import { IoAnalyticsSharp } from "react-icons/io5"; 
+import { HiOutlineBellAlert } from "react-icons/hi2"; 
 
 
 export default function CourseStatus() {

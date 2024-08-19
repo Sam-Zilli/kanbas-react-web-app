@@ -47,7 +47,7 @@ export default function AssignmentsEditor() {
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
       }
     } else {
-      console.log("No assignment to save.");
+
     }
   };
   

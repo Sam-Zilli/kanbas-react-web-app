@@ -1,90 +1,78 @@
-// src/Kanbas/index.tsx
+import React, { useState, useEffect, useCallback } from "react";
+import { Routes, Route, Navigate } from "react-router";
+import { Provider, useSelector } from "react-redux";
+import store from "./store";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
-import { Routes, Route, Navigate } from "react-router";
 import Courses from "./Courses";
-import store from "./store";
-import { Provider } from "react-redux";
-import * as client from "./Courses/client";
-import { useEffect, useState } from "react";
 import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
+import Forbidden from "./Forbidden";
+import * as client from "./Courses/client";
+import { Course } from "./types";
+import AllCourses from "./Courses/Courses";
 
-export default function Kanbas() {
-  const [courses, setCourses] = useState<any[]>([]);
+function KanbasContent() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const addNewCourse = async () => {
-    const newCourse = await client.createCourse(course);
-    setCourses([...courses, newCourse]);
-  };
-
-  const fetchCourses = async () => {
-    const courses = await client.fetchAllCourses();
-    setCourses(courses);
-  };
+  const fetchCourses = useCallback(async () => {
+    if (currentUser) {
+      const fetchedCourses = await client.fetchUsersCourses(currentUser._id);
+      setCourses(fetchedCourses);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     fetchCourses();
-  }, []);
-
-  const [course, setCourse] = useState<any>({
-    name: "New Course",
-    number: "New Number",
-    startDate: "2023-09-10",
-    endDate: "2023-12-15",
-    description: "New Description",
-  });
-
-  const deleteCourse = async (courseId: string) => {
-    await client.deleteCourse(courseId);
-    setCourses(courses.filter((c) => c._id !== courseId));
-  };
-
-  const updateCourse = async () => {
-    await client.updateCourse(course);
-    setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
-    );
-  };
+  }, [fetchCourses]);
 
   return (
-    <Provider store={store}>
-      <div id="wd-kanbas">
-        <div className="d-flex h-100">
-          <div className="d-none d-md-block bg-black">
-            <KanbasNavigation />
-          </div>
-          <div className="flex-fill p-4">
-            <Routes>
-              <Route path="/Account/*" element={<Account />} />
-              <Route path="/" element={<Navigate to="Dashboard" />} />
-              <Route
-                path="Dashboard"
-                element={<ProtectedRoute>
-                  <Dashboard
-                    courses={courses}
-                    course={course}
-                    setCourse={setCourse}
-                    addNewCourse={addNewCourse}
-                    deleteCourse={deleteCourse}
-                    updateCourse={updateCourse}
-                  /></ProtectedRoute> 
-                }
-              />
-              <Route
-                path="Courses/:cid/*"
-                element={<ProtectedRoute><Courses courses={courses} /></ProtectedRoute>}
-              />
-            </Routes>
-          </div>
+    <div id="wd-kanbas">
+      <div className="d-flex h-100">
+        <div className="d-none d-md-block bg-black">
+          <KanbasNavigation />
+        </div>
+        <div className="flex-fill p-4">
+          <Routes>
+            <Route path="/Account/*" element={<Account />} />
+            <Route path="/" element={<Navigate to="Dashboard" />} />
+            <Route
+              path="Dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="Courses/:cid/*"
+              element={
+                <ProtectedRoute>
+                  <Courses courses={courses} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="Courses"
+              element={
+                <ProtectedRoute>
+                  <AllCourses />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="Forbidden" element={<Forbidden />} />
+          </Routes>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function Kanbas() {
+  return (
+    <Provider store={store}>
+      <KanbasContent />
     </Provider>
   );
 }

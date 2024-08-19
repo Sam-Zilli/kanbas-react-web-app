@@ -1,6 +1,6 @@
 import Modules from "../Modules";
 import CourseStatus from "./Status";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
   return (
@@ -9,9 +9,9 @@ export default function Home() {
         <td valign="top">
           <Modules />
         </td>
-        <td valign="top">
+        {/* <td valign="top">
           <CourseStatus />
-        </td>
+        </td> */}
       </tr>
     </table>
   );

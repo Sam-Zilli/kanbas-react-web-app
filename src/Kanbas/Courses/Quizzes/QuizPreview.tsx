@@ -9,12 +9,12 @@ import * as client from './client';
 type QuizPreviewProps = {};
 
 const QuizPreview: React.FC<QuizPreviewProps> = () => {
-  const { cid, qid } = useParams<{ cid: string; qid: string }>() // Get qid from URL params
-    // Initialize state with default values
+  const { cid, qid } = useParams<{ cid: string; qid: string }>() 
+
     const [quizData, setQuizData] = useState<QuizData>({
       name: "",
       description: "",
-      course: cid || "", // Set course to cid from params
+      course: cid || "",
       points: 0,
       dueDate: "",
       availableDate: "",
@@ -22,22 +22,22 @@ const QuizPreview: React.FC<QuizPreviewProps> = () => {
       numberOfQuestions: 0,
       studentScore: 0,
       published: false,
-      type: "Graded Quiz", // Default type
-      assignmentGroup: "Quizzes", // Default assignment group
-      shuffleAnswers: true, // Default Yes
-      timeLimit: 20, // Default 20 minutes
-      multipleAttempts: false, // Default No
-      attempts: 1, // Default 1
-      showCorrectAnswers: "Never", // Default Never
+      type: "Graded Quiz", 
+      assignmentGroup: "Quizzes", 
+      shuffleAnswers: true,
+      timeLimit: 20,
+      multipleAttempts: false,
+      attempts: 1, 
+      showCorrectAnswers: "Never", 
       accessCode: "",
-      oneQuestionAtATime: true, // Default Yes
-      webcamRequired: false, // Default No
-      lockQuestionsAfterAnswering: false, // Default No
+      oneQuestionAtATime: true,
+      webcamRequired: false, 
+      lockQuestionsAfterAnswering: false,
       questions: []
   });
 
-  const [answers, setAnswers] = useState<Record<number, any>>({}); // Store answers by question index
-  const [score, setScore] = useState<number | null>(null); // Store calculated score
+  const [answers, setAnswers] = useState<Record<number, any>>({}); 
+  const [score, setScore] = useState<number | null>(null); 
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -63,7 +63,7 @@ const QuizPreview: React.FC<QuizPreviewProps> = () => {
         const userAnswer = answers[index];
         const isCorrect = userAnswer === correctAnswer;
 
-        return total + (isCorrect ? (question as any).points : 0); // Ensure points are correctly fetched
+        return total + (isCorrect ? (question as any).points : 0); 
       }, 0);
 
       setScore(totalPoints);

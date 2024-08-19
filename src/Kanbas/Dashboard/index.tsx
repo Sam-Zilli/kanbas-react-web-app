@@ -71,11 +71,11 @@ export default function Dashboard() {
           setCourseExistsError("Course number already exists");
           return;
         }
-        // Create Course
+
         await client.createCourse(selectedCourse, currentUser);
-        // Fetch updated user data
+
         const updatedUser = await client.fetchUserById(currentUser._id);
-        dispatch(setCurrentUser(updatedUser)); // Update Redux store
+        dispatch(setCurrentUser(updatedUser));
         fetchCourses();
       }
       setShowModal(false);
@@ -112,7 +112,7 @@ export default function Dashboard() {
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
 
-      {/* Conditionally render the "New Course" button */}
+
       {currentUser?.role === "FACULTY" && (
         <Button
           variant="primary"

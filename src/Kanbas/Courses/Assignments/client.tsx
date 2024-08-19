@@ -20,10 +20,8 @@ export const createAssignment = async (assignment: Omit<Assignment, '_id'>) => {
 
     return response.data;
   } catch (error) {
-    // Log any error that occurs
     console.error("Error creating assignment:", error);
 
-    // Optionally rethrow or handle the error
     throw error;
   }
 };

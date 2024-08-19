@@ -1,7 +1,6 @@
 import AssignmentAdder from "./AssignmentAdder";
 import { FaPlus } from "react-icons/fa6";
 
-// Define the props interface
 interface FacultyButtonsProps {
     assignmentName: string;
     setAssignmentName: (name: string) => void;
@@ -14,7 +13,6 @@ interface FacultyButtonsProps {
     addAssignment: () => void;
 }
 
-// Apply the props interface to the component
 export default function FacultyButtons({
     assignmentName,
     setAssignmentName,
@@ -28,9 +26,7 @@ export default function FacultyButtons({
 }: FacultyButtonsProps) {
     return (
         <div>
-            {/* Controls on the right side */}
             <div className="d-flex align-items-center">
-                {/* Add Assignment Button */}
                 <button
                     className="btn btn-lg btn-danger me-2"
                     data-bs-toggle="modal"
@@ -43,7 +39,6 @@ export default function FacultyButtons({
                     Assignment
                 </button>
 
-                {/* Group Button */}
                 <button
                     id="wd-add-assignment-group"
                     className="btn btn-lg btn-success me-2"
@@ -51,7 +46,6 @@ export default function FacultyButtons({
                     + Group
                 </button>
 
-                {/* Assignment Adder Component */}
                 <AssignmentAdder
                     dialogTitle="Add Assignment"
                     assignmentName={assignmentName}

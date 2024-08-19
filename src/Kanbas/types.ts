@@ -41,24 +41,24 @@ export interface Quiz {
   description?: string;
   course: string;
   points: number;
-  dueDate?: string; // ISO 8601 date string
-  availableDate?: string; // ISO 8601 date string
-  untilDate?: string; // ISO 8601 date string
+  dueDate?: string; 
+  availableDate?: string; 
+  untilDate?: string; 
   numberOfQuestions: number;
   studentScore?: number;
   published: boolean;
   type: 'Graded Quiz' | 'Practice Quiz' | 'Graded Survey' | 'Ungraded Survey';
   assignmentGroup: 'Quizzes' | 'Exams' | 'Assignments' | 'Project';
   shuffleAnswers: boolean;
-  timeLimit: number; // Time limit in minutes
+  timeLimit: number; 
   multipleAttempts: boolean;
-  attempts: number; // Number of allowed attempts
-  showCorrectAnswers: 'Never' | 'AfterSubmission' | 'AfterDueDate'; // When correct answers are shown
+  attempts: number; 
+  showCorrectAnswers: 'Never' | 'AfterSubmission' | 'AfterDueDate';
   accessCode: string;
   oneQuestionAtATime: boolean;
   webcamRequired: boolean;
   lockQuestionsAfterAnswering: boolean;
-  questions: Question[]; // Array of Question objects
+  questions: Question[]; 
 }
 
 

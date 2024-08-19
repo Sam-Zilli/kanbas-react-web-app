@@ -17,7 +17,7 @@ const modulesSlice = createSlice({
     addModule: (state, { payload: module }) => {
 
       const newModule: any = {
-        _id: new Date().getTime().toString(), // TEMPORARY local ID
+        _id: new Date().getTime().toString(),
         lessons: [],
         name: module.name,
         course: module.course,
@@ -43,7 +43,6 @@ const modulesSlice = createSlice({
 
   },
 });
-
 
 
 export const { addModule, deleteModule, updateModule, editModule, setModules } = modulesSlice.actions;

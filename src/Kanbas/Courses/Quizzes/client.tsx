@@ -4,7 +4,6 @@ import { Question } from "../../types"
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
-// Function to delete a quiz
 export const deleteQuiz = async (courseId: string, quizId: string) => {
   try {
     const response = await axios.delete(`${COURSES_API}/${courseId}/quizzes/${quizId}`);
@@ -15,7 +14,6 @@ export const deleteQuiz = async (courseId: string, quizId: string) => {
   }
 };
 
-// Function to create a new quiz
 export const createQuiz = async (courseId: string, quiz: any) => {
   try {
     console.log("CREATE QUIZ")
@@ -27,7 +25,6 @@ export const createQuiz = async (courseId: string, quiz: any) => {
   }
 };
 
-// Function to find quizzes for a specific course
 export const findQuizzesForCourse = async (courseId: string) => {
   try {
     const response = await axios.get(`${COURSES_API}/${courseId}/quizzes`);
@@ -39,7 +36,6 @@ export const findQuizzesForCourse = async (courseId: string) => {
 };
 
 
-// Wrapper function to update a quiz
 export const saveQuiz = async (courseId: string, quiz: any) => {
   try {
     const response = await updateQuiz(courseId, quiz);
@@ -52,12 +48,9 @@ export const saveQuiz = async (courseId: string, quiz: any) => {
 
 export const getQuiz = async (cid: string, qid: string) => {
   try {
-    // Construct the URL for fetching the quiz
     const url = `${COURSES_API}/${cid}/quizzes/${qid}`;
     
-    // Make the HTTP GET request
     const response = await axios.get(url);
-    // Return the quiz data
     return response.data;
   } catch (error) {
     console.error('Error fetching quiz data:', error);
@@ -65,7 +58,6 @@ export const getQuiz = async (cid: string, qid: string) => {
   }
 };
 
-// Function to update an existing quiz
 export const updateQuiz = async (cid: string, quiz: any) => {
   console.log("CLIENT.TS UPDATEQUIZ")
   console.log(quiz)
@@ -88,7 +80,7 @@ export const fetchQuizById = async (cid: string, qid: string) => {
       throw new Error(`Error fetching quiz with ID ${qid}: ${response.statusText}`);
     }
 
-    const data = await response.json(); // Parse the JSON response
+    const data = await response.json(); 
 
     console.log(data);
     

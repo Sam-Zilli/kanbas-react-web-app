@@ -5,7 +5,7 @@ import { Question, MultipleChoiceQuestion, TrueFalseQuestion, FillInTheBlankQues
 import MultipleChoiceQuestionEditor from './MultipleChoiceEditor';
 import TrueFalseQuestionEditor from './TrueFalseEditor';
 import FillInTheBlankQuestionEditor from './FillInTheBlankEditor';
-import { Modal, Button } from 'react-bootstrap'; // Import modal components
+import { Modal, Button } from 'react-bootstrap';
 
 type QuizQuestionsEditorProps = {
   questions: Question[];
@@ -23,7 +23,7 @@ const EditorModules = {
   ]
 };
 
-// Type guards
+
 const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion =>
   question.type === 'multiple_choice';
 
@@ -41,7 +41,7 @@ const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [newQuestion, setNewQuestion] = useState<Question>({
-    type: 'multiple_choice', // Default type
+    type: 'multiple_choice', 
     question: '',
     options: [],
     correctAnswer: '',
@@ -131,7 +131,7 @@ const QuizQuestionsEditor: React.FC<QuizQuestionsEditorProps> = ({
                     case 'multiple_choice':
                       return { ...prev, type, options: [], correctAnswer: '' };
                     case 'true_false':
-                      return { ...prev, type, correctAnswer: 'True' }; // Default to 'True'
+                      return { ...prev, type, correctAnswer: 'True' }; 
                     case 'fill_in_the_blank':
                       return { ...prev, type, correctAnswer: '' };
                     default:

@@ -38,7 +38,6 @@ export default function Profile() {
     try {
       await client.updateProfile(profile);
       alert("Profile updated successfully! Signing out...");
-      // Call signout after successfully updating the profile
       await signout();
     } catch (err) {
       console.error("Save profile error:", err);

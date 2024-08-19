@@ -8,11 +8,9 @@ export const USERS_API = `${REMOTE_SERVER}/api/users`;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 
-// Fetch all courses
 export const fetchAllCourses = async () => {
   try {
     const { data } = await axios.get(COURSES_API);
-    // console.log("client.ts fetchAllCourses: ", data)
     return data;
   } catch (error) {
     console.error('Error fetching courses:', error);
@@ -22,19 +20,10 @@ export const fetchAllCourses = async () => {
 
 
 export const fetchUsersCourses = async (userId: string) => {
-  // console.log("client.ts fetchUsersCourses, user id: ", userId);
   const url = `${USERS_API}/courses/${userId}`;
-  // console.log(url)
   try {
-    // Fetch the user's course numbers
     const { data: userCourses } = await axios.get(url);
-    // console.log("User courses:", userCourses);
-
-    // Fetch all available courses
     const allCourses = await fetchAllCourses();
-    // console.log("All courses:", allCourses);
-
-    // Filter the courses
     const selectedCourses = allCourses.filter((course: Course) => 
       userCourses.includes(course.number)
     );
@@ -48,30 +37,18 @@ export const fetchUsersCourses = async (userId: string) => {
 };
 
 
-
-// Create a new course and update the current user's course list
 export const createCourse = async (course: any, currentUser: any) => {
-  // console.log("client.ts createCourse")
   try {
-    // Step 1: Create the new course
     const newCourseResponse = await axios.post(COURSES_API, course);
     const newCourse = newCourseResponse.data;
-
-    // Step 2: Update the current user's courses list
     const updatedCourses = [...currentUser.courses, newCourse.number];
-    // console.log("Updated Courses (should include new one?): ", updatedCourses)
-    
-    // Create an updated user object
     const updatedCurrentUser = {
       ...currentUser,
       courses: updatedCourses
     };
 
-    // Step 3: Update the user in the database
     await usersClient.updateUser(updatedCurrentUser);
 
-
-    // Step 4: Fetch all courses and filter based on the user's course list
     const allCourses = await fetchAllCourses();
     const filteredCourses = allCourses.filter((c: any) => updatedCurrentUser.courses.includes(c.number));
 
@@ -83,25 +60,19 @@ export const createCourse = async (course: any, currentUser: any) => {
   }
 };
 
-// Delete a course by ID and update all users' course lists
 export const deleteCourse = async (id: string) => {
   try {
-    // Step 1: Fetch the course to get the course number
     const { data: deletedCourse } = await axios.get(`${COURSES_API}/${id}`);
     const deletedCourseNumber = deletedCourse.number;
 
-    // Step 2: Delete the course
     await axios.delete(`${COURSES_API}/${id}`);
 
-    // Step 3: Fetch all users
     const { data: users } = await axios.get(USERS_API);
 
-    // Step 4: Update each user's course list
     const updateUserPromises = users.map(async (user: any) => {
       const updatedCourses = user.courses.filter((number: string) => number !== deletedCourseNumber);
 
       if (updatedCourses.length !== user.courses.length) {
-        // Only update if there is a change
         const updatedUser = {
           ...user,
           courses: updatedCourses
@@ -109,8 +80,6 @@ export const deleteCourse = async (id: string) => {
         await usersClient.updateUser(updatedUser);
       }
     });
-
-    // Wait for all user updates to complete
     await Promise.all(updateUserPromises);
 
     return deletedCourse;
@@ -119,27 +88,27 @@ export const deleteCourse = async (id: string) => {
     throw error;
   }
 };
-// Update a course
+
 export const updateCourse = async (course: any) => {
-  //// console.log("Starting updateCourse");
+
   try {
-    //// console.log("Updating course with data:", course);
+
     const response = await axios.put(`${COURSES_API}/${course._id}`, course);
-    //// console.log("Course updated successfully:", response.data);
+
     return response.data;
   } catch (error) {
-    //console.error('Error updating course:', error);
+
     throw error;
   }
 };
 
 
-// Fetch a user by ID
+
 export const fetchUserById = async (userId: string) => {
   const url = `${USERS_API}/${userId}`;
   try {
     const { data } = await axios.get(url);
-    // console.log("Fetched user:", data);
+
     return data;
   } catch (error) {
     console.error('Error fetching user by ID:', error);
@@ -151,24 +120,21 @@ export const enrollInCourse = async (courseId: string, uid: string) => {
   try {
     console.log("In enrollInCourse");
 
-    // Fetch the current user data
+
     const userResponse = await axios.get(`${USERS_API}/${uid}`);
     const user = userResponse.data;
     console.log("User Data: ", user);
 
-    // Fetch the course data
     const courseResponse = await axios.get(`${COURSES_API}/${courseId}`);
     const course = courseResponse.data;
     console.log("Course Data: ", course);
 
-    // Check if the course is already in the user's courses list
     const isCourseAlreadyEnrolled = user.courses && user.courses.includes(course.number);
     if (isCourseAlreadyEnrolled) {
       console.log("User is already enrolled in this course");
       return { success: false, message: "Already enrolled in this course." };
     }
 
-    // Add the course number to the user's courses list
     const updatedUser = {
       ...user,
       courses: user.courses ? [...user.courses, course.number] : [course.number],
@@ -176,16 +142,14 @@ export const enrollInCourse = async (courseId: string, uid: string) => {
 
     console.log("Updated User: ", updatedUser);
 
-    // Update the user data
+
     const updatedUserResponse = await peopleClient.updateUser(updatedUser);
     console.log("Updated User Response: ", updatedUserResponse);
 
-    // Return a success response
     return { success: true, message: "Successfully enrolled in the course." };
   } catch (error) {
     console.error('Failed to enroll in course:', error);
 
-    // Handle the error properly
     const errorMessage = (error as Error).message || 'An unknown error occurred.';
     return { success: false, message: errorMessage };
   }

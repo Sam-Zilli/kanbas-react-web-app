@@ -15,7 +15,7 @@ export default function AllCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        // Fetch all courses
+
         const allCourses = await client.fetchAllCourses();
         setCourses(allCourses);
       } catch (error) {
@@ -30,19 +30,16 @@ export default function AllCourses() {
 
   const handleEnroll = async (courseId: string) => {
     if (!currentUser) {
-      return; // Handle case where user is not logged in
+      return; 
     }
 
     try {
-      // Enroll the user in the selected course
       const response = await client.enrollInCourse(courseId, currentUser._id);
-      
-      // Check if the response indicates success
       if (response && response.success) {
         console.log('Successfully enrolled in the course!');
         alert('Successfully enrolled in the course!');
       } else {
-        // Handle the case where the user is already enrolled
+
         setEnrollmentError(response.message || 'Failed to enroll in the course. Please try again.');
       }
     } catch (error) {

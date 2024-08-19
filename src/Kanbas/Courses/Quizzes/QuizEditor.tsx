@@ -8,10 +8,8 @@ import QuizDetailsEditor from './QuizDetailsEditor';
 import QuizQuestionsEditor from './QuizQuestionsEditor';
 import { QuizData, Question, MultipleChoiceQuestion } from "../../types";
 
-// Define the types for question fields
 type FieldType = 'dueDate' | 'availableDate' | 'untilDate';
 
-// Type guard functions
 const isMultipleChoiceQuestion = (question: Question): question is MultipleChoiceQuestion => question.type === 'multiple_choice';
 
 export default function QuizEditor() {
@@ -81,18 +79,15 @@ export default function QuizEditor() {
 
   const handleSave = async () => {
     try {
-      // Update quizData with the latest questions
       const updatedQuizData = { ...quizData, questions };
   
       if (cid) {
         if (qid) {
-          // Update existing quiz
           console.log("QuizEditor.tsx handleSave existing quiz")
           await client.updateQuiz(cid, updatedQuizData);
           dispatch(saveQuiz(updatedQuizData));
         } else {
           console.log("QuizEditor.tsx handleSave new quiz")
-          // Create new quiz
           await client.createQuiz(cid, updatedQuizData);
           dispatch(saveQuiz(updatedQuizData));
         }

@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createSlice } from "@reduxjs/toolkit";
 
-// Action Types
+
 const SAVE_QUIZ = "SAVE_QUIZ";
 const PUBLISH_QUIZ = "PUBLISH_QUIZ";
 
-// Action Creators
+
 export const saveQuiz = (quizData: any) => ({
   type: SAVE_QUIZ,
   payload: quizData,

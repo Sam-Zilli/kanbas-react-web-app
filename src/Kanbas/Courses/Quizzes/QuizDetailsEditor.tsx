@@ -1,4 +1,4 @@
-// src/Kanbas/Courses/Quizzes/QuizDetailsEditor.tsx
+
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -21,7 +21,6 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
 
   const [showAttempts, setShowAttempts] = useState(quizData.multipleAttempts);
 
-  // Update state if quizData.multipleAttempts changes from outside
   useEffect(() => {
     setShowAttempts(quizData.multipleAttempts);
   }, [quizData.multipleAttempts]);
@@ -45,7 +44,6 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
       </div>
 
 
-      {/* Description */}
       <div className="mb-3">
         <label className="form-label">Description</label>
         <ReactQuill
@@ -55,17 +53,6 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         />
       </div>
 
-      {/* Points */}
-      {/* <div className="mb-3">
-        <label className="form-label">Points (Total From Questions)</label>
-        <input
-          type="number"
-          className="form-control"
-          value={quizData.points}
-          onChange={(e) => onChange('points', parseInt(e.target.value, 10))}
-          readOnly // Points will be calculated based on questions
-        />
-      </div> */}
 
       {/* Due Date */}
       <div className="mb-3">
@@ -73,7 +60,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         <input
           type="date"
           className="form-control"
-          value={quizData.dueDate.split('T')[0]} // Format date string for input
+          value={quizData.dueDate.split('T')[0]} 
           onChange={(e) => onChange('dueDate', e.target.value)}
         />
       </div>
@@ -84,7 +71,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         <input
           type="date"
           className="form-control"
-          value={quizData.availableDate.split('T')[0]} // Format date string for input
+          value={quizData.availableDate.split('T')[0]} 
           onChange={(e) => onChange('availableDate', e.target.value)}
         />
       </div>
@@ -95,7 +82,7 @@ const QuizDetailsEditor: React.FC<QuizDetailsEditorProps> = ({ quizData, onChang
         <input
           type="date"
           className="form-control"
-          value={quizData.untilDate.split('T')[0]} // Format date string for input
+          value={quizData.untilDate.split('T')[0]} 
           onChange={(e) => onChange('untilDate', e.target.value)}
         />
       </div>

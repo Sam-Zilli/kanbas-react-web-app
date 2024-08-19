@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as client from './client';
 
-// Define the type for QuizData
 interface QuizData {
     name: string;
     description?: string;
@@ -26,18 +25,18 @@ interface QuizData {
     oneQuestionAtATime: boolean;
     webcamRequired: boolean;
     lockQuestionsAfterAnswering: boolean;
-    questions: any[]; // Replace with the appropriate type if you have one
+    questions: any[]; 
 }
 
 export default function QuizDetails() {
-    const { cid, qid } = useParams<{ cid: string; qid: string }>(); // Extract course ID and quiz ID from URL params
-    const navigate = useNavigate(); // For navigation
+    const { cid, qid } = useParams<{ cid: string; qid: string }>(); 
+    const navigate = useNavigate(); 
     
-    // Initialize state with default values
+
     const [quizData, setQuizData] = useState<QuizData>({
         name: "",
         description: "",
-        course: cid || "", // Set course to cid from params
+        course: cid || "", 
         points: 0,
         dueDate: "",
         availableDate: "",
@@ -45,21 +44,20 @@ export default function QuizDetails() {
         numberOfQuestions: 0,
         studentScore: 0,
         published: false,
-        type: "Graded Quiz", // Default type
-        assignmentGroup: "Quizzes", // Default assignment group
-        shuffleAnswers: true, // Default Yes
-        timeLimit: 20, // Default 20 minutes
-        multipleAttempts: false, // Default No
-        attempts: 1, // Default 1
-        showCorrectAnswers: "Never", // Default Never
+        type: "Graded Quiz", 
+        assignmentGroup: "Quizzes",
+        shuffleAnswers: true, 
+        timeLimit: 20, 
+        multipleAttempts: false, 
+        attempts: 1, 
+        showCorrectAnswers: "Never", 
         accessCode: "",
-        oneQuestionAtATime: true, // Default Yes
-        webcamRequired: false, // Default No
-        lockQuestionsAfterAnswering: false, // Default No
+        oneQuestionAtATime: true, 
+        webcamRequired: false, 
+        lockQuestionsAfterAnswering: false, 
         questions: []
     });
 
-    // Fetch quiz data from API
     useEffect(() => {
         const fetchQuizData = async () => {
             if (qid) {
@@ -75,11 +73,10 @@ export default function QuizDetails() {
         fetchQuizData();
     }, [cid, qid]);
 
-    // Helper function to format dates
+
     const formatDate = (date: string | Date | undefined): string => 
         date ? new Date(date).toLocaleDateString() : 'N/A';
 
-    // Destructure quiz data for easier access
     const {
         name,
         type,
@@ -100,7 +97,6 @@ export default function QuizDetails() {
         numberOfQuestions
     } = quizData;
 
-    // Navigation functions
     const handlePreview = () => {
         if (qid) {
             navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/preview`);

@@ -1,5 +1,3 @@
-// The buttons (Collapse All, View Progress, Publish, + Module etc.)
-
 import ModuleEditor from "./ModuleEditor";
 import { FaPlus } from "react-icons/fa6";
 import PublishDropdown from "./PublishDropdown";

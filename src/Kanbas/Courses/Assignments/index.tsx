@@ -20,16 +20,15 @@ export default function Assignments() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // State for assignment editing
   const [assignmentName, setAssignmentName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [points, setPoints] = useState<number>(0);
   const [dueDate, setDueDate] = useState<string>("");
 
-  // Use correct selector and state type
+
   const assignments = useSelector((state: RootState) => state.assignmentsReducer.assignments);
 
-  // Async function to remove assignment
+
   const removeAssignment = async (assignmentId: string) => {
     try {
       await client.deleteAssignment(assignmentId);
@@ -40,14 +39,14 @@ export default function Assignments() {
   };
 
   const handleAssignmentNameClick = (assignment: Assignment) => {
-    // Trigger updateAssignment or any other logic
+
     saveAssignment(assignment);
     
-    // Navigate to the desired path
+
     navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`);
   };
 
-  // Fetch assignments based on Course Id
+
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
@@ -61,7 +60,7 @@ export default function Assignments() {
     fetchAssignments();
   }, [cid, dispatch]);
 
-  // Save assignment
+
   const saveAssignment = async (assignment: Assignment) => {
     try {
       const updatedAssignment = await client.updateAssignment(assignment);
@@ -71,7 +70,6 @@ export default function Assignments() {
     }
   };
 
-  // Handle adding a new assignment
   const handleAddAssignment = async () => {
     try {
       const newAssignment: Omit<Assignment, '_id'> = {

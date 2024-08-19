@@ -17,9 +17,9 @@ export default function QuizList() {
   const dispatch = useDispatch();
 
 
-  // Get current user and their role from the Redux store
+
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const userRole = currentUser?.role; // Role of the current user
+  const userRole = currentUser?.role; 
   
   const [contextMenu, setContextMenu] = useState<{ quizId: string | null, x: number, y: number } | null>(null);
 
@@ -65,7 +65,7 @@ export default function QuizList() {
       });
     }
   
-    setContextMenu(null); // Close the context menu
+    setContextMenu(null); 
   };
 
   const handleDelete = (quizId: string) => {
@@ -106,7 +106,7 @@ export default function QuizList() {
     const available = new Date(availableDate);
     const availableUntil = availableUntilDate ? new Date(availableUntilDate) : null;
 
-    // Convert dates to start of the day to avoid time issues
+
     const startOfDay = (date: Date) => new Date(date.setHours(0, 0, 0, 0));
 
     const nowStartOfDay = startOfDay(now);
@@ -114,20 +114,16 @@ export default function QuizList() {
     const availableUntilStartOfDay = availableUntil ? startOfDay(availableUntil) : null;
 
     if (availableUntilStartOfDay && nowStartOfDay > availableUntilStartOfDay) {
-        // If current date is after availableUntilDate
         return 'Closed';
     } else if (nowStartOfDay >= availableStartOfDay && (!availableUntilStartOfDay || nowStartOfDay <= availableUntilStartOfDay)) {
-        // If current date is between availableDate and availableUntilDate, or availableUntilDate is not set
         return 'Available';
     } else {
-        // If current date is before availableDate
         return `Not available until ${availableStartOfDay.toLocaleDateString()}`;
     }
 };
 
   return (
     <div id="wd-quizzes" className="container mt-4">
-      {/* Conditionally render Add Quiz button based on role */}
       {userRole === 'FACULTY' && (
         <button 
           className="btn btn-primary mb-3"
@@ -182,7 +178,6 @@ export default function QuizList() {
               </div>
             </div>
 
-            {/* Conditionally render More Options Icon based on role */}
             {userRole === 'FACULTY' && (
               <button 
                 className="btn btn-light btn-sm"
@@ -195,7 +190,6 @@ export default function QuizList() {
         ))}
       </ul>
 
-      {/* Conditionally render Context Menu based on role */}
       {contextMenu && userRole === 'FACULTY' && (
         <div
           className="context-menu position-absolute"

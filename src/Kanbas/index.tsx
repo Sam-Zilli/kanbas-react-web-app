@@ -1,4 +1,3 @@
-// src/Kanbas/index.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router";
 import { Provider, useSelector } from "react-redux";

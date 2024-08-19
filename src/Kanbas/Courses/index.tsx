@@ -1,4 +1,4 @@
-// src/Kanbas/Courses/index.tsx
+
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
@@ -51,13 +51,6 @@ export default function Courses({ courses }: { courses: any[] }) {
 
 
           <Route path="Quizzes/:qid" element={<QuizDetails />} />
-
-{/* 
-          <Route
-            path="Quizzes/:qid/questions"
-            element={<QuizQuestionsEditor />}
-          /> */}
-
 
           <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />
 

@@ -18,7 +18,7 @@ export default function Modules() {
   const [moduleName, setModuleName] = useState("");
   const modules = useSelector((state: any) => state.modulesReducer.modules);
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state: any) => state.accountReducer); // Fetch currentUser from the Redux store
+  const { currentUser } = useSelector((state: any) => state.accountReducer); 
 
   const createModule = async (module: any) => {
     const newModule = await client.createModule(cid as string, module);
@@ -60,7 +60,6 @@ export default function Modules() {
         </div>
       )}
 
-      {/* The Header thing that says Modules */}
       <div className="card mb-4">
         <div className="card-body d-flex justify-content-between align-items-center">
           <h3 id="wd-modules-title" className="mb-0">
@@ -69,7 +68,6 @@ export default function Modules() {
         </div>
       </div>
 
-      {/* List of modules / for each module... */}
       <ul id="wd-modules-list" className="list-group">
         {modules.map((module: any) => (
           <li

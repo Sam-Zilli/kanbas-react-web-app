@@ -49,7 +49,7 @@ export default function PeopleDetails({ fetchUsers }:
     }
   }, [uid]);
 
-  if (!uid) return null; // if no uid don't load 
+  if (!uid) return null; 
   
   return (
     <div className="wd-people-details position-fixed top-0 end-0 bottom-0 bg-white p-4 shadow w-25">

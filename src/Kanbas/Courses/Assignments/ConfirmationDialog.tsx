@@ -1,5 +1,3 @@
-// src/Components/ConfirmationDialog.tsx
-
 import React from "react";
 
 interface ConfirmationDialogProps {

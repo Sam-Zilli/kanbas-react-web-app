@@ -7,7 +7,6 @@ type MultipleChoiceQuestionEditorProps = {
 };
 
 const MultipleChoiceQuestionEditor: React.FC<MultipleChoiceQuestionEditorProps> = ({ question, onQuestionChange }) => {
-  console.log("Rendering MultipleChoiceQuestionEditor with question:", question);
   return (
     <div>
       <div className="mb-3">

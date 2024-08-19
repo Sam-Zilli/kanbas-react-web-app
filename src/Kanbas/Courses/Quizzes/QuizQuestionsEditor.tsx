@@ -11,7 +11,7 @@ type QuizQuestionsEditorProps = {
   questions: Question[];
   onQuestionChange: (index: number, field: keyof Question | 'options', value: any) => void;
   onQuestionRemove: (index: number) => void;
-  onAddQuestion: (newQuestion: Question) => void; // Change handler for adding new questions
+  onAddQuestion: (newQuestion: Question) => void;
 };
 
 const EditorModules = {

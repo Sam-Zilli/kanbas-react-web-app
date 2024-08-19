@@ -47,6 +47,7 @@ export default function QuizEditor() {
   const [questions, setQuestions] = useState<Question[]>(quizData.questions || []);
 
   const handleAddQuestion = (newQuestion: Question) => {
+    console.log("QUIZ EDITOR handleAddQuestion")
     setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
   };
   
@@ -80,17 +81,20 @@ export default function QuizEditor() {
 
   const handleSave = async () => {
     try {
+      // Update quizData with the latest questions
+      const updatedQuizData = { ...quizData, questions };
+  
       if (cid) {
         if (qid) {
           // Update existing quiz
           console.log("QuizEditor.tsx handleSave existing quiz")
-          await client.updateQuiz(cid, quizData);
-          dispatch(saveQuiz(quizData));
+          await client.updateQuiz(cid, updatedQuizData);
+          dispatch(saveQuiz(updatedQuizData));
         } else {
           console.log("QuizEditor.tsx handleSave new quiz")
           // Create new quiz
-          await client.createQuiz(cid, quizData); 
-          dispatch(saveQuiz(quizData));
+          await client.createQuiz(cid, updatedQuizData);
+          dispatch(saveQuiz(updatedQuizData));
         }
         navigate(`/Kanbas/courses/${cid}/quizzes`);
       }
